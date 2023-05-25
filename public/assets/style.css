@@ -462,7 +462,11 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Background Dark */
 .bg-dark {
-  background-color: #111418 !important;
+  background-color: rgba(11, 11, 11, 0.582) !important;
+}
+
+.color-dark{
+  color:#111418 !important;
 }
 
 .bg-dark-1 {
