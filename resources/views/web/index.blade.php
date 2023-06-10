@@ -178,16 +178,19 @@
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                 <label for="partnership_categories" class="form-label">Partnership categories</label>
                 <div class="input-group">
-                  <select name="partnership_categories" id="partnership_categories" class="form-control" required>
+                  <select name="partnership_categories" id="partnership_categories" class="form-select" required>
                       <option value="">Select your category</option>
                   </select>
                 </div>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                <label for="country" class="form-label">Partnership categories</label>
+                <label for="country" class="form-label">Country</label>
                 <div class="input-group">
-                  <select name="country" id="country" class="form-control" required>
+                  <select name="country" id="country" class="form-select" required>
                       <option value="">Select your country</option>
+                      @foreach ($countries as $item)
+                          <option value="{{$item->id}}">{{$item->country}}</option>
+                      @endforeach
                   </select>
                 </div>
             </div>
