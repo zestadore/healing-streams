@@ -23,3 +23,4 @@ Route::post('/update-profile', [App\Http\Controllers\HomeController::class, 'upd
 Route::get('/change-password', [App\Http\Controllers\HomeController::class, 'changePassword'])->name('change.password')->middleware('auth');
 Route::post('/change-password', [App\Http\Controllers\HomeController::class, 'updatePassword'])->name('update.password')->middleware('auth');
 Route::resource('countries', App\Http\Controllers\Web\CountryController::class);
+Route::resource('currencies', App\Http\Controllers\Web\CurrencyController::class);

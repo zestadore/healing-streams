@@ -5,19 +5,18 @@
   <link rel="stylesheet" href="{{asset('assets/admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
   <link rel="stylesheet" href="{{asset('assets/admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
   <link rel="stylesheet" href="{{asset('assets/admin/plugins/toastr/toastr.min.css')}}">
-  <link rel="stylesheet" href="{{asset('assets/admin/plugins/select2/css/select2.min.css')}}">
 @endsection
 @section('title')
-        <title>Healing Streams TV | Countries</title>
+        <title>Healing Streams TV | Currencies</title>
     @endsection
 @section('breadcrump')
     <div class="col-sm-6">
-        <h1 class="m-0">Countries</h1>
+        <h1 class="m-0">Currencies</h1>
     </div><!-- /.col -->
     <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{route('home')}}">Dashboard</a></li>
-            <li class="breadcrumb-item active">Countries</li>
+            <li class="breadcrumb-item active">Currencies</li>
         </ol>
     </div><!-- /.col -->
 @endsection
@@ -28,8 +27,8 @@
         <div class="card card-default color-palette-box">
             <div class="card-header">
               <h3 class="card-title">
-                <i class="fas fa-flag"></i>
-                Countries
+                <i class="fas fa-inr"></i>
+                Currencies
               </h3>
                 <button type="button" class="btn btn-outline-primary mr-1 mb-3 btn-sm" id="add-new" style="float:right;">
                     <i class="fa fa-fw fa-plus mr-1"></i> Add New
@@ -54,8 +53,8 @@
                     <thead>
                         <tr>
                             <th class="nosort">#</th>
-                            <th>{{ __('Country') }}</th>
-                            <th>{{ __('Currencies') }}</th>
+                            <th>{{ __('Currency') }}</th>
+                            <th>{{ __('Symbol') }}</th>
                             <th>{{ __('Status') }}</th>
                             <th class="nosort">Action</th>
                         </tr>
@@ -82,19 +81,13 @@
         <div class="modal-body">
             <div class="block-content font-size-sm">
                 <div class="form-group">
-                    <label for="country">Country <span style="color:red">*</span></label>
-                    <input type="text" class="form-control" id="country" name="country" placeholder="Enter country">
+                    <label for="currency">Currency <span style="color:red">*</span></label>
+                    <input type="text" class="form-control" id="currency" name="currency" placeholder="Enter currency">
                 </div>
-                <div class="form-group" data-select2-id="112">
-                    <label>Currencies</label>
-                    <div class="select2-purple">
-                        <select class="select2 select2-hidden-accessible" id="currency" name="currency" multiple="" data-placeholder="Select currencies" data-dropdown-css-class="select2-purple" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                            @foreach ($currencies as $currency)
-                                <option value="{{$currency->id}}">{{$currency->currency}} ({{$currency->currency_symbol}})</option>
-                            @endforeach
-                        </select>
-                    </div>
-                  </div>
+                <div class="form-group">
+                    <label for="currency_symbol">Currency symbol <span style="color:red">*</span></label>
+                    <input type="text" class="form-control" id="currency_symbol" name="currency_symbol" placeholder="Enter currency symbol">
+                </div>
                 <div class="custom-control custom-switch mb-1">
                     <input type="checkbox" class="custom-control-input" id="example-switch-custom1" name="status" value=1 checked="true">
                     <label class="custom-control-label" for="example-switch-custom1">Active</label>
@@ -125,10 +118,8 @@
     <script src="{{asset('assets/admin/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
     <script src="{{asset('assets/admin/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
     <script src="{{asset('assets/admin/plugins/toastr/toastr.min.js')}}"></script>
-    <script src="{{asset('assets/admin/plugins/select2/js/select2.full.min.js')}}"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
-        $('.select2').select2()
         function drawTable()
         {
             var table = $('#item-table').DataTable({
@@ -140,7 +131,7 @@
                 "pagingType": "full_numbers",
                 "dom": "<'row'<'col-sm-12 col-md-12 right'B>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                 ajax: {
-                    "url": '{{route("countries.index")}}',
+                    "url": '{{route("currencies.index")}}',
                     "data": function(d) {
                         var searchprams = $('#filterfordatatable').serializeArray();
                         var indexed_array = {};
@@ -156,12 +147,12 @@
                         name: 'name'
                     },
                     {
-                        data: 'country',
-                        name: 'country'
+                        data: 'currency',
+                        name: 'currency'
                     },
                     {
-                        data: 'currencies',
-                        name: 'currencies'
+                        data: 'currency_symbol',
+                        name: 'currency_symbol'
                     },
                     {
                         data: 'status',
@@ -211,38 +202,38 @@
         // });
 
         $('#add-new').click(function(){
-            $('#country').val('');
-            $('#currency').val('').trigger('change');
+            $('#currency').val('');
+            $('#currency_symbol').val('');
             $('#modal-block-popout').modal('show');
         });
 
         $('#save-data').click(function(){
             var id=$('#save-data').attr('data-id');
-            var country=$('#country').val();
-            var currencies=$('#currency').val();
+            var currency=$('#currency').val();
+            var currency_symbol=$('#currency_symbol').val();
             if($('#example-switch-custom1').prop("checked") == true){
                 var status=1;
             }else{
                 var status=0;
             }
-            if(country=="")
+            if(currency=="" && currency_symbol=="")
             {
                 $(document).Toasts('create', {
                     class: 'bg-warning',
-                    title: 'Kindly enter country',
+                    title: 'Kindly enter all the details',
                     autohide: true,
                     delay: 750,
                 })
             }else{
                 $.ajax({
-                    url: "{{route('countries.store')}}",
+                    url: "{{route('currencies.store')}}",
                     type:"post",
                     data:{
                         "_token": "{{ csrf_token() }}",
-                        country:country,
+                        currency:currency,
                         id:id,
                         status:status,
-                        currencies:currencies
+                        currency_symbol:currency_symbol
                     },
                     success:function(response){
                         console.log(response);
@@ -270,10 +261,10 @@
             
         })
 
-        function editData(id,country,status)
+        function editData(id,currency,status,currency_symbol)
         {
-            $('#country').val(country);
-            $('#currency').val('').trigger('change');
+            $('#currency').val(currency);
+            $('#currency_symbol').val(currency_symbol);
             $('#save-data').attr("data-id",id);
             if(status==0){
                 $("#example-switch-custom1").prop('checked', false);
@@ -293,7 +284,7 @@
             dangerMode: true,
             }).then((result) => {
                 if (result) {
-                    var url="{{route('countries.destroy','ID')}}";
+                    var url="{{route('currencies.destroy','ID')}}";
                     url=url.replace('ID',id);
                     $.ajax({
                         url: url,
@@ -304,10 +295,10 @@
                         success:function(response){
                             console.log(response);
                             if(response.success){
-                                swal("Good job!", "You deleted the country!", "success");
+                                swal("Good job!", "You deleted the currency!", "success");
                                 drawTable();
                             }else{
-                                swal("Oops!", "Failed to deleted the country!", "danger");
+                                swal("Oops!", "Failed to deleted the currency!", "danger");
                             }
                         },
                     });

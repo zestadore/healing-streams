@@ -125,8 +125,8 @@
                   </p>
                 </a>
               </li>
-              <li class="nav-item {{ (request()->is('countries*'))? 'menu-open' : '' }}">
-                <a href="#" class="nav-link {{ (request()->is('countries*'))? 'active' : '' }}">
+              <li class="nav-item {{ (request()->is('countries*')||request()->is('currencies*'))? 'menu-open' : '' }}">
+                <a href="#" class="nav-link {{ (request()->is('countries*')||request()->is('currencies*'))? 'active' : '' }}">
                   <i class="nav-icon fas fa-tools"></i>
                   <p>
                     Masters
@@ -138,6 +138,12 @@
                     <a href="{{route('countries.index')}}" class="nav-link {{ (request()->is('countries*'))? 'active' : '' }}">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Countries</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{route('currencies.index')}}" class="nav-link {{ (request()->is('currencies*'))? 'active' : '' }}">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Currency</p>
                     </a>
                   </li>
                 </ul>
@@ -175,9 +181,6 @@
   <footer class="main-footer">
     <strong>Copyright &copy; {{date('Y')}} <a href="Javascript::void(0)">Travel Measure</a>.</strong>
     All rights reserved.
-    <div class="float-right d-none d-sm-inline-block">
-      <b>Crafted with <i class="fa fa-heart text-pulse" style="color:red;"></i> by <a href="https://zestadore.in" target="_blank">Zestadore IT Solutions</a></b>
-    </div>
   </footer>
 </div>
 <!-- ./wrapper -->
