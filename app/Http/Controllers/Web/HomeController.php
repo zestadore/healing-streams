@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Models\Country;
+
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -11,5 +12,12 @@ class HomeController extends Controller
     {
         $countries=Country::where('status',1)->get();
         return view('web.index',['countries'=>$countries]);
+    }
+
+    public function getCurrencies($id)
+    {
+        $country=Country::find($id);
+        $currencies=$country->currencies;
+        return $currencies;
     }
 }

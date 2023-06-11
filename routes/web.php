@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [App\Http\Controllers\Web\HomeController::class, 'index'])->name('home-page');
+Route::get('/get-currencies/{id}', [App\Http\Controllers\Web\HomeController::class, 'getCurrencies'])->name('currencies.list');
 
 Auth::routes();
 

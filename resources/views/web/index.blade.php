@@ -22,8 +22,14 @@
 <link rel="stylesheet" type="text/css" href="assets/currency-flags.min.css" />
 <link rel="stylesheet" type="text/css" href="assets/owl.carousel.min.css" />
 <link rel="stylesheet" type="text/css" href="assets/style.css" />
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <!-- Colors Css -->
 <link id="color-switcher" type="text/css" rel="stylesheet" href="#" />
+<style>
+  .select2-container .select2-selection--multiple {
+    min-height: 50px !important;
+  }
+</style>
 <body>
 
 <!-- Preloader -->
@@ -110,7 +116,7 @@
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <label for="youSend" class="form-label">Phone no</label>
               <div class="input-group">
-                  <span class="input-group-text p-0">
+                  {{-- <span class="input-group-text p-0">
                     <select id="youSendCurrency" data-style="form-select bg-transparent border-0" data-container="body" data-live-search="true" class="selectpicker form-control bg-transparent" required="">
                       <optgroup label="Popular Currency">
                         <option data-icon="currency-flag currency-flag-usd me-1" data-subtext="United States dollar" selected="selected" value="">USD</option>
@@ -169,7 +175,7 @@
                         <option data-icon="currency-flag currency-flag-zar me-1" data-subtext="South African rand" value="">ZAR</option>
                       </optgroup>
                     </select>
-                </span>
+                  </span> --}}
                   <input type="number" class="form-control" data-bv-field="phone_no" id="phone_no" placeholder="Phone no" required>
               </div>
             </div>
@@ -178,8 +184,16 @@
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                 <label for="partnership_categories" class="form-label">Partnership categories</label>
                 <div class="input-group">
-                  <select name="partnership_categories" id="partnership_categories" class="form-select" required>
+                  <select name="partnership_categories" id="partnership_categories" class="form-select" multiple="multiple" required>
                       <option value="">Select your category</option>
+                      <option value="1">Healing Streams TV</option>
+                      <option value="2">Healing To The Nations Magazine</option>
+                      <option value="3">Translations</option>
+                      <option value="4">Medical Outreaches</option>
+                      <option value="5">Community Clinics</option>
+                      <option value="6">Youth Programs</option>
+                      <option value="7">Youth TV</option>
+
                   </select>
                 </div>
             </div>
@@ -364,5 +378,29 @@
 <!-- Style Switcher --> 
 <script src="assets/switcher.min.js"></script> 
 <script src="assets/theme.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+  $('#partnership_categories').select2({
+    placeholder: "Select categories",
+  });
+    $('#country').change(function(){
+      var id=$(this).val();
+      var url= "{{route('currencies.list','ID')}}";
+      url=url.replace('ID',id);
+      $.ajax({
+          url: url,
+          type:"get",
+          success:function(response){
+              var list = $("#currency");
+              list.empty()
+              list.append(new Option("Select your currency", ""));
+              $.each(response, function(index, item) {
+                var text = item.currency + "(" + item.currency_symbol + ")";
+                list.append(new Option(text, item.id));
+              });
+          },
+      });
+    });
+</script>
 </body>
 </html>
