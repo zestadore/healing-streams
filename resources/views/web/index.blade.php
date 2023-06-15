@@ -83,7 +83,7 @@
       <div class="bg-white rounded shadow-md p-4">
         <h3 class="text-5 mb-4 text-center">Registration</h3>
         <hr class="mb-4 mx-n4">
-        <form id="form-send-money" method="post">
+        <form id="form-send-money" method="post" action="{{route('payment.process')}}">@csrf
           <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
               <div class="mb-3">
@@ -221,7 +221,7 @@
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <label for="amount" class="form-label">Amount</label>
                 <div class="input-group">
-                  <span class="input-group-text">$</span>
+                  <span class="input-group-text" id="symbol_span">$</span>
                     <input type="number" class="form-control" name="amount" id="amount" placeholder="Amount">
                 </div>
             </div>
@@ -396,11 +396,21 @@
               list.append(new Option("Select your currency", ""));
               $.each(response, function(index, item) {
                 var text = item.currency + "(" + item.currency_symbol + ")";
-                list.append(new Option(text, item.id));
+                list.append($('<option/>', {
+                    value: item.id,
+                    text: text,
+                    'data-symbol': item.currency_symbol
+                }));
               });
           },
       });
     });
+
+    $('#currency').change(function(){
+      var symbol=$("#currency option:selected").attr('data-symbol');
+      $('#symbol_span').html(symbol);
+    });
+
 </script>
 </body>
 </html>
