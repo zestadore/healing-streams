@@ -28,3 +28,4 @@ Route::get('/change-password', [App\Http\Controllers\HomeController::class, 'cha
 Route::post('/change-password', [App\Http\Controllers\HomeController::class, 'updatePassword'])->name('update.password')->middleware('auth');
 Route::resource('countries', App\Http\Controllers\Web\CountryController::class);
 Route::resource('currencies', App\Http\Controllers\Web\CurrencyController::class);
+Route::resource('payment-gateway', App\Http\Controllers\Web\PaymentGatewayController::class);

@@ -125,8 +125,8 @@
                   </p>
                 </a>
               </li>
-              <li class="nav-item {{ (request()->is('countries*')||request()->is('currencies*'))? 'menu-open' : '' }}">
-                <a href="#" class="nav-link {{ (request()->is('countries*')||request()->is('currencies*'))? 'active' : '' }}">
+              <li class="nav-item {{ (request()->is('countries*')||request()->is('currencies*')||request()->is('payment-gatyeway*'))? 'menu-open' : '' }}">
+                <a href="#" class="nav-link {{ (request()->is('countries*')||request()->is('currencies*')||request()->is('payment-gatyeway*'))? 'active' : '' }}">
                   <i class="nav-icon fas fa-tools"></i>
                   <p>
                     Masters
@@ -144,6 +144,12 @@
                     <a href="{{route('currencies.index')}}" class="nav-link {{ (request()->is('currencies*'))? 'active' : '' }}">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Currency</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{route('payment-gateway.index')}}" class="nav-link {{ (request()->is('payment-gateway*'))? 'active' : '' }}">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Payment gateways</p>
                     </a>
                   </li>
                 </ul>

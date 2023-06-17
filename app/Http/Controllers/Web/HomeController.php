@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Models\Country;
-
+use App\Models\Currency;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
