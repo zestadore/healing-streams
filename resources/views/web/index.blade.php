@@ -74,7 +74,22 @@
   <!-- Content
   ============================================= -->
   <div id="content"> 
-    
+    @if (session('error'))
+        <div class="alert alert-danger alert-dismissable" role="alert">
+            {{-- <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button> --}}
+            <p class="mb-0" style="font-size:20px;">{{ session('error') }}</p>
+        </div>
+    @endif
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissable" role="alert">
+            {{-- <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button> --}}
+            <p class="mb-0" style="font-size:20px;">{{ session('success') }}</p>
+        </div>
+    @endif
     <!-- Send Money
     ============================================= -->
     
@@ -104,20 +119,20 @@
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <label for="email" class="form-label">Email id</label>
               <div class="input-group">
-                  <input type="email" class="form-control" name="email" id="email" placeholder="Email id" required>
+                  <input type="email" class="form-control" name="email_id" id="email_id" placeholder="Email id" required>
               </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <label for="youSend" class="form-label">Phone no</label>
               <div class="input-group">
                   <span class="input-group-text p-0">
-                    <select id="youSendCurrency" data-style="form-select bg-transparent border-0" data-container="body" data-live-search="true" class="selectpicker form-control bg-transparent" required="">
+                    <select id="youSendCurrency" data-style="form-select bg-transparent border-0" data-container="body" data-live-search="true" class="selectpicker form-control bg-transparent" required>
                         @foreach ($countries as $country)
                             <option value="{{$country->id}}">{{$country->telephone_code}} </option>
                         @endforeach
                     </select>
                   </span>
-                  <input type="number" class="form-control" data-bv-field="phone_no" id="phone_no" placeholder="Phone no" required>
+                  <input type="number" class="form-control" data-bv-field="phone_no" id="phone_no" name="phone_no" placeholder="Phone no" required>
               </div>
             </div>
           </div><br>
@@ -125,15 +140,15 @@
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                 <label for="partnership_categories" class="form-label">Partnership categories</label>
                 <div class="input-group">
-                  <select name="partnership_categories" id="partnership_categories" class="form-select" multiple="multiple" required>
+                  <select name="partnership_categories[]" id="partnership_categories" class="form-select" multiple="multiple" required>
                       <option value="">Select your category</option>
-                      <option value="1">Healing Streams TV</option>
-                      <option value="2">Healing To The Nations Magazine</option>
-                      <option value="3">Translations</option>
-                      <option value="4">Medical Outreaches</option>
-                      <option value="5">Community Clinics</option>
-                      <option value="6">Youth Programs</option>
-                      <option value="7">Youth TV</option>
+                      <option value="Healing Streams TV">Healing Streams TV</option>
+                      <option value="Healing To The Nations Magazine">Healing To The Nations Magazine</option>
+                      <option value="Translations">Translations</option>
+                      <option value="Medical Outreaches">Medical Outreaches</option>
+                      <option value="Medical Outreaches">Community Clinics</option>
+                      <option value="Medical Outreaches">Youth Programs</option>
+                      <option value="Medical Outreaches">Youth TV</option>
 
                   </select>
                 </div>
@@ -141,7 +156,7 @@
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                 <label for="country" class="form-label">Country</label>
                 <div class="input-group">
-                  <select name="country" id="country" class="form-select" required>
+                  <select name="country_id" id="country_id" class="form-select" required>
                       <option value="">Select your country</option>
                       @foreach ($countries as $item)
                           <option value="{{$item->id}}">{{$item->country}}</option>
@@ -152,35 +167,49 @@
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                 <label for="currency" class="form-label">Currency</label>
                 <div class="input-group">
-                  <select name="currency" id="currency" class="form-control" required>
+                  <select name="currency_id" id="currency_id" class="form-select" required>
                       <option value="">Select your currency</option>
                   </select>
                 </div>
             </div>
           </div><br>
           <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <label for="amount" class="form-label">Amount</label>
-                <div class="input-group">
-                  <span class="input-group-text" id="symbol_span">$</span>
-                    <input type="number" class="form-control" name="amount" id="amount" placeholder="Amount">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                  <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                      <label for="payment_gateway_id" class="form-label">Payment gateway</label>
+                      <div class="input-group">
+                        <select name="payment_gateway_id" id="payment_gateway_id" class="form-select" required>
+                            <option value="">Select payment gateway</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                      <label for="amount" class="form-label">Amount</label>
+                      <div class="input-group">
+                        <span class="input-group-text" id="symbol_span">$</span>
+                          <input type="number" class="form-control" name="amount" id="amount" placeholder="Amount" required>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <div class="row" style="padding-top:40px;">
-                  <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                      <input type="radio" id="html" name="fav_language" value="HTML" checked>
-                      <label for="html">One off</label>
-                  </div>
-                  <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                      <input type="radio" id="css" name="fav_language" value="CSS">
-                      <label for="css">Monthly automatic</label>
-                  </div>
-                  <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                      <input type="radio" id="javascript" name="fav_language" value="JavaScript">
-                      <label for="javascript">Make a pledge</label>
-                  </div>
-              </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                  <div class="row" style="padding-top:40px;">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <input type="radio" id="html" name="choice" value="0" checked>
+                        <label for="html">One off</label>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <input type="radio" id="css" name="choice" value="1">
+                        <label for="css">Monthly automatic</label>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <input type="radio" id="javascript" name="choice" value="2">
+                        <label for="javascript">Make a pledge</label>
+                    </div>
+                </div>
+                </div>
             </div>
           </div>
           <p> </p>
@@ -324,7 +353,7 @@
   $('#partnership_categories').select2({
     placeholder: "Select categories",
   });
-    $('#country').change(function(){
+    $('#country_id').change(function(){
       var id=$(this).val();
       var url= "{{route('currencies.list','ID')}}";
       url=url.replace('ID',id);
@@ -332,10 +361,11 @@
           url: url,
           type:"get",
           success:function(response){
-              var list = $("#currency");
+              var list = $("#currency_id");
+              var list2 = $("#payment_gateway_id");
               list.empty()
               list.append(new Option("Select your currency", ""));
-              $.each(response, function(index, item) {
+              $.each(response.currencies, function(index, item) {
                 var text = item.currency + "(" + item.currency_symbol + ")";
                 list.append($('<option/>', {
                     value: item.id,
@@ -343,19 +373,28 @@
                     'data-symbol': item.currency_symbol
                 }));
               });
+              list2.empty()
+              list2.append(new Option("Select payment gateway", ""));
+              $.each(response.payment_gateways, function(index, item) {
+                var text = item.payment_gateway;
+                list2.append($('<option/>', {
+                    value: item.id,
+                    text: text,
+                }));
+              });
           },
       });
     });
 
-    $('#currency').change(function(){
-      var symbol=$("#currency option:selected").attr('data-symbol');
+    $('#currency_id').change(function(){
+      var symbol=$("#currency_id option:selected").attr('data-symbol');
       $('#symbol_span').html(symbol);
     });
 
     $('#youSendCurrency').change(function(){
       var id=$(this).val();
-      $('#country').val(id);
-      $('#country').trigger("change");
+      $('#country_id').val(id);
+      $('#country_id').trigger("change");
     });
     $('#youSendCurrency').trigger("change");
 

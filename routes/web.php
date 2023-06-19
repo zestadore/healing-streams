@@ -17,6 +17,7 @@ Route::get('/', [App\Http\Controllers\Web\HomeController::class, 'index'])->name
 Route::get('/get-currencies/{id}', [App\Http\Controllers\Web\HomeController::class, 'getCurrencies'])->name('currencies.list');
 Route::post('/process-payment', [App\Http\Controllers\Web\HomeController::class, 'processPayment'])->name('payment.process');
 Route::get('/success', [App\Http\Controllers\Web\HomeController::class, 'success'])->name('success');
+Route::get('/paypal-success', [App\Http\Controllers\Web\HomeController::class, 'PaypalPaymentSuccess'])->name('paypal.success');
 Route::get('/failure', [App\Http\Controllers\Web\HomeController::class, 'failure'])->name('failure');
 
 Auth::routes();
@@ -26,6 +27,7 @@ Route::get('/profile', [App\Http\Controllers\HomeController::class, 'authUserPro
 Route::post('/update-profile', [App\Http\Controllers\HomeController::class, 'updateProfile'])->name('profile.update')->middleware('auth');
 Route::get('/change-password', [App\Http\Controllers\HomeController::class, 'changePassword'])->name('change.password')->middleware('auth');
 Route::post('/change-password', [App\Http\Controllers\HomeController::class, 'updatePassword'])->name('update.password')->middleware('auth');
+Route::get('/payments', [App\Http\Controllers\Web\PaymentController::class, 'index'])->name('payments')->middleware('auth');
 Route::resource('countries', App\Http\Controllers\Web\CountryController::class);
 Route::resource('currencies', App\Http\Controllers\Web\CurrencyController::class);
 Route::resource('payment-gateway', App\Http\Controllers\Web\PaymentGatewayController::class);

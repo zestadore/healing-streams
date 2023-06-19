@@ -154,6 +154,14 @@
                   </li>
                 </ul>
               </li>
+              <li class="nav-item">
+                <a href="{{route('payments')}}" class="nav-link {{ (request()->is('payments*') || request()->is('payments*'))? 'active' : '' }}">
+                  <i class="nav-icon fas fa-money-bill"></i>
+                  <p>
+                    Payments
+                  </p>
+                </a>
+              </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
@@ -185,7 +193,7 @@
 
   <!-- Main Footer -->
   <footer class="main-footer">
-    <strong>Copyright &copy; {{date('Y')}} <a href="Javascript::void(0)">Travel Measure</a>.</strong>
+    <strong>Copyright &copy; {{date('Y')}} <a href="Javascript::void(0)">Healing Streams</a>.</strong>
     All rights reserved.
   </footer>
 </div>
