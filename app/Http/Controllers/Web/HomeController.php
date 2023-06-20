@@ -9,6 +9,7 @@ use App\Models\PaymentGateway;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class HomeController extends Controller
 {
@@ -40,6 +41,9 @@ class HomeController extends Controller
             $session=$this->StripePayment($request,$payment,$currency->currency);
         }elseif($gateway->payment_gateway=="Paypal"){
             $this->PaypalPayment($request,$payment,$currency->currency);
+        }elseif($gateway->payment_gateway=="Kingspay"){
+            $this->KingspayPayment($request,$payment,$currency->currency);
+            return redirect()->back();
         }
         return redirect()->away($session->url);
     }
@@ -111,6 +115,26 @@ class HomeController extends Controller
         }
     }
 
+    private function KingspayPayment($request,$payment_id,$currency)
+    {
+        $totalprice = $request->amount*100;
+        $response = Http::withHeaders([
+            'Authorization' => "Bearer " . env('KP_SECRET_KEY',''),
+            'Content-Type' => 'application/json'
+        ])->post('https://api.kingspay-gs.com/api/payment/initialize', [
+            'amount' => $totalprice,
+            'currency'=>$currency,
+            'description'=>"Payment for Healing Streams",
+            "merchant_callback_url"=>route('kingspay.success'),
+            "metadata"=> ["payment_id"=> $payment_id],
+            'payment_type'=> "international"
+        ]);
+        Session::put('paymentId', $payment_id);
+        Session::put('kpPaymentID', $response['payment_id']);
+        $awayUrl="https://kingspay-gs.com/payment?id=".$response['payment_id'];
+        return redirect()->to($awayUrl)->send();
+    }
+
     public function success(Request $request)
     {
         $stripe = new \Stripe\StripeClient(config('stripe.sk'));
@@ -138,9 +162,29 @@ class HomeController extends Controller
             $payment->update(['payment_status'=>1,'reference_id'=>$response['id'],'payment_date'=>Now()]);
             return redirect()->route('home-page')->with(['success'=>'Payment completed successfully']);
         } else {
-            // return redirect()
-            //     ->route('create.payment')
-            //     ->with('error', $response['message'] ?? 'Something went wrong.');
+            $payment=Payment::find(Session::get('paymentId'));
+            $payment->update(['payment_status'=>2]);
+            Session::forget('paymentId');
+            return redirect()->route('home-page')->with(['error'=>'Something went wrong! Payment failed']);
+        }
+    }
+
+    public function KingspayPaymentSuccess()
+    {
+        $verifyUrl="https://api.kingspay-gs.com/api/payment/".Session::get('kpPaymentID');
+        $response = Http::get($verifyUrl);
+        if (isset($response['status']) && $response['status'] == 'SUCCESS') {
+            $payment=Payment::find(Session::get('paymentId'));
+            $payment->update(['payment_status'=>1,'reference_id'=>Session::get('kpPaymentID'),'payment_date'=>Now()]);
+            Session::forget('kpPaymentID');
+            Session::forget('paymentId');
+            return redirect()->route('home-page')->with(['success'=>'Payment completed successfully']);
+        } else {
+            $payment=Payment::find(Session::get('paymentId'));
+            $payment->update(['payment_status'=>2]);
+            Session::forget('paymentId');
+            Session::forget('kpPaymentID');
+            return redirect()->route('home-page')->with(['error'=>'Something went wrong! Payment failed']);
         }
     }
 

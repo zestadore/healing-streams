@@ -18,6 +18,7 @@ Route::get('/get-currencies/{id}', [App\Http\Controllers\Web\HomeController::cla
 Route::post('/process-payment', [App\Http\Controllers\Web\HomeController::class, 'processPayment'])->name('payment.process');
 Route::get('/success', [App\Http\Controllers\Web\HomeController::class, 'success'])->name('success');
 Route::get('/paypal-success', [App\Http\Controllers\Web\HomeController::class, 'PaypalPaymentSuccess'])->name('paypal.success');
+Route::get('/kingspay-success', [App\Http\Controllers\Web\HomeController::class, 'KingspayPaymentSuccess'])->name('kingspay.success');
 Route::get('/failure', [App\Http\Controllers\Web\HomeController::class, 'failure'])->name('failure');
 
 Auth::routes();
