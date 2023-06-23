@@ -62,7 +62,7 @@
                             <th>{{ __('Country') }}</th>
                             <th>{{ __('Currency') }}</th>
                             <th>{{ __('Amount') }}</th>
-                            <th>{{ __('Payment gateway') }}</th>
+                            {{-- <th>{{ __('Payment gateway') }}</th> --}}
                             <th>{{ __('Payment status') }}</th>
                             <th>{{ __('Ref .no') }}</th>
                             <th>{{ __('Payment date') }}</th>
@@ -94,6 +94,15 @@
     <script src="{{asset('assets/admin/plugins/toastr/toastr.min.js')}}"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
+        var choice='{{$choice}}';
+        var url="";
+        if(choice=="stripe"){
+            url="{{route('payments.stripe')}}";
+        }else if(choice=="paypal"){
+            url="{{route('payments.paypal')}}";
+        }else if(choice=="kingspay"){
+            url="{{route('payments.kingspay')}}";
+        }
         function drawTable()
         {
             var table = $('#item-table').DataTable({
@@ -105,7 +114,7 @@
                 "pagingType": "full_numbers",
                 "dom": "<'row'<'col-sm-12 col-md-12 right'B>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                 ajax: {
-                    "url": '{{route("payments")}}',
+                    "url": url,
                     "data": function(d) {
                         var searchprams = $('#filterfordatatable').serializeArray();
                         var indexed_array = {};
@@ -152,10 +161,10 @@
                         data: 'amount',
                         name: 'amount'
                     },
-                    {
-                        data: 'payment_gateway',
-                        name: 'payment_gateway'
-                    },
+                    // {
+                    //     data: 'payment_gateway',
+                    //     name: 'payment_gateway'
+                    // },
                     {
                         data: 'status',
                         name: 'status'

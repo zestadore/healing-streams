@@ -154,13 +154,34 @@
                   </li>
                 </ul>
               </li>
-              <li class="nav-item">
-                <a href="{{route('payments')}}" class="nav-link {{ (request()->is('payments*') || request()->is('payments*'))? 'active' : '' }}">
+              <li class="nav-item {{ (request()->is('stripe-payments*')||request()->is('paypal-payments*')||request()->is('kingspay-payments*'))? 'menu-open' : '' }}">
+                <a href="#" class="nav-link {{ (request()->is('stripe-payments*')||request()->is('paypal-payments*')||request()->is('kingspay-payments*'))? 'active' : '' }}">
                   <i class="nav-icon fas fa-money-bill"></i>
                   <p>
                     Payments
+                    <i class="right fas fa-angle-left"></i>
                   </p>
                 </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{route('payments.stripe')}}" class="nav-link {{ (request()->is('stripe-payments'))? 'active' : '' }}">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Stripe</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{route('payments.paypal')}}" class="nav-link {{ (request()->is('paypal-payments'))? 'active' : '' }}">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Paypal</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{route('payments.kingspay')}}" class="nav-link {{ (request()->is('kingspay-payments'))? 'active' : '' }}">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Kingspay</p>
+                    </a>
+                  </li>
+                </ul>
               </li>
         </ul>
       </nav>

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Payment;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,7 +26,28 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('admin/dashboard');
+        $paymentCounts['stripe']=Payment::where('payment_status',1)->where('payment_gateway_id',1)->count();
+        $paymentCounts['paypal']=Payment::where('payment_status',1)->where('payment_gateway_id',2)->count();
+        $paymentCounts['kingspay']=Payment::where('payment_status',1)->where('payment_gateway_id',3)->count();
+        $barChart=Payment::join('countries','payments.country_id','countries.id')->select('countries.country',
+            DB::raw('sum(CASE WHEN payments.payment_gateway_id IN (3) THEN payments.amount END) as kingspay_sum,
+            sum(CASE WHEN payments.payment_gateway_id IN (2) THEN payments.amount END) as paypal_sum,
+            sum(CASE WHEN payments.payment_gateway_id IN (1) THEN payments.amount END) as stripe_sum'))->groupBy('countries.country')->get();
+        $paymentCounts['barChart']=[];
+        foreach($barChart as $chart){
+            $paymentCounts['barChart'][]=[
+                'country'=>$chart->country,
+                'kingspay_sum'=>$chart->kingspay_sum??0,
+                'paypal_sum'=>$chart->paypal_sum??0,
+                'stripe_sum'=>$chart->stripe_sum??0
+            ];
+        }
+        $paymentCounts['barChart']=json_encode($paymentCounts['barChart']);
+        $paymentCounts['totalTransactions']=Payment::whereDate('created_at',Carbon::today())->count();
+        $paymentCounts['stripeTransactions']=Payment::whereDate('created_at',Carbon::today())->where('payment_gateway_id',1)->count();
+        $paymentCounts['paypalTransactions']=Payment::whereDate('created_at',Carbon::today())->where('payment_gateway_id',2)->count();
+        $paymentCounts['kingspayTransactions']=Payment::whereDate('created_at',Carbon::today())->where('payment_gateway_id',3)->count();
+        return view('admin.dashboard',['paymentsCounts'=>$paymentCounts]);
     }
 
     public function authUserProfile()

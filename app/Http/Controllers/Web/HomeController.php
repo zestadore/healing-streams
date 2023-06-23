@@ -16,6 +16,8 @@ class HomeController extends Controller
     public function index()
     {
         $countries=Country::where('status',1)->get();
+        Session::forget('kpPaymentID');
+        Session::forget('paymentId');
         return view('web.index',['countries'=>$countries]);
     }
 

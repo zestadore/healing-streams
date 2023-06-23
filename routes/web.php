@@ -28,7 +28,9 @@ Route::get('/profile', [App\Http\Controllers\HomeController::class, 'authUserPro
 Route::post('/update-profile', [App\Http\Controllers\HomeController::class, 'updateProfile'])->name('profile.update')->middleware('auth');
 Route::get('/change-password', [App\Http\Controllers\HomeController::class, 'changePassword'])->name('change.password')->middleware('auth');
 Route::post('/change-password', [App\Http\Controllers\HomeController::class, 'updatePassword'])->name('update.password')->middleware('auth');
-Route::get('/payments', [App\Http\Controllers\Web\PaymentController::class, 'index'])->name('payments')->middleware('auth');
+Route::get('/stripe-payments', [App\Http\Controllers\Web\PaymentController::class, 'stripePayments'])->name('payments.stripe')->middleware('auth');
+Route::get('/paypal-payments', [App\Http\Controllers\Web\PaymentController::class, 'paypalPayments'])->name('payments.paypal')->middleware('auth');
+Route::get('/kingspay-payments', [App\Http\Controllers\Web\PaymentController::class, 'kingspayPayments'])->name('payments.kingspay')->middleware('auth');
 Route::resource('countries', App\Http\Controllers\Web\CountryController::class);
 Route::resource('currencies', App\Http\Controllers\Web\CurrencyController::class);
 Route::resource('payment-gateway', App\Http\Controllers\Web\PaymentGatewayController::class);
