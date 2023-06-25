@@ -29,6 +29,7 @@
   .select2-container .select2-selection--multiple {
     min-height: 50px !important;
   }
+  
 </style>
 <body>
 
@@ -40,11 +41,22 @@
 <!-- Header============================================= -->
     <header id="header" class="bg-dark">
       <div class="container">
-      <div class="header-row">
+        <div class="row container">
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" style="color:white;padding:10px;">
+            info@healingstreams.tv &nbsp;&nbsp;&nbsp;
+            <a href="tel:+44 (0) 333 188 0710"></a><i class="fa fa-phone"></i> +44 (0) 333 188 0710
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" style="color:white;padding:10px;text-align:right;">
+              <a href="https://healingstreams.tv/about.php">About us</a>&nbsp;&nbsp;&nbsp;
+              <a href="https://kingschat.online/user/hstv"><img src="images/kingschat.png" alt="Kingschat" style="width:13% !important;"></a>
+          </div>
+      </div>
+      <div class="header-row" style="padding:10px;top:0px;">
           <div class="header-column justify-content-start"> 
           <!-- Logo
           ============================= -->
-          <div class="logo me-3"> <a class="d-flex" href="https://healingstreams.tv" title="Healing streams"><img src="images/logo.png" style="border-radius:10px;" alt="Payyed"/></a> </div>
+          
+          <div class="logo me-3"> <a class="d-flex" href="https://healingstreams.tv" title="Healing streams"><img src="images/logo.png" style="border-radius:10px;" alt="Healing Streams" class="img"/></a> </div>
           <!-- Logo end --> 
           </div>
           <div style="float:right !important;"><a href="https://healingstreams.tv" class="btn btn-outline-primary">Home</a></div>
@@ -96,7 +108,16 @@
     <!-- Send Money End --> 
     <div class="container body-container">
       <div class="bg-white rounded shadow-md p-4">
-        <h3 class="text-5 mb-4 text-center">Registration</h3>
+        <div id="google_translate_element" class="google_translate_element"></div>
+
+          <script type="text/javascript">
+          function googleTranslateElementInit() {
+            new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+          }
+          </script>
+
+          <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+        <h3 class="text-5 mb-4 text-center" style="color:rgb(0, 128, 0);">Enter your details below and select your preferred payment channel to give or make a pledge</h3>
         <hr class="mb-4 mx-n4">
         <form id="form-send-money" method="post" action="{{route('payment.process')}}">@csrf
           <div class="row">

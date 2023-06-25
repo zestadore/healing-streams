@@ -62,9 +62,9 @@ form {
   display: inline;
 }
 
-img {
+.img {
   vertical-align: inherit;
-  width:80%;
+  width:40%;
 }
 
 a, a:focus {
