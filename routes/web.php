@@ -20,6 +20,7 @@ Route::get('/success', [App\Http\Controllers\Web\HomeController::class, 'success
 Route::get('/paypal-success', [App\Http\Controllers\Web\HomeController::class, 'PaypalPaymentSuccess'])->name('paypal.success');
 Route::get('/kingspay-success', [App\Http\Controllers\Web\HomeController::class, 'KingspayPaymentSuccess'])->name('kingspay.success');
 Route::get('/failure', [App\Http\Controllers\Web\HomeController::class, 'failure'])->name('failure');
+Route::get('/process-payment/{id}/{choice}', [App\Http\Controllers\Web\EmailPaymentController::class, 'index'])->name('email.payment');
 
 Auth::routes();
 

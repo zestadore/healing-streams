@@ -123,6 +123,34 @@
               </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <label for="partnership_categories" class="form-label">Partnership categories</label>
+              <div class="input-group">
+                <select name="partnership_categories[]" id="partnership_categories" class="form-select" multiple="multiple" required>
+                    <option value="">Select your category</option>
+                    <option value="Healing Streams TV">Healing Streams TV</option>
+                    <option value="Healing To The Nations Magazine">Healing To The Nations Magazine</option>
+                    <option value="Translations">Translations</option>
+                    <option value="Medical Outreaches">Medical Outreaches</option>
+                    <option value="Medical Outreaches">Community Clinics</option>
+                    <option value="Medical Outreaches">Youth Programs</option>
+                    <option value="Medical Outreaches">Youth TV</option>
+                </select>
+              </div>
+            </div>
+          </div><br>
+          <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+              <label for="country" class="form-label">Country</label>
+              <div class="input-group">
+                <select name="country_id" id="country_id" class="form-select" required>
+                    <option value="">Select your country</option>
+                    @foreach ($countries as $item)
+                        <option value="{{$item->id}}">{{$item->country}}</option>
+                    @endforeach
+                </select>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
               <label for="youSend" class="form-label">Phone no</label>
               <div class="input-group">
                   <span class="input-group-text p-0">
@@ -134,35 +162,6 @@
                   </span>
                   <input type="number" class="form-control" data-bv-field="phone_no" id="phone_no" name="phone_no" placeholder="Phone no" required>
               </div>
-            </div>
-          </div><br>
-          <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                <label for="partnership_categories" class="form-label">Partnership categories</label>
-                <div class="input-group">
-                  <select name="partnership_categories[]" id="partnership_categories" class="form-select" multiple="multiple" required>
-                      <option value="">Select your category</option>
-                      <option value="Healing Streams TV">Healing Streams TV</option>
-                      <option value="Healing To The Nations Magazine">Healing To The Nations Magazine</option>
-                      <option value="Translations">Translations</option>
-                      <option value="Medical Outreaches">Medical Outreaches</option>
-                      <option value="Medical Outreaches">Community Clinics</option>
-                      <option value="Medical Outreaches">Youth Programs</option>
-                      <option value="Medical Outreaches">Youth TV</option>
-
-                  </select>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                <label for="country" class="form-label">Country</label>
-                <div class="input-group">
-                  <select name="country_id" id="country_id" class="form-select" required>
-                      <option value="">Select your country</option>
-                      @foreach ($countries as $item)
-                          <option value="{{$item->id}}">{{$item->country}}</option>
-                      @endforeach
-                  </select>
-                </div>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                 <label for="currency" class="form-label">Currency</label>
@@ -177,43 +176,67 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                   <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                      <label for="payment_gateway_id" class="form-label">Payment gateway</label>
-                      <div class="input-group">
-                        <select name="payment_gateway_id" id="payment_gateway_id" class="form-select" required>
-                            <option value="">Select payment gateway</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                      <label for="amount" class="form-label">Amount</label>
-                      <div class="input-group">
-                        <span class="input-group-text" id="symbol_span">$</span>
-                          <input type="number" class="form-control" name="amount" id="amount" placeholder="Amount" required>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                      <div class="row" style="padding-top:40px;">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <input type="radio" id="html" name="choice" class="choiceClass" value="0" checked>
+                            <label for="html">One off</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <input type="radio" id="css" name="choice" class="choiceClass" value="1">
+                            <label for="css">Monthly automatic</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <input type="radio" id="javascript" name="choice" class="choiceClass" value="2">
+                            <label for="javascript">Make a pledge</label>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                  <div class="row" style="padding-top:40px;">
-                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                        <input type="radio" id="html" name="choice" value="0" checked>
-                        <label for="html">One off</label>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                        <input type="radio" id="css" name="choice" value="1">
-                        <label for="css">Monthly automatic</label>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                        <input type="radio" id="javascript" name="choice" value="2">
-                        <label for="javascript">Make a pledge</label>
-                    </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                  <label for="amount" class="form-label">Amount</label>
+                  <div class="input-group">
+                    <span class="input-group-text" id="symbol_span">$</span>
+                      <input type="number" class="form-control" name="amount" id="amount" placeholder="Amount" required>
+                  </div>
                 </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                  <label for="payment_gateway_id" class="form-label">Payment gateway</label>
+                  <div class="input-group">
+                    <select name="payment_gateway_id" id="payment_gateway_id" class="form-select" required>
+                        <option value="">Select payment gateway</option>
+                    </select>
+                  </div>
                 </div>
             </div>
           </div>
-          <p> </p>
+          <div class="row" id="pledgeAuto">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <p> </p>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <label for="initialising_date" class="form-label">Initializing date</label>
+                <div class="input-group">
+                  <select name="initialising_date" id="initialising_date" class="form-select" required>
+                    @for ($i = 1; $i <=28; $i++)
+                        <option value="{{$i}}">{{$i}}</option>
+                    @endfor
+                  </select>
+                </div>
+            </div>
+          </div>
+          <br>
           <div align="right"><button class="btn btn-primary">Continue</button></div>
+          @if ($errors->any())
+              <div class="alert alert-danger">
+                  <ul>
+                      @foreach ($errors->all() as $error)
+                          <li>{{ $error }}</li>
+                      @endforeach
+                  </ul>
+              </div>
+          @endif
         </form>
       </div>
     </div>
@@ -397,6 +420,26 @@
       $('#country_id').trigger("change");
     });
     $('#youSendCurrency').trigger("change");
+
+    $('#pledgeAuto').hide();
+    $('#initialising_date').removeAttr('required');
+
+    $(".choiceClass") // select the radio by its id
+    .change(function(){ // bind a function to the change event
+        if( $(this).is(":checked") ){ // check if the radio is checked
+            var choice = $(this).val(); // retrieve the value
+            if(choice==1){
+              $('#pledgeAuto').hide();
+              $('#initialising_date').removeAttr('required');
+            }else if(choice==2){
+              $('#pledgeAuto').show();
+              $('#initialising_date').attr('required', 'required');
+            }else{
+              $('#pledgeAuto').hide();
+              $('#initialising_date').removeAttr('required');
+            }
+        }
+    });
 
 </script>
 </body>
