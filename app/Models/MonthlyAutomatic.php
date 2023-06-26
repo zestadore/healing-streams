@@ -15,4 +15,16 @@ class MonthlyAutomatic extends Model
     protected $casts = [
         'partnership_categories' => 'array'
     ];
+
+    public function country(){
+        return $this->hasOne(Country::class, 'id', 'country_id');
+    }
+
+    public function currency(){
+        return $this->hasOne(Currency::class, 'id', 'currency_id');
+    }
+
+    public function paymentGateway(){
+        return $this->hasOne(PaymentGateway::class, 'id', 'payment_gateway_id');
+    }
 }

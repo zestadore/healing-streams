@@ -47,7 +47,7 @@
                 </div>
             </form>
             <p class="mb-1" style="float:right;">
-              <a href="forgot-password.html">I forgot my password</a>
+              {{-- <a href="forgot-password.html">I forgot my password</a> --}}
             </p>
           </div>
           <!-- /.card-body -->

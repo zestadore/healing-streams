@@ -50,6 +50,7 @@ class ThisMonthPayments extends Command
                 ];
             }
         }
+        PaymentsThisMonth::truncate();
         if(count($insertData)>0){
             PaymentsThisMonth::insert($insertData);
         }

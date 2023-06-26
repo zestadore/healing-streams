@@ -32,6 +32,9 @@ Route::post('/change-password', [App\Http\Controllers\HomeController::class, 'up
 Route::get('/stripe-payments', [App\Http\Controllers\Web\PaymentController::class, 'stripePayments'])->name('payments.stripe')->middleware('auth');
 Route::get('/paypal-payments', [App\Http\Controllers\Web\PaymentController::class, 'paypalPayments'])->name('payments.paypal')->middleware('auth');
 Route::get('/kingspay-payments', [App\Http\Controllers\Web\PaymentController::class, 'kingspayPayments'])->name('payments.kingspay')->middleware('auth');
+Route::get('/this-months-payments', [App\Http\Controllers\Web\PaymentController::class, 'thisMonthsPayments'])->name('payments.this_month')->middleware('auth');
+Route::get('/monthly-automatics', [App\Http\Controllers\Web\PaymentController::class, 'monthlyAutomatic'])->name('payments.monthly_automatic')->middleware('auth');
+Route::get('/pledge', [App\Http\Controllers\Web\PaymentController::class, 'pledgePayment'])->name('payments.pledge')->middleware('auth');
 Route::resource('countries', App\Http\Controllers\Web\CountryController::class);
 Route::resource('currencies', App\Http\Controllers\Web\CurrencyController::class);
 Route::resource('payment-gateway', App\Http\Controllers\Web\PaymentGatewayController::class);
