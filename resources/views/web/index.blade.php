@@ -222,13 +222,13 @@
                       <input type="number" class="form-control" name="amount" id="amount" placeholder="Amount" required>
                   </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                  <label for="payment_gateway_id" class="form-label">Payment gateway</label>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" id="paymentOptions">
+                  {{-- <label for="payment_gateway_id" class="form-label">Payment gateway</label>
                   <div class="input-group">
                     <select name="payment_gateway_id" id="payment_gateway_id" class="form-select" required>
                         <option value="">Select payment gateway</option>
                     </select>
-                  </div>
+                  </div> --}}
                 </div>
             </div>
           </div>
@@ -406,7 +406,7 @@
           type:"get",
           success:function(response){
               var list = $("#currency_id");
-              var list2 = $("#payment_gateway_id");
+              var list2 = $("#paymentOptions");
               list.empty()
               list.append(new Option("Select your currency", ""));
               $.each(response.currencies, function(index, item) {
@@ -418,13 +418,12 @@
                 }));
               });
               list2.empty()
+              var radioBtn ="";
               list2.append(new Option("Select payment gateway", ""));
               $.each(response.payment_gateways, function(index, item) {
                 var text = item.payment_gateway;
-                list2.append($('<option/>', {
-                    value: item.id,
-                    text: text,
-                }));
+                radioBtn = $('<div><input type="radio" name="payment_gateway_id" class="payment_options" value="'+item.id+'" checked/><label for="'+text+'">'+text+'</label></div>');
+                list2.append(radioBtn);
               });
           },
       });
