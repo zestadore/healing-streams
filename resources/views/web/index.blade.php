@@ -72,7 +72,7 @@
       <div class="container my-auto py-5">
         <div class="row">
           <div class="col-lg-12 col-xl-12">
-            <h1 class="h1-text-style">GIVE NOW OR MAKE A PLEDGE</h1>
+            <h1 class="h1-text-style">HEALING STREAMS TV PARTNERSHIP PAGE</h1>
           </div>
         </div>
       </div>
@@ -117,7 +117,7 @@
           </script>
 
           <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-        <h3 class="text-5 mb-4 text-center" style="color:rgb(0, 128, 0);">Enter your details below and select your preferred payment channel to give or make a pledge</h3>
+        <h3 class="text-5 mb-4 text-center" style="color:rgb(0, 128, 0);">Enter your details below <br> Select your preferred payment channel to give or make a pledge</h3>
         <hr class="mb-4 mx-n4">
         <form id="form-send-money" method="post" action="{{route('payment.process')}}">@csrf
           <div class="row">
@@ -148,13 +148,9 @@
               <div class="input-group">
                 <select name="partnership_categories[]" id="partnership_categories" class="form-select" multiple="multiple" required>
                     <option value="">Select your category</option>
+                    <option value="HSLHS with Pastor Chris">HSLHS with Pastor Chris</option>
                     <option value="Healing Streams TV">Healing Streams TV</option>
-                    <option value="Healing To The Nations Magazine">Healing To The Nations Magazine</option>
-                    <option value="Translations">Translations</option>
-                    <option value="Medical Outreaches">Medical Outreaches</option>
-                    <option value="Medical Outreaches">Community Clinics</option>
-                    <option value="Medical Outreaches">Youth Programs</option>
-                    <option value="Medical Outreaches">Youth TV</option>
+                    <option value="Healing to the Nations Magazine">Healing to the Nations Magazine</option>
                 </select>
               </div>
             </div>
@@ -201,11 +197,11 @@
                       <div class="row" style="padding-top:40px;">
                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                             <input type="radio" id="html" name="choice" class="choiceClass" value="0" checked>
-                            <label for="html">One off</label>
+                            <label for="html">One-off</label>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                             <input type="radio" id="css" name="choice" class="choiceClass" value="1">
-                            <label for="css">Monthly automatic</label>
+                            <label for="css">Monthly (Subscription)</label>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                             <input type="radio" id="javascript" name="choice" class="choiceClass" value="2">
@@ -422,7 +418,7 @@
               list2.append(new Option("Select payment gateway", ""));
               $.each(response.payment_gateways, function(index, item) {
                 var text = item.payment_gateway;
-                radioBtn = $('<div><input type="radio" name="payment_gateway_id" class="payment_options" value="'+item.id+'" checked/><label for="'+text+'">'+text+'</label></div>');
+                radioBtn = $('<div><input type="radio" name="payment_gateway_id" class="payment_options" value="'+item.id+'" checked/><label for="'+text+'"> &nbsp;'+text+'</label><img src="'+window.location.origin+'/images/'+text.toLowerCase()+'.png" width="10%"/></div>');
                 list2.append(radioBtn);
               });
           },
