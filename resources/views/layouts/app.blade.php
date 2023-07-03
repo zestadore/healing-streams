@@ -98,8 +98,8 @@
                   </p>
                 </a>
               </li>
-              <li class="nav-item {{ (request()->is('countries*')||request()->is('currencies*')||request()->is('payment-gatyeway*'))? 'menu-open' : '' }}">
-                <a href="#" class="nav-link {{ (request()->is('countries*')||request()->is('currencies*')||request()->is('payment-gatyeway*'))? 'active' : '' }}">
+              <li class="nav-item {{ (request()->is('countries*')||request()->is('currencies*')||request()->is('payment-gatyeway*')||request()->is('regions*'))? 'menu-open' : '' }}">
+                <a href="#" class="nav-link {{ (request()->is('countries*')||request()->is('currencies*')||request()->is('payment-gatyeway*')||request()->is('regions*'))? 'active' : '' }}">
                   <i class="nav-icon fas fa-tools"></i>
                   <p>
                     Masters
@@ -107,6 +107,12 @@
                   </p>
                 </a>
                 <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{route('regions.index')}}" class="nav-link {{ (request()->is('regions*'))? 'active' : '' }}">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Regions</p>
+                    </a>
+                  </li>
                   <li class="nav-item">
                     <a href="{{route('countries.index')}}" class="nav-link {{ (request()->is('countries*'))? 'active' : '' }}">
                       <i class="far fa-circle nav-icon"></i>

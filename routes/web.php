@@ -38,3 +38,4 @@ Route::get('/pledge', [App\Http\Controllers\Web\PaymentController::class, 'pledg
 Route::resource('countries', App\Http\Controllers\Web\CountryController::class);
 Route::resource('currencies', App\Http\Controllers\Web\CurrencyController::class);
 Route::resource('payment-gateway', App\Http\Controllers\Web\PaymentGatewayController::class);
+Route::resource('regions', App\Http\Controllers\Web\RegionController::class);

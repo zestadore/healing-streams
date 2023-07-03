@@ -5,19 +5,18 @@
   <link rel="stylesheet" href="{{asset('assets/admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
   <link rel="stylesheet" href="{{asset('assets/admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
   <link rel="stylesheet" href="{{asset('assets/admin/plugins/toastr/toastr.min.css')}}">
-  <link rel="stylesheet" href="{{asset('assets/admin/plugins/select2/css/select2.min.css')}}">
 @endsection
 @section('title')
-        <title>Healing Streams TV | Countries</title>
+        <title>Healing Streams TV | Regions</title>
     @endsection
 @section('breadcrump')
     <div class="col-sm-6">
-        <h1 class="m-0">Countries</h1>
+        <h1 class="m-0">Regions</h1>
     </div><!-- /.col -->
     <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{route('home')}}">Dashboard</a></li>
-            <li class="breadcrumb-item active">Countries</li>
+            <li class="breadcrumb-item active">Regions</li>
         </ol>
     </div><!-- /.col -->
 @endsection
@@ -28,8 +27,8 @@
         <div class="card card-default color-palette-box">
             <div class="card-header">
               <h3 class="card-title">
-                <i class="fas fa-flag"></i>
-                Countries
+                <i class="fas fa-inr"></i>
+                Regions
               </h3>
                 <button type="button" class="btn btn-outline-primary mr-1 mb-3 btn-sm" id="add-new" style="float:right;">
                     <i class="fa fa-fw fa-plus mr-1"></i> Add New
@@ -39,7 +38,7 @@
                 <form id="filterfordatatable" class="form-horizontal" onsubmit="event.preventDefault();">
                     <div class="row ">
                         <div class="col">
-                            <input type="text" name="search" class="form-control" placeholder="Search with country">
+                            <input type="text" name="search" class="form-control" placeholder="Search with region">
                         </div>
                         <div class="col">
                             <select name="status_search" id="status_search" class="form-control">
@@ -54,10 +53,6 @@
                     <thead>
                         <tr>
                             <th class="nosort">#</th>
-                            <th>{{ __('Country') }}</th>
-                            <th>{{ __('Codes') }}</th>
-                            <th>{{ __('Currencies') }}</th>
-                            <th>{{ __('Payment gateways') }}</th>
                             <th>{{ __('Region') }}</th>
                             <th>{{ __('Status') }}</th>
                             <th class="nosort">Action</th>
@@ -74,7 +69,7 @@
   <!-- /.content-wrapper -->
   <!-- Pop Out Block Modal -->
   <div class="modal fade" id="modal-block-popout">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">Add / Edit</h4>
@@ -84,77 +79,10 @@
         </div>
         <div class="modal-body">
             <div class="block-content font-size-sm">
-                <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <div class="form-group">
-                            <label for="country">Country <span style="color:red">*</span></label>
-                            <input type="text" class="form-control" id="country" name="country" placeholder="Enter country">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <div class="form-group">
-                            <label for="region_id">Region <span style="color:red">*</span></label>
-                            <select name="region_id" id="region_id" class="form-control">
-                                <option value="">Select a region</option>
-                                @foreach ($regions as $region)
-                                    <option value="{{$region->id}}">{{$region->region}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <div class="form-group">
-                            <label for="country_code">Country code<span style="color:red">*</span></label>
-                            <input type="text" class="form-control" id="country_code" name="country_code" placeholder="Enter country code">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <div class="form-group">
-                            <label for="telephone_code">Telephone code<span style="color:red">*</span></label>
-                            <input type="text" class="form-control" id="telephone_code" name="telephone_code" placeholder="Enter telephone code">
-                        </div>
-                    </div>
-                </div>
                 <div class="form-group">
-                    <label for="default_currency">Default currency <span style="color:red">*</span></label>
-                    <select name="default_currency" id="default_currency" class="form-control">
-                        <option value="">Select default currency</option>
-                        @foreach ($currencies as $currency)
-                            <option value="{{$currency->id}}">{{$currency->currency}} ({{$currency->currency_symbol}})</option>
-                        @endforeach
-                    </select>
+                    <label for="currency">Region <span style="color:red">*</span></label>
+                    <input type="text" class="form-control" id="region" name="region" placeholder="Enter region">
                 </div>
-                <div class="form-group" data-select2-id="112">
-                    <label>Alternate currencies</label>
-                    <div class="select2-purple">
-                        <select class="select2 select2-hidden-accessible" id="currency" name="currency" multiple="" data-placeholder="Select currencies" data-dropdown-css-class="select2-purple" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                            @foreach ($currencies as $currency)
-                                <option value="{{$currency->id}}">{{$currency->currency}} ({{$currency->currency_symbol}})</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="default_payment_gateway">Default payment gateway <span style="color:red">*</span></label>
-                    <select name="default_payment_gateway" id="default_payment_gateway" class="form-control">
-                        <option value="">Select default payment gateway</option>
-                        @foreach ($paymentGateways as $gateway)
-                            <option value="{{$gateway->id}}">{{$gateway->payment_gateway}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group" data-select2-id="112">
-                    <label>Alternate payment gateways</label>
-                    <div class="select2-purple">
-                        <select class="select2 select2-hidden-accessible" id="payment_gateways" name="payment_gateways" multiple="" data-placeholder="Select payment gateways" data-dropdown-css-class="select2-purple" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                            @foreach ($paymentGateways as $gateway)
-                                <option value="{{$gateway->id}}">{{$gateway->payment_gateway}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                  </div>
                 <div class="custom-control custom-switch mb-1">
                     <input type="checkbox" class="custom-control-input" id="example-switch-custom1" name="status" value=1 checked="true">
                     <label class="custom-control-label" for="example-switch-custom1">Active</label>
@@ -185,10 +113,8 @@
     <script src="{{asset('assets/admin/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
     <script src="{{asset('assets/admin/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
     <script src="{{asset('assets/admin/plugins/toastr/toastr.min.js')}}"></script>
-    <script src="{{asset('assets/admin/plugins/select2/js/select2.full.min.js')}}"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
-        $('.select2').select2()
         function drawTable()
         {
             var table = $('#item-table').DataTable({
@@ -200,7 +126,7 @@
                 "pagingType": "full_numbers",
                 "dom": "<'row'<'col-sm-12 col-md-12 right'B>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                 ajax: {
-                    "url": '{{route("countries.index")}}',
+                    "url": '{{route("regions.index")}}',
                     "data": function(d) {
                         var searchprams = $('#filterfordatatable').serializeArray();
                         var indexed_array = {};
@@ -214,22 +140,6 @@
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'name'
-                    },
-                    {
-                        data: 'country',
-                        name: 'country'
-                    },
-                    {
-                        data: 'codes',
-                        name: 'codes'
-                    },
-                    {
-                        data: 'currencies',
-                        name: 'currencies'
-                    },
-                    {
-                        data: 'payment_gateways',
-                        name: 'payment_gateways'
                     },
                     {
                         data: 'region',
@@ -266,50 +176,21 @@
             });
         }
         drawTable();
-        // $(function () {
-        //   $("#example1").DataTable({
-        //     "responsive": true, "lengthChange": false, "autoWidth": false,
-        //     "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-        //   }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-        //   $('#example2').DataTable({
-        //     "paging": true,
-        //     "lengthChange": false,
-        //     "searching": false,
-        //     "ordering": true,
-        //     "info": true,
-        //     "autoWidth": false,
-        //     "responsive": true,
-        //   });
-        // });
 
         $('#add-new').click(function(){
-            $('#country').val('');
-            $('#country_code').val('');
-            $('#telephone_code').val('');
-            $('#region_id').val('');
-            $('#default_currency').val();
-            $('#default_payment_gateway').val();
-            $('#currency').val('').trigger('change');
-            $('#payment_gateway').val('').trigger('change');
+            $('#region').val('');
             $('#modal-block-popout').modal('show');
         });
 
         $('#save-data').click(function(){
             var id=$('#save-data').attr('data-id');
-            var country=$('#country').val();
-            var country_code=$('#country_code').val();
-            var telephone_code=$('#telephone_code').val();
-            var currencies=$('#currency').val();
-            var defaultCurrency=$('#default_currency').val();
-            var paymentGateways=$('#payment_gateways').val();
-            var defaultPaymentGateway=$('#default_currency').val();
-            var region_id=$('#region_id').val();
+            var region=$('#region').val();
             if($('#example-switch-custom1').prop("checked") == true){
                 var status=1;
             }else{
                 var status=0;
             }
-            if(country=="" && defaultCurrency=="" && defaultPaymentGateway=="" && country_code=="" && telephone_code=="" && region_id=="")
+            if(region=="")
             {
                 $(document).Toasts('create', {
                     class: 'bg-warning',
@@ -319,20 +200,13 @@
                 })
             }else{
                 $.ajax({
-                    url: "{{route('countries.store')}}",
+                    url: "{{route('regions.store')}}",
                     type:"post",
                     data:{
                         "_token": "{{ csrf_token() }}",
-                        country:country,
+                        region:region,
                         id:id,
-                        status:status,
-                        currencies:currencies,
-                        default_currency:defaultCurrency,
-                        payment_gateways:paymentGateways,
-                        default_payment_gateway:defaultPaymentGateway,
-                        country_code:country_code,
-                        telephone_code:telephone_code,
-                        region_id:region_id
+                        status:status
                     },
                     success:function(response){
                         console.log(response);
@@ -360,44 +234,16 @@
             
         })
 
-        function editData(id)
+        function editData(id,region,status)
         {
-            var url="{{route('countries.show','ID')}}";
-            url=url.replace('ID',id);
-            $.ajax({
-                url: url,
-                type:"get",
-                success:function(response){
-                    $('#country').val(response.country);
-                    if(response.default_currency.length>0){
-                        $('#default_currency').val(response.default_currency[0].id);
-                    }
-                    var array=[];
-                    $.each(response.alternate_currencies, function (key, val) {
-                        array.push(val.id);
-                    });
-                    $('#currency').val(array).trigger('change');
-                    array=[];
-                    $.each(response.alternate_payment_gateways, function (key, val) {
-                        array.push(val.id);
-                    });
-                    $('#payment_gateways').val(array).trigger('change');
-                    $('#country_code').val(response.country_code);
-                    $('#telephone_code').val(response.telephone_code);
-                    $('#region_id').val(response.region_id);
-                    if(response.default_payment_gateway.length>0){
-                        $('#default_payment_gateway').val(response.default_payment_gateway[0].id);
-                    }
-                    $('#save-data').attr("data-id",id);
-                    if(response.status==0){
-                        $("#example-switch-custom1").prop('checked', false);
-                    }else{
-                        $("#example-switch-custom1").prop('checked', true);
-                    }
-                    $('#modal-block-popout').modal('show');
-                }
-            });
-            
+            $('#region').val(region);
+            $('#save-data').attr("data-id",id);
+            if(status==0){
+                $("#example-switch-custom1").prop('checked', false);
+            }else{
+                $("#example-switch-custom1").prop('checked', true);
+            }
+            $('#modal-block-popout').modal('show');
         }
 
         function deleteData(id)
@@ -410,7 +256,7 @@
             dangerMode: true,
             }).then((result) => {
                 if (result) {
-                    var url="{{route('countries.destroy','ID')}}";
+                    var url="{{route('regions.destroy','ID')}}";
                     url=url.replace('ID',id);
                     $.ajax({
                         url: url,
@@ -421,10 +267,10 @@
                         success:function(response){
                             console.log(response);
                             if(response.success){
-                                swal("Good job!", "You deleted the country!", "success");
+                                swal("Good job!", "You deleted the region!", "success");
                                 drawTable();
                             }else{
-                                swal("Oops!", "Failed to deleted the country!", "danger");
+                                swal("Oops!", "Failed to deleted the region!", "danger");
                             }
                         },
                     });

@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Country;
 use App\Models\Currency;
 use App\Models\PaymentGateway;
+use App\Models\Region;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use DataTables;
@@ -59,6 +60,13 @@ class CountryController extends Controller
                         return Null;
                     }
                 })
+                ->addColumn('region', function($data) {
+                    if($data->region){
+                        return $data->region->region;
+                    }else{
+                        return Null;
+                    }
+                })
                 ->addColumn('codes', function($data) {
                     return $data->country_code . " / " . $data->telephone_code;
                 })
@@ -66,7 +74,8 @@ class CountryController extends Controller
         }
         $currencies=Currency::where('status',1)->get();
         $gateways=PaymentGateway::where('status',1)->get();
-        return view('admin.countries.index',['currencies'=>$currencies,'paymentGateways'=>$gateways]);
+        $regions=Region::where('status',1)->get();
+        return view('admin.countries.index',['currencies'=>$currencies,'paymentGateways'=>$gateways,'regions'=>$regions]);
     }
 
     public function create()
@@ -84,7 +93,7 @@ class CountryController extends Controller
         if($request->id>0)
         {
             $country=Country::findorfail(Crypt::decrypt($request->id));
-            $res=$country->update(['country'=>$request->country,'status'=>$request->status,'country_code'=>$request->country_code,'telephone_code'=>$request->telephone_code]);
+            $res=$country->update(['country'=>$request->country,'status'=>$request->status,'country_code'=>$request->country_code,'telephone_code'=>$request->telephone_code,'region_id'=>$request->region_id]);
             $country->currencies()->detach();
             $country->currencies()->attach($request->currencies);
             $country->currencies()->attach($request->default_currency,['default'=>1]);
@@ -92,7 +101,7 @@ class CountryController extends Controller
             $country->paymentGateways()->attach($request->payment_gateways);
             $country->paymentGateways()->attach($request->default_payment_gateway,['default'=>1]);
         }else{
-            $res=Country::Create(['country'=>$request->country,'status'=>$request->status,'country_code'=>$request->country_code,'telephone_code'=>$request->telephone_code])->id;
+            $res=Country::Create(['country'=>$request->country,'status'=>$request->status,'country_code'=>$request->country_code,'telephone_code'=>$request->telephone_code,'region_id'=>$request->region_id])->id;
             if($res){
                 $country=Country::find($res);
                 $country->currencies()->attach($request->currencies);
@@ -110,7 +119,7 @@ class CountryController extends Controller
 
     public function show($id)
     {
-        $country=Country::with(['defaultCurrency','alternateCurrencies','defaultPaymentGateway','alternatePaymentGateways'])->findorfail(Crypt::decrypt($id));
+        $country=Country::with(['defaultCurrency','alternateCurrencies','defaultPaymentGateway','alternatePaymentGateways','region'])->findorfail(Crypt::decrypt($id));
         return $country;
     }
 

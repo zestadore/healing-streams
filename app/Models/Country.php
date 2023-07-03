@@ -9,7 +9,7 @@ class Country extends Model
 {
     use HasFactory,SoftDeletes;
     protected $table = 'countries';
-    protected $fillable =[ 'country','status','country_code','telephone_code'];
+    protected $fillable =[ 'country','status','country_code','telephone_code','region_id'];
 
     // public function states(){
     //     return $this->hasMany(State::class, 'country_id', 'id')->where('status',1);
@@ -37,5 +37,9 @@ class Country extends Model
 
     public function alternatePaymentGateways(){
         return $this->belongsToMany(PaymentGateway::class)->withPivot('payment_gateway_id')->where('default',0);
+    }
+
+    public function region(){
+        return $this->hasOne(Region::class, 'id', 'region_id');
     }
 }
