@@ -12,10 +12,11 @@ use DataTables;
 class PaymentController extends Controller
 {
 
-    public function stripePayments(Request $request)
+    public function stripePayments(Request $request,$option)
     {
+        $choice=$this->getChoiceDetails($option);
         if ($request->ajax()) {
-            $payments= Payment::query()->where('payment_gateway_id',1);
+            $payments= Payment::query()->where('payment_gateway_id',1)->where('choice',$choice);
             $search = $request->search;
             $status = $request->status_search;
             if ($search) {
@@ -50,13 +51,14 @@ class PaymentController extends Controller
                 })
                 ->make(true);
         }
-        return view('admin.payments.index',['choice'=>'stripe']);
+        return view('admin.payments.index',['choice'=>'stripe','choice2'=>$option]);
     }
 
-    public function paypalPayments(Request $request)
+    public function paypalPayments(Request $request,$option)
     {
+        $choice=$this->getChoiceDetails($option);
         if ($request->ajax()) {
-            $payments= Payment::query()->where('payment_gateway_id',2);
+            $payments= Payment::query()->where('payment_gateway_id',2)->where('choice',$choice);
             $search = $request->search;
             $status = $request->status_search;
             if ($search) {
@@ -91,13 +93,14 @@ class PaymentController extends Controller
                 })
                 ->make(true);
         }
-        return view('admin.payments.index',['choice'=>'paypal']);
+        return view('admin.payments.index',['choice'=>'paypal','choice2'=>$option]);
     }
 
-    public function kingspayPayments(Request $request)
+    public function kingspayPayments(Request $request,$option)
     {
+        $choice=$this->getChoiceDetails($option);
         if ($request->ajax()) {
-            $payments= Payment::query()->where('payment_gateway_id',3);
+            $payments= Payment::query()->where('payment_gateway_id',3)->where('choice',$choice);
             $search = $request->search;
             $status = $request->status_search;
             if ($search) {
@@ -132,7 +135,7 @@ class PaymentController extends Controller
                 })
                 ->make(true);
         }
-        return view('admin.payments.index',['choice'=>'kingspay']);
+        return view('admin.payments.index',['choice'=>'kingspay','choice2'=>$option]);
     }
 
     public function thisMonthsPayments(Request $request)
@@ -284,5 +287,22 @@ class PaymentController extends Controller
                 ->make(true);
         }
         return view('admin.payments.monthly_pledge',['choice'=>'pledge']);
+    }
+
+    private function getChoiceDetails($option){
+        switch ($option) {
+            case "one-off":
+                $choice=0;
+                break;
+            case "monthly-subscription":
+                $choice=1;
+                break;
+            case "pledge":
+                $choice=2;
+                break;
+            default:
+                $choice=0;
+        }
+        return $choice;
     }
 }

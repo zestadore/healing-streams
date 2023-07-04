@@ -137,28 +137,101 @@
                 <a href="#" class="nav-link {{ (request()->is('stripe-payments*')||request()->is('paypal-payments*')||request()->is('kingspay-payments*'))? 'active' : '' }}">
                   <i class="nav-icon fas fa-money-bill"></i>
                   <p>
-                    Payments
+                    Payment Gateways
                     <i class="right fas fa-angle-left"></i>
                   </p>
                 </a>
                 <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="{{route('payments.stripe')}}" class="nav-link {{ (request()->is('stripe-payments'))? 'active' : '' }}">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Stripe</p>
+                  <li class="nav-item {{ (request()->is('stripe-payments*'))? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ (request()->is('stripe-payments*'))? 'active' : '' }}">
+                      <i class="nav-icon fas fa-plus nav-icon"></i>
+                      <p>
+                        Stripe
+                        <i class="right fas fa-angle-left"></i>
+                      </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                      <li class="nav-item">
+                        <a href="{{route('payments.stripe','one-off')}}" class="nav-link {{ (request()->is('stripe-payments/one-off'))? 'active' : '' }}">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>One-off</p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="{{route('payments.stripe','monthly-subscription')}}" class="nav-link {{ (request()->is('stripe-payments/monthly-subscription'))? 'active' : '' }}">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Monthly (Subscription)</p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="{{route('payments.stripe','pledge')}}" class="nav-link {{ (request()->is('stripe-payments/pledge'))? 'active' : '' }}">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Pledge</p>
+                        </a>
+                      </li>
+                    </ul>
                   </li>
-                  <li class="nav-item">
-                    <a href="{{route('payments.paypal')}}" class="nav-link {{ (request()->is('paypal-payments'))? 'active' : '' }}">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Paypal</p>
+                </ul>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item {{ (request()->is('paypal-payments*'))? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ (request()->is('paypal-payments*'))? 'active' : '' }}">
+                      <i class="nav-icon fas fa-plus nav-icon"></i>
+                      <p>
+                        Paypal
+                        <i class="right fas fa-angle-left"></i>
+                      </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                      <li class="nav-item">
+                        <a href="{{route('payments.paypal','one-off')}}" class="nav-link {{ (request()->is('paypal-payments/one-off'))? 'active' : '' }}">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>One-off</p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="{{route('payments.paypal','monthly-subscription')}}" class="nav-link {{ (request()->is('paypal-payments/monthly-subscription'))? 'active' : '' }}">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Monthly (Subscription)</p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="{{route('payments.paypal','pledge')}}" class="nav-link {{ (request()->is('paypal-payments/pledge'))? 'active' : '' }}">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Pledge</p>
+                        </a>
+                      </li>
+                    </ul>
                   </li>
-                  <li class="nav-item">
-                    <a href="{{route('payments.kingspay')}}" class="nav-link {{ (request()->is('kingspay-payments'))? 'active' : '' }}">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Kingspay</p>
+                </ul>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item {{ (request()->is('kingspay-payments*'))? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ (request()->is('kingspay-payments*'))? 'active' : '' }}">
+                      <i class="nav-icon fas fa-plus nav-icon"></i>
+                      <p>
+                        Kingspay
+                        <i class="right fas fa-angle-left"></i>
+                      </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                      <li class="nav-item">
+                        <a href="{{route('payments.kingspay','one-off')}}" class="nav-link {{ (request()->is('kingspay-payments/one-off'))? 'active' : '' }}">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>One-off</p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="{{route('payments.kingspay','monthly-subscription')}}" class="nav-link {{ (request()->is('kingspay-payments/monthly-subscription'))? 'active' : '' }}">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Monthly (Subscription)</p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="{{route('payments.kingspay','pledge')}}" class="nav-link {{ (request()->is('kingspay-payments/pledge'))? 'active' : '' }}">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Pledge</p>
+                        </a>
+                      </li>
+                    </ul>
                   </li>
                 </ul>
               </li>

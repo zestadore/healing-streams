@@ -95,14 +95,16 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
         var choice='{{$choice}}';
+        var choice2='{{$choice2}}';
         var url="";
         if(choice=="stripe"){
-            url="{{route('payments.stripe')}}";
+            url="{{route('payments.stripe','CHOICE')}}";
         }else if(choice=="paypal"){
-            url="{{route('payments.paypal')}}";
+            url="{{route('payments.paypal','CHOICE')}}";
         }else if(choice=="kingspay"){
-            url="{{route('payments.kingspay')}}";
+            url="{{route('payments.kingspay','CHOICE')}}";
         }
+        url=url.replace('CHOICE',choice2);
         function drawTable()
         {
             var table = $('#item-table').DataTable({

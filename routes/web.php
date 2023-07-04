@@ -29,9 +29,9 @@ Route::get('/profile', [App\Http\Controllers\HomeController::class, 'authUserPro
 Route::post('/update-profile', [App\Http\Controllers\HomeController::class, 'updateProfile'])->name('profile.update')->middleware('auth');
 Route::get('/change-password', [App\Http\Controllers\HomeController::class, 'changePassword'])->name('change.password')->middleware('auth');
 Route::post('/change-password', [App\Http\Controllers\HomeController::class, 'updatePassword'])->name('update.password')->middleware('auth');
-Route::get('/stripe-payments', [App\Http\Controllers\Web\PaymentController::class, 'stripePayments'])->name('payments.stripe')->middleware('auth');
-Route::get('/paypal-payments', [App\Http\Controllers\Web\PaymentController::class, 'paypalPayments'])->name('payments.paypal')->middleware('auth');
-Route::get('/kingspay-payments', [App\Http\Controllers\Web\PaymentController::class, 'kingspayPayments'])->name('payments.kingspay')->middleware('auth');
+Route::get('/stripe-payments/{option}', [App\Http\Controllers\Web\PaymentController::class, 'stripePayments'])->name('payments.stripe')->middleware('auth');
+Route::get('/paypal-payments/{option}', [App\Http\Controllers\Web\PaymentController::class, 'paypalPayments'])->name('payments.paypal')->middleware('auth');
+Route::get('/kingspay-payments/{option}', [App\Http\Controllers\Web\PaymentController::class, 'kingspayPayments'])->name('payments.kingspay')->middleware('auth');
 Route::get('/this-months-payments', [App\Http\Controllers\Web\PaymentController::class, 'thisMonthsPayments'])->name('payments.this_month')->middleware('auth');
 Route::get('/monthly-automatics', [App\Http\Controllers\Web\PaymentController::class, 'monthlyAutomatic'])->name('payments.monthly_automatic')->middleware('auth');
 Route::get('/pledge', [App\Http\Controllers\Web\PaymentController::class, 'pledgePayment'])->name('payments.pledge')->middleware('auth');
