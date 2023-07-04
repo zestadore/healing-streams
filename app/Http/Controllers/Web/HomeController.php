@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Mail\ThanksMail;
 use Illuminate\Support\Facades\Mail;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -63,6 +64,9 @@ class HomeController extends Controller
                 }
                 break;
             case 1:
+                $request->validate([
+                    'initialising_date' => 'required',
+                ]);
                 $res=$this->saveMonthlyAutomatic($request);
                 if($res){
                     return redirect()->route('home-page')->with(['success'=>'Monthly automatic payments initiated successfully!']);
@@ -72,7 +76,7 @@ class HomeController extends Controller
                 break;
             case 2:
                 $request->validate([
-                    'initialising_date' => 'required|numeric',
+                    'initialising_date' => 'required',
                 ]);
                 $res=$this->savePledge($request);
                 if($res){
@@ -96,13 +100,19 @@ class HomeController extends Controller
 
     private function saveMonthlyAutomatic($request)
     {
-        $res=MonthlyAutomatic::create($request->except(['_token','choice']));
+        $res=MonthlyAutomatic::create($request->except(['_token','choice','initialising_date']))->id;
+        $initialisingDate=Carbon::parse($request->initialising_date)->format('d');
+        $monthly=MonthlyAutomatic::find($res);
+        $res=$monthly->update(['initialising_date'=>$initialisingDate]);
         return $res;
     }
 
     private function savePledge($request)
     {
-        $res=Pledge::create($request->except(['_token','choice']));
+        $res=Pledge::create($request->except(['_token','choice','initialising_date']))->id;
+        $initialisingDate=Carbon::parse($request->initialising_date)->format('d');
+        $pledge=Pledge::find($res);
+        $res=$pledge->update(['initialising_date'=>$initialisingDate]);
         return $res;
     }
 

@@ -10,7 +10,7 @@ class MonthlyAutomatic extends Model
     use HasFactory,SoftDeletes;
     protected $table = 'monthly_automatics';
     protected $fillable =[ 'first_name','last_name','email_id','phone_no','partnership_categories',
-        'country_id','currency_id','amount','payment_gateway_id','status','completed_installments'];
+        'country_id','currency_id','amount','payment_gateway_id','status','completed_installments','initialising_date'];
 
     protected $casts = [
         'partnership_categories' => 'array'

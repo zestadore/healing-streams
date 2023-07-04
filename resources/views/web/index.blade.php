@@ -235,11 +235,12 @@
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <label for="initialising_date" class="form-label">Initializing date</label>
                 <div class="input-group">
-                  <select name="initialising_date" id="initialising_date" class="form-select" required>
+                  <input type="date" name="initialising_date" id="initialising_date" class="form-control" required>
+                  {{-- <select name="initialising_date" id="initialising_date" class="form-select" required>
                     @for ($i = 1; $i <=28; $i++)
                         <option value="{{$i}}">{{$i}}</option>
                     @endfor
-                  </select>
+                  </select> --}}
                 </div>
             </div>
           </div>
@@ -444,10 +445,7 @@
     .change(function(){ // bind a function to the change event
         if( $(this).is(":checked") ){ // check if the radio is checked
             var choice = $(this).val(); // retrieve the value
-            if(choice==1){
-              $('#pledgeAuto').hide();
-              $('#initialising_date').removeAttr('required');
-            }else if(choice==2){
+            if(choice==2 || choice==1){
               $('#pledgeAuto').show();
               $('#initialising_date').attr('required', 'required');
             }else{
