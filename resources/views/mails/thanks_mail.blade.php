@@ -381,7 +381,7 @@
 
             <!-- START FOOTER -->
             <div class="footer">
-              <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+              {{-- <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                 <tr>
                   <td class="content-block">
                     <span class="apple-link">Company Inc, 3 Abbey Road, San Francisco CA 94102</span>
@@ -393,7 +393,7 @@
                     Powered by <a href="http://htmlemail.io">HTMLemail</a>.
                   </td>
                 </tr>
-              </table>
+              </table> --}}
             </div>
             <!-- END FOOTER -->
 
