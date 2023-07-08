@@ -239,7 +239,7 @@
                 <a href="{{route('payments.this_month')}}" class="nav-link {{ (request()->is('this-months-payments*'))? 'active' : '' }}">
                   <i class="nav-icon fas fa-money-bill"></i>
                   <p>
-                    This Months Payments
+                    Pending For This Month
                   </p>
                 </a>
               </li>
@@ -247,7 +247,7 @@
                 <a href="{{route('payments.monthly_automatic')}}" class="nav-link {{ (request()->is('monthly-automatics*'))? 'active' : '' }}">
                   <i class="nav-icon fas fa-money-bill"></i>
                   <p>
-                    Monthly Automatic
+                    Monthly Active
                   </p>
                 </a>
               </li>
@@ -255,7 +255,7 @@
                 <a href="{{route('payments.pledge')}}" class="nav-link {{ (request()->is('pledge*'))? 'active' : '' }}">
                   <i class="nav-icon fas fa-money-bill"></i>
                   <p>
-                    Pledge
+                    Pledge Active
                   </p>
                 </a>
               </li>

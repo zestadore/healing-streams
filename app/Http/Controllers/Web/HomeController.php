@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Mail\ThanksMail;
+use App\Mail\RegistrationMail;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 
@@ -104,6 +105,7 @@ class HomeController extends Controller
         $initialisingDate=Carbon::parse($request->initialising_date)->format('d');
         $monthly=MonthlyAutomatic::find($res);
         $res=$monthly->update(['initialising_date'=>$initialisingDate]);
+        Mail::to($request->email_id)->send(new RegistrationMail('Monthly (Subscription)'));
         return $res;
     }
 
@@ -113,6 +115,7 @@ class HomeController extends Controller
         $initialisingDate=Carbon::parse($request->initialising_date)->format('d');
         $pledge=Pledge::find($res);
         $res=$pledge->update(['initialising_date'=>$initialisingDate]);
+        Mail::to($request->email_id)->send(new RegistrationMail('Pledge'));
         return $res;
     }
 
