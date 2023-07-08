@@ -33,6 +33,7 @@ class EmailPayments implements ShouldQueue
         $date=Carbon::parse(Now())->format('d');
         $currentDate=$date;
         $after2DaysMailDate=$date-2;
+        $after1DayMailDate=$date-1;
         $date+=3;
         //Mailing before 3 days
         $ids=[];
@@ -80,6 +81,35 @@ class EmailPayments implements ShouldQueue
         }
         $ids=[];
         $payments=PaymentsThisMonth::where('status',0)->where('refrence','pledge')->where('initialising_date',$after2DaysMailDate)->get();
+        if(count($payments)>0){
+            foreach($payments as $payment){
+                // info("Test");
+                $ids[]=$payment->reference_id;
+            }
+        }
+        if(count($ids)>0){
+            $monthlies=Pledge::whereIn('id',$ids)->get();
+            foreach($monthlies as $payment){
+                Mail::to($payment->email_id)->send(new PaymentMail($payment));
+            }
+        }
+        //Mailing after 1 day
+        $ids=[];
+        $payments=PaymentsThisMonth::where('status',0)->where('refrence','monthly')->where('initialising_date',$after1DayMailDate)->get();
+        if(count($payments)>0){
+            foreach($payments as $payment){
+                // info("Test");
+                $ids[]=$payment->reference_id;
+            }
+        }
+        if(count($ids)>0){
+            $monthlies=MonthlyAutomatic::whereIn('id',$ids)->get();
+            foreach($monthlies as $payment){
+                Mail::to($payment->email_id)->send(new PaymentMail($payment));
+            }
+        }
+        $ids=[];
+        $payments=PaymentsThisMonth::where('status',0)->where('refrence','pledge')->where('initialising_date',$after1DayMailDate)->get();
         if(count($payments)>0){
             foreach($payments as $payment){
                 // info("Test");
