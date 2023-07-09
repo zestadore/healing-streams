@@ -62,6 +62,8 @@
                             <th>{{ __('Country') }}</th>
                             <th>{{ __('Currency') }}</th>
                             <th>{{ __('Amount') }}</th>
+                            <th>{{ __('Date created') }}</th>
+                            <th>{{ __('Initialised date') }}</th>
                             <th>{{ __('Payment gateway') }}</th>
                             <th>{{ __('status') }}</th>
                         </tr>
@@ -156,6 +158,14 @@
                     {
                         data: 'amount',
                         name: 'amount'
+                    },
+                    {
+                        data: 'date_created',
+                        name: 'date_created'
+                    },
+                    {
+                        data: 'initialized',
+                        name: 'initialized'
                     },
                     {
                         data: 'payment_gateway',

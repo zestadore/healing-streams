@@ -8,6 +8,7 @@ use App\Models\MonthlyAutomatic;
 use App\Models\Pledge;
 use Illuminate\Http\Request;
 use DataTables;
+use Illuminate\Support\Carbon;
 
 class PaymentController extends Controller
 {
@@ -238,6 +239,12 @@ class PaymentController extends Controller
                 ->addColumn('payment_gateway', function($data) {
                     return $data->paymentGateway->payment_gateway;
                 })
+                ->addColumn('date_created', function($data) {
+                    return Carbon::parse($data->created_at)->format('d-M-Y');
+                })
+                ->addColumn('initialized', function($data) {
+                    return $data->initialising_date . ' of every month';
+                })
                 ->addColumn('status', function($data) {
                     if($data->payment_status==0){
                         return "Canceled";
@@ -276,6 +283,12 @@ class PaymentController extends Controller
                 })
                 ->addColumn('payment_gateway', function($data) {
                     return $data->paymentGateway->payment_gateway;
+                })
+                ->addColumn('date_created', function($data) {
+                    return Carbon::parse($data->created_at)->format('d-M-Y');
+                })
+                ->addColumn('initialized', function($data) {
+                    return $data->initialising_date . ' of every month';
                 })
                 ->addColumn('status', function($data) {
                     if($data->status==0){
