@@ -21,11 +21,15 @@ class EmailPaymentController extends Controller
         if($choice==1){
             $payment=MonthlyAutomatic::find($id);
             $pay=PaymentsThisMonth::where('refrence','monthly')->where('status',0)->where('reference_id',$id)->first();
-            // $pay->update(['status'=>1]);
+            if($pay){
+                $pay->update(['status'=>1]);
+            }
         }elseif($choice==2){
             $payment=Pledge::find($id);
             $pay=PaymentsThisMonth::where('refrence','pledge')->where('status',0)->where('reference_id',$id)->first();
-            $pay->update(['status'=>1]);
+            if($pay){
+                $pay->update(['status'=>1]);
+            }
         }
         $data=[
             'first_name'=>$payment->first_name,
@@ -50,13 +54,13 @@ class EmailPaymentController extends Controller
     {
         $currency=Currency::find($payment->currency_id);
         switch($payment->payment_gateway_id){
-            case 0:
+            case 1:
                 $res=$this->stripePayment($payment,$currency->currency,$payment_id);
                 break;
-            case 1:
+            case 2:
                 $this->paypalPayment($payment,$currency->currency,$payment_id);
                 break;
-            case 2:
+            case 3:
                 $this->kingspayPayment($payment,$currency->currency,$payment_id);
                 break;
         }
@@ -66,9 +70,10 @@ class EmailPaymentController extends Controller
     private function stripePayment($payment,$currency,$payment_id)
     {
         \Stripe\Stripe::setApiKey(config('stripe.sk'));
-        $totalprice = $payment->amount;
-        $two0 = "00";
-        $total = "$totalprice$two0";
+        $totalprice = $payment->amount*100;
+        // $two0 = "00";
+        // $total = "$totalprice$two0";
+        $total = (int)$totalprice;
         $session = \Stripe\Checkout\Session::create([
             'line_items'  => [
                 [

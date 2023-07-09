@@ -480,7 +480,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
                   {{-- <label for="payment_gateway_id" class="form-label">Payment gateway</label>
                   <div class="input-group">
                     <select name="payment_gateway_id" id="payment_gateway_id" class="form-select" required>
-                        <option value="">Select payment gateway</option>
+                        <option value="">Select Payment Options</option>
                     </select>
                   </div> --}}
                 </div>
@@ -953,10 +953,14 @@ function myCrypo4() {
               });
               list2.empty()
               var radioBtn ="";
-              list2.append(new Option("Select payment gateway", ""));
+              list2.append(new Option("Select Payment Options", ""));
               $.each(response.payment_gateways, function(index, item) {
                 var text = item.payment_gateway;
-                radioBtn = $('<div><input type="radio" name="payment_gateway_id" class="payment_options" value="'+item.id+'" checked/><label for="'+text+'"> &nbsp;'+text+'</label><img src="'+window.location.origin+'/images/'+text.toLowerCase()+'.png" width="10%"/></div>');
+                var imageName=text.toLowerCase();
+                if(text=="Debit Card / Credit Card"){
+                  imageName='stripe';
+                }
+                radioBtn = $('<div><input type="radio" name="payment_gateway_id" class="payment_options" value="'+item.id+'" checked/><label for="'+text+'"> &nbsp;'+text+'</label><img src="'+window.location.origin+'/images/'+imageName+'.png" width="10%"/></div>');
                 list2.append(radioBtn);
               });
           },

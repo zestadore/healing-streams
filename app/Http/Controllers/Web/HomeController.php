@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Mail\ThanksMail;
+use App\Mail\PaymentMail;
 use App\Mail\RegistrationMail;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
@@ -50,7 +51,9 @@ class HomeController extends Controller
             'currency_id'=>'required|numeric',
             'choice'=>'required|numeric'
         ]);
-        $payment=Payment::create($request->except('_token'))->id;
+        if($request->choice==0){
+            $payment=Payment::create($request->except('_token'))->id;
+        }
         $currency=Currency::find($request->currency_id);
         $gateway=PaymentGateway::find($request->payment_gateway_id);
         switch ($request->choice) {
@@ -103,9 +106,13 @@ class HomeController extends Controller
     {
         $res=MonthlyAutomatic::create($request->except(['_token','choice','initialising_date']))->id;
         $initialisingDate=Carbon::parse($request->initialising_date)->format('d');
+        $curDate=Carbon::parse(Now())->format('d');
         $monthly=MonthlyAutomatic::find($res);
         $res=$monthly->update(['initialising_date'=>$initialisingDate]);
         Mail::to($request->email_id)->send(new RegistrationMail('Monthly (Subscription)'));
+        if($curDate<=$initialisingDate){
+            Mail::to($monthly->email_id)->send(new PaymentMail($monthly));
+        }
         return $res;
     }
 
@@ -113,9 +120,13 @@ class HomeController extends Controller
     {
         $res=Pledge::create($request->except(['_token','choice','initialising_date']))->id;
         $initialisingDate=Carbon::parse($request->initialising_date)->format('d');
+        $curDate=Carbon::parse(Now())->format('d');
         $pledge=Pledge::find($res);
         $res=$pledge->update(['initialising_date'=>$initialisingDate]);
         Mail::to($request->email_id)->send(new RegistrationMail('Pledge'));
+        if($curDate<=$initialisingDate){
+            Mail::to($pledge->email_id)->send(new PaymentMail($pledge));
+        }
         return $res;
     }
 
