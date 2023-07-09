@@ -486,24 +486,32 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
                 </div>
             </div>
           </div>
-          <div class="row" id="pledgeAuto">
+          <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <p> </p>
+              <div id="oneOffOptions">
+                <p>Other Payments <a href="Javascript::void()" id="clear_other_payments">Clear</a></p>
+                <label class="radio-inline">
+                  <input type="radio" name="otherPayments" value="bank_transfer" class="other_payments">Bank Transfer
+                </label>&nbsp;
+                <label class="radio-inline">
+                  <input type="radio" name="otherPayments" value="crypto" class="other_payments">Crypto
+                </label>&nbsp;
+                <label class="radio-inline">
+                  <input type="radio" name="otherPayments" value="espee" class="other_payments">Espee
+                </label>
+              </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <label for="initialising_date" class="form-label">Initializing date</label>
-                <div class="input-group">
-                  <input type="date" name="initialising_date" id="initialising_date" class="form-control" required>
-                  {{-- <select name="initialising_date" id="initialising_date" class="form-select" required>
-                    @for ($i = 1; $i <=28; $i++)
-                        <option value="{{$i}}">{{$i}}</option>
-                    @endfor
-                  </select> --}}
+                <div id="pledgeAuto">
+                  <label for="initialising_date" class="form-label">Initializing date</label>
+                  <div class="input-group">
+                    <input type="date" name="initialising_date" id="initialising_date" class="form-control" required>
+                  </div>
                 </div>
             </div>
           </div>
           <br>
-          <div align="right"><button class="btn btn-primary">Continue</button></div>
+          <div align="right"><button class="btn btn-primary" id="submitButton">Continue</button></div>
           @if ($errors->any())
               <div class="alert alert-danger">
                   <ul>
@@ -514,7 +522,6 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
               </div>
           @endif
         </form>
-               
            </div>
                 
 
@@ -573,7 +580,6 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 
 <!--=================================
 Work Process -->   
-
 
 <!--=================================
  footer -->
@@ -755,9 +761,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <div id="jaklcp-chat-container"></div>
 <!-- end Live Chat widget-->
 
-
-
-
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-174949206-1"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -766,91 +769,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   gtag('config', 'UA-174949206-1');
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-VZX8DZVY9D"></script>
@@ -872,6 +790,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <script>var plugin_path = 'https://healingstreams.tv/js/';</script>
     <script src="https://healingstreams.tv/js/custom.js"></script>
     <script src="/js/espeespay8.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
 function myCrypo() {
   var copyText = document.getElementById("myInput1");
@@ -982,19 +901,151 @@ function myCrypo4() {
     $('#pledgeAuto').hide();
     $('#initialising_date').removeAttr('required');
 
-    $(".choiceClass") // select the radio by its id
+    $(".choiceClass") // select the radio by its class
     .change(function(){ // bind a function to the change event
         if( $(this).is(":checked") ){ // check if the radio is checked
             var choice = $(this).val(); // retrieve the value
             if(choice==2 || choice==1){
               $('#pledgeAuto').show();
+              $('#oneOffOptions').hide();
+              showSubmitButton();
               $('#initialising_date').attr('required', 'required');
             }else{
               $('#pledgeAuto').hide();
+              $('#oneOffOptions').show();
               $('#initialising_date').removeAttr('required');
             }
         }
     });
+
+    $('.other_payments').change(function(){
+      var otherPayments=$(this).val();
+      if(otherPayments!="" && otherPayments!=" " && otherPayments!=null){
+        $('#submitButton').hide();
+        if(otherPayments=="bank_transfer"){
+          swalBankTransfer();
+        }else if(otherPayments=="crypto"){
+          swalCrypto();
+        }else{
+          swalEpsee();
+        }
+      }
+    });
+
+    function swalBankTransfer(){
+      Swal.fire({
+          title: '<b>Bank Transfer</b>',
+          html:
+            '<p>Thank you for indicating to give towards the Healing to the Nations mandate.</p>'+
+            '<p>Kindly send your Proof of Payment to <a href="mailto:payments@healingstreams.tv">payments@healingstreams.tv</a>.</p>'+
+            '<p>Thank you.</p>'+
+
+            '<p><strong>BANK/ELECTRONIC TRANSFER OPTIONS:</strong></p>'+
+            '<p>(Please Indicate Reference Code: HEC)</p>'+
+
+            '<ol style="float:left !important;">'+
+              '<li>'+
+                '<strong>UNITED STATES OF AMERICA</strong>'+
+                '<p><strong>TO GIVE USING ZELLE</strong></p>'+
+                '<p>Bank: CHASE BANK</p>'+
+                '<p>Email: <a href="mailto:ceintoffice@loveworld-usa.org">ceintoffice@loveworld-usa.org</a></p>'+
+              '</li>'+
+              '<li>'+
+                '<strong>UNITED KINGDOM</strong>'+
+                '<p>BANK: Lloyds Bank</p>'+
+                '<p>ACCOUNT NAME: Healing School Partners LTD</p>'+
+                '<p>ACCOUNT NUMBER: 68343462</p>'+
+                '<p>SORT CODE: 309897</p>'+
+                '<p>IBAN NUMBER: GB32LOYD30989768343462</p>'+
+                '<p>SWIFT CODE: LOYDGB21031</p>'+
+              '</li>'+
+              '<li>'+
+                '<strong>SOUTH AFRICA</strong>'+
+                '<p>Bank: ABSA BANK</p>'+
+                '<p>Account name: CHRIST EMBASSY HEALING SCHOOL</p>'+
+                '<p>Account number: 915 345 5937</p>'+
+                '<p>Swift code: ABSAZAJI</p>'+
+                '<p>BRANCH CODE: 362005</p>'+
+                '<p>Branch: CNR OAK &amp; RETAIL AVENUE, RANDBURG, SOUTH AFRICA</p>'+
+                '<p>Deposit reference: APL-1723</p>'+
+              '</li>'+
+              '<li>'+
+                '<strong>INDIA</strong>'+
+                '<p>Bank: AXIS BANK</p>'+
+                '<p>Account name: Believers Loveworld Trust-Healing School</p>'+
+                '<p>Account number: 921010019883105</p>'+
+              '</li>'+
+              '<li>'+
+                '<strong>NIGERIA</strong>'+
+                '<p>Bank: PARALLEX BANK - Naira</p>'+
+                '<p>Account name: CHRIST EMBASSY HEALING SCHOOL</p>'+
+                '<p>Account number (OFFERING): 1000006923</p>'+
+                '<p>Account number (PARTNERSHIP): 1000006936</p>'+
+              '</li>'+
+            '</ol>',
+          showCloseButton: true,
+          showCancelButton: false,
+          focusConfirm: false,
+          confirmButtonText:
+            '<i class="fa fa-thumbs-up"></i> Great!',
+          confirmButtonAriaLabel: 'Thumbs up, great!',
+          
+        });
+    }
+
+    function swalCrypto(){
+      Swal.fire({
+          title: '<b>Crypto</b>',
+          html:
+          '<p>Thank you for your commitment to our mandate of taking healing to the nations.</p>'+
+            '<p>Kindly use any of the cryptocurrencies displayed below for your giving.</p>'+
+            '<h3>BITCOIN (BTC)</h3>'+
+            '<p>Bitcoin</p>'+
+            '<p>Scan wallet address to give</p>'+
+            '<h3>BINANCE COIN (BNB)</h3>'+
+            '<p>Scan wallet address to give</p>'+
+            '<h3>TETHER (USDT)</h3>'+
+            '<p>Scan wallet address to give</p>'+
+            '<h3>ETHEREUM - ETHER (ETH)</h3>'+
+            '<p>Scan wallet address to give</p>'+
+            '<h3>SALT</h3>'+
+            '<p>Scan wallet address to give</p>'
+            ,
+          showCloseButton: true,
+          showCancelButton: false,
+          focusConfirm: false,
+          confirmButtonText:
+            '<i class="fa fa-thumbs-up"></i> Great!',
+          confirmButtonAriaLabel: 'Thumbs up, great!',
+          
+        });
+    }
+
+    function swalEpsee(){
+      Swal.fire({
+          title: '<b>Epsee</b>',
+          html:
+          '<p>Kindly send your proofto partners@healingstreams.tv.</p>'
+            ,
+          showCloseButton: true,
+          showCancelButton: false,
+          focusConfirm: false,
+          confirmButtonText:
+            '<i class="fa fa-thumbs-up"></i> Great!',
+          confirmButtonAriaLabel: 'Thumbs up, great!',
+          
+        });
+    }
+
+    $('#clear_other_payments').click(function(){
+      showSubmitButton();
+    });
+
+    function showSubmitButton(){
+      $('input:radio[name=otherPayments]').each(function () { $(this).prop('checked', false); });
+      $('#submitButton').show();
+    }
+
 
 </script> 
 </body>
