@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Payment;
+use App\Models\Currency;
+use App\Models\Pledge;
+use App\Models\MonthlyAutomatic;
+use App\Models\Region;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;

@@ -154,4 +154,5 @@ class EmailPaymentController extends Controller
         $awayUrl="https://kingspay-gs.com/payment?id=".$response['payment_id'];
         return redirect()->to($awayUrl)->send();
     }
+ 
 }

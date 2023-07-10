@@ -491,13 +491,13 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
               <div id="oneOffOptions">
                 <p>Other Payments <a href="Javascript::void()" id="clear_other_payments">Clear</a></p>
                 <label class="radio-inline">
-                  <input type="radio" name="otherPayments" value="bank_transfer" class="other_payments">Bank Transfer
+                  <input type="radio" name="otherPayments" value="bank_transfer" class="other_payments"> Bank Transfer
                 </label>&nbsp;
                 <label class="radio-inline">
-                  <input type="radio" name="otherPayments" value="crypto" class="other_payments">Crypto
+                  <input type="radio" name="otherPayments" value="crypto" class="other_payments"> Crypto
                 </label>&nbsp;
                 <label class="radio-inline">
-                  <input type="radio" name="otherPayments" value="espee" class="other_payments">Espee
+                  <input type="radio" name="otherPayments" value="espee" class="other_payments"> Espee
                 </label>
               </div>
             </div>
