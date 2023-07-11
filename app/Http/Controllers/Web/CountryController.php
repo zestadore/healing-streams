@@ -16,7 +16,7 @@ class CountryController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $countries= Country::query()->with('currencies');
+            $countries= Country::query();
             $search = $request->search;
             $status = $request->status_search;
             if ($search) {
@@ -32,34 +32,6 @@ class CountryController extends Controller
             return DataTables::of($countries)
                 ->addIndexColumn()
                 ->addColumn('action', 'admin.countries.action')
-                ->addColumn('currencies', function($data) {
-                    if($data->currencies()){
-                        $cur=[];
-                        foreach($data->alternateCurrencies as $currency){
-                            $cur[]=$currency->currency . "(" . $currency->currency_symbol . ")";
-                        }
-                        foreach($data->defaultCurrency as $currency){
-                            $cur[]="* " . $currency->currency . "(" . $currency->currency_symbol . ")";
-                        }
-                        return implode(', ',$cur);
-                    }else{
-                        return Null;
-                    }
-                })
-                ->addColumn('payment_gateways', function($data) {
-                    if($data->paymentGateways()){
-                        $cur=[];
-                        foreach($data->alternatePaymentGateways as $gateway){
-                            $cur[]=$gateway->payment_gateway;
-                        }
-                        foreach($data->defaultPaymentGateway as $gateway){
-                            $cur[]="* " . $gateway->payment_gateway;
-                        }
-                        return implode(', ',$cur);
-                    }else{
-                        return Null;
-                    }
-                })
                 ->addColumn('region', function($data) {
                     if($data->region){
                         return $data->region->region;
@@ -94,21 +66,8 @@ class CountryController extends Controller
         {
             $country=Country::findorfail(Crypt::decrypt($request->id));
             $res=$country->update(['country'=>$request->country,'status'=>$request->status,'country_code'=>$request->country_code,'telephone_code'=>$request->telephone_code,'region_id'=>$request->region_id]);
-            $country->currencies()->detach();
-            $country->currencies()->attach($request->currencies);
-            $country->currencies()->attach($request->default_currency,['default'=>1]);
-            $country->paymentGateways()->detach();
-            $country->paymentGateways()->attach($request->payment_gateways);
-            $country->paymentGateways()->attach($request->default_payment_gateway,['default'=>1]);
         }else{
             $res=Country::Create(['country'=>$request->country,'status'=>$request->status,'country_code'=>$request->country_code,'telephone_code'=>$request->telephone_code,'region_id'=>$request->region_id])->id;
-            if($res){
-                $country=Country::find($res);
-                $country->currencies()->attach($request->currencies);
-                $country->currencies()->attach($request->default_currency,['default'=>1]);
-                $country->paymentGateways()->attach($request->payment_gateways);
-                $country->paymentGateways()->attach($request->default_payment_gateway,['default'=>1]);
-            }
         }
         if($res){
             return response()->json(['success'=>"Data inserted successfully!"]);
@@ -119,7 +78,7 @@ class CountryController extends Controller
 
     public function show($id)
     {
-        $country=Country::with(['defaultCurrency','alternateCurrencies','defaultPaymentGateway','alternatePaymentGateways','region'])->findorfail(Crypt::decrypt($id));
+        $country=Country::findorfail(Crypt::decrypt($id));
         return $country;
     }
 

@@ -12,12 +12,12 @@
     @endsection
 @section('breadcrump')
     <div class="col-sm-6">
-        <h1 class="m-0">Countries</h1>
+        <h1 class="m-0">Currencies</h1>
     </div><!-- /.col -->
     <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{route('home')}}">Dashboard</a></li>
-            <li class="breadcrumb-item active">Countries</li>
+            <li class="breadcrumb-item active">Currencies</li>
         </ol>
     </div><!-- /.col -->
 @endsection
@@ -29,7 +29,7 @@
             <div class="card-header">
               <h3 class="card-title">
                 <i class="fas fa-flag"></i>
-                Countries
+                Currencies
               </h3>
                 <button type="button" class="btn btn-outline-primary mr-1 mb-3 btn-sm" id="add-new" style="float:right;">
                     <i class="fa fa-fw fa-plus mr-1"></i> Add New
@@ -38,9 +38,6 @@
             <div class="card-body">
                 <form id="filterfordatatable" class="form-horizontal" onsubmit="event.preventDefault();">
                     <div class="row ">
-                        <div class="col">
-                            <input type="text" name="search" class="form-control" placeholder="Search with country">
-                        </div>
                         <div class="col">
                             <select name="status_search" id="status_search" class="form-control">
                                 <option value="">Search with status</option>
@@ -54,9 +51,8 @@
                     <thead>
                         <tr>
                             <th class="nosort">#</th>
-                            <th>{{ __('Country') }}</th>
-                            <th>{{ __('Codes') }}</th>
-                            <th>{{ __('Region') }}</th>
+                            <th>{{ __('Currency') }}</th>
+                            <th>{{ __('Default') }}</th>
                             <th>{{ __('Status') }}</th>
                             <th class="nosort">Action</th>
                         </tr>
@@ -83,35 +79,24 @@
         <div class="modal-body">
             <div class="block-content font-size-sm">
                 <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group">
-                            <label for="country">Country <span style="color:red">*</span></label>
-                            <input type="text" class="form-control" id="country" name="country" placeholder="Enter country">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <div class="form-group">
-                            <label for="region_id">Region <span style="color:red">*</span></label>
-                            <select name="region_id" id="region_id" class="form-control">
-                                <option value="">Select a region</option>
-                                @foreach ($regions as $region)
-                                    <option value="{{$region->id}}">{{$region->region}}</option>
+                            <label for="country">Currency <span style="color:red">*</span></label>
+                            <select name="currency_id" id="currency_id" class="form-control">
+                                <option value="">Select a currency</option>
+                                @foreach ($currencies as $item)
+                                    <option value="{{$item->id}}">{{$item->currency}}</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group">
-                            <label for="country_code">Country code<span style="color:red">*</span></label>
-                            <input type="text" class="form-control" id="country_code" name="country_code" placeholder="Enter country code">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <div class="form-group">
-                            <label for="telephone_code">Telephone code<span style="color:red">*</span></label>
-                            <input type="text" class="form-control" id="telephone_code" name="telephone_code" placeholder="Enter telephone code">
+                            <label for="is_default">Default <span style="color:red">*</span></label>
+                            <select name="is_default" id="is_default" class="form-control">
+                                <option value=0>Non default</option>
+                                <option value=1>Default</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -148,9 +133,10 @@
     <script src="{{asset('assets/admin/plugins/select2/js/select2.full.min.js')}}"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
-        $('.select2').select2()
         function drawTable()
         {
+            var url='{{route("countries.currencies.index",["COUNTRYID"])}}';
+            url=url.replace("COUNTRYID","{{$countryId}}");
             var table = $('#item-table').DataTable({
                 processing: true,
                 serverSide: true,
@@ -160,7 +146,7 @@
                 "pagingType": "full_numbers",
                 "dom": "<'row'<'col-sm-12 col-md-12 right'B>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                 ajax: {
-                    "url": '{{route("countries.index")}}',
+                    "url": url,
                     "data": function(d) {
                         var searchprams = $('#filterfordatatable').serializeArray();
                         var indexed_array = {};
@@ -176,16 +162,12 @@
                         name: 'name'
                     },
                     {
-                        data: 'country',
-                        name: 'country'
+                        data: 'currency',
+                        name: 'currency'
                     },
                     {
-                        data: 'codes',
-                        name: 'codes'
-                    },
-                    {
-                        data: 'region',
-                        name: 'region'
+                        data: 'default',
+                        name: 'default'
                     },
                     {
                         data: 'status',
@@ -218,42 +200,23 @@
             });
         }
         drawTable();
-        // $(function () {
-        //   $("#example1").DataTable({
-        //     "responsive": true, "lengthChange": false, "autoWidth": false,
-        //     "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-        //   }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-        //   $('#example2').DataTable({
-        //     "paging": true,
-        //     "lengthChange": false,
-        //     "searching": false,
-        //     "ordering": true,
-        //     "info": true,
-        //     "autoWidth": false,
-        //     "responsive": true,
-        //   });
-        // });
 
         $('#add-new').click(function(){
-            $('#country').val('');
-            $('#country_code').val('');
-            $('#telephone_code').val('');
-            $('#region_id').val('');
+            $('#currency_id').val('');
+            $('#is_default').val(0);
             $('#modal-block-popout').modal('show');
         });
 
         $('#save-data').click(function(){
             var id=$('#save-data').attr('data-id');
-            var country=$('#country').val();
-            var country_code=$('#country_code').val();
-            var telephone_code=$('#telephone_code').val();
-            var region_id=$('#region_id').val();
+            var currencyId=$('#currency_id').val();
+            var isDefault=$('#is_default').val();
             if($('#example-switch-custom1').prop("checked") == true){
                 var status=1;
             }else{
                 var status=0;
             }
-            if(country=="" && country_code=="" && telephone_code=="" && region_id=="")
+            if(currencyId=="")
             {
                 $(document).Toasts('create', {
                     class: 'bg-warning',
@@ -262,17 +225,17 @@
                     delay: 750,
                 })
             }else{
+                var url="{{route('countries.currencies.store',['COUNTRYID'])}}";
+                url=url.replace('COUNTRYID','{{$countryId}}');
                 $.ajax({
-                    url: "{{route('countries.store')}}",
+                    url: url,
                     type:"post",
                     data:{
                         "_token": "{{ csrf_token() }}",
-                        country:country,
+                        currency_id:currencyId,
                         id:id,
                         status:status,
-                        country_code:country_code,
-                        telephone_code:telephone_code,
-                        region_id:region_id
+                        is_default:isDefault
                     },
                     success:function(response){
                         console.log(response);
@@ -300,27 +263,17 @@
             
         })
 
-        function editData(id)
+        function editData(id,status,currency_id,is_default)
         {
-            var url="{{route('countries.show','ID')}}";
-            url=url.replace('ID',id);
-            $.ajax({
-                url: url,
-                type:"get",
-                success:function(response){
-                    $('#country').val(response.country);
-                    $('#country_code').val(response.country_code);
-                    $('#telephone_code').val(response.telephone_code);
-                    $('#region_id').val(response.region_id);
-                    $('#save-data').attr("data-id",id);
-                    if(response.status==0){
-                        $("#example-switch-custom1").prop('checked', false);
-                    }else{
-                        $("#example-switch-custom1").prop('checked', true);
-                    }
-                    $('#modal-block-popout').modal('show');
-                }
-            });
+            $('#currency_id').val(currency_id);
+            $('#is_default').val(is_default);
+            $('#save-data').attr("data-id",id);
+            if(status==0){
+                $("#example-switch-custom1").prop('checked', false);
+            }else{
+                $("#example-switch-custom1").prop('checked', true);
+            }
+            $('#modal-block-popout').modal('show');
             
         }
 
@@ -334,7 +287,8 @@
             dangerMode: true,
             }).then((result) => {
                 if (result) {
-                    var url="{{route('countries.destroy','ID')}}";
+                    var url="{{route('countries.currencies.destroy',['COUNTRYID','ID'])}}";
+                    url=url.replace('COUNTRYID','{{$countryId}}');
                     url=url.replace('ID',id);
                     $.ajax({
                         url: url,
@@ -345,10 +299,10 @@
                         success:function(response){
                             console.log(response);
                             if(response.success){
-                                swal("Good job!", "You deleted the country!", "success");
+                                swal("Good job!", "You deleted the currency!", "success");
                                 drawTable();
                             }else{
-                                swal("Oops!", "Failed to deleted the country!", "danger");
+                                swal("Oops!", "Failed to deleted the currency!", "danger");
                             }
                         },
                     });

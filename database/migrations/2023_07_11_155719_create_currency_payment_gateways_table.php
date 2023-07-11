@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('country_currency', function (Blueprint $table) {
+        Schema::create('currency_payment_gateways', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('country_id');
             $table->foreignId('currency_id');
+            $table->foreignId('payment_gateway_id');
+            $table->integer('is_default')->default(0);
+            $table->integer('status')->default(1);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('currency_country');
+        Schema::dropIfExists('currency_payment_gateways');
     }
 };
