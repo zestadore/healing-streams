@@ -14,4 +14,8 @@ class CountryCurrency extends Model
     public function currency(){
         return $this->hasOne(Currency::class, 'id', 'currency_id');
     }
+
+    public function paymentGateways(){
+        return $this->hasMany(CurrencyPaymentGateway::class, 'currency_id', 'id')->where('status',1);
+    }
 }

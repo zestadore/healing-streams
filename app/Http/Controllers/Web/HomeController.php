@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Models\Country;
 use App\Models\Currency;
+use App\Models\CountryCurrency;
 use App\Models\Payment;
 use App\Models\PaymentGateway;
 use App\Models\MonthlyAutomatic;
@@ -33,10 +34,26 @@ class HomeController extends Controller
     {
         $country=Country::find($id);
         $currencies=$country->currencies;
-        $gateways=$country->paymentGateways;
+        $curs=[];
+        foreach($currencies as $currency){
+            $curs[]=$currency->currency;
+        }
         $data=[
-            'currencies'=>$currencies,
-            'payment_gateways'=>$gateways
+            'currencies'=>$curs
+        ];
+        return $data;
+    }
+
+    public function getPaymentGatways($countryId,$currencyId)
+    {
+        $currency=CountryCurrency::where('country_id',$countryId)->where('currency_id',$currencyId)->first();
+        $paymentGateways=$currency->paymentGateways;
+        $curs=[];
+        foreach($paymentGateways as $gateway){
+            $curs[]=$gateway->paymentGateway;
+        }
+        $data=[
+            'payment_gateways'=>$curs
         ];
         return $data;
     }

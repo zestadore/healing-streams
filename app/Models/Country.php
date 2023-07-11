@@ -14,4 +14,8 @@ class Country extends Model
     public function region(){
         return $this->hasOne(Region::class, 'id', 'region_id');
     }
+
+    public function currencies(){
+        return $this->hasMany(CountryCurrency::class, 'country_id', 'id')->where('status',1);
+    }
 }

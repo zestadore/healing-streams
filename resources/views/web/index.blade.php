@@ -854,12 +854,13 @@ function myCrypo4() {
       var id=$(this).val();
       var url= "{{route('currencies.list','ID')}}";
       url=url.replace('ID',id);
+      $('#youSendCurrency').val(id);
+      /* $('#youSendCurrency').trigger("change"); */
       $.ajax({
           url: url,
           type:"get",
           success:function(response){
               var list = $("#currency_id");
-              var list2 = $("#paymentOptions");
               list.empty()
               list.append(new Option("Select your currency", ""));
               $.each(response.currencies, function(index, item) {
@@ -867,9 +868,40 @@ function myCrypo4() {
                 list.append($('<option/>', {
                     value: item.id,
                     text: text,
-                    'data-symbol': item.currency_symbol
+                    'data-symbol': item.currency_symbol,
+                    'data-country':id
                 }));
               });
+              /* list2.empty()
+              var radioBtn ="";
+              list2.append(new Option("Select Payment Options", ""));
+              $.each(response.payment_gateways, function(index, item) {
+                var text = item.payment_gateway;
+                var imageName=text.toLowerCase();
+                if(text=="Debit Card / Credit Card"){
+                  imageName='stripe';
+                }
+                radioBtn = $('<div><input type="radio" name="payment_gateway_id" class="payment_options" value="'+item.id+'" checked/><label for="'+text+'"> &nbsp;'+text+'</label><img src="'+window.location.origin+'/images/'+imageName+'.png" width="10%"/></div>');
+                list2.append(radioBtn);
+              }); */
+          },
+      });
+      
+    });
+
+    $('#currency_id').change(function(){
+      var symbol=$("#currency_id option:selected").attr('data-symbol');
+      var country_id=$("#currency_id option:selected").attr('data-country');
+      var list2 = $("#paymentOptions");
+      $('#symbol_span').html(symbol);
+      var id=$(this).val();
+      var url= "{{route('payment-gateways.list',['COUNTRYID','CURRENCYID'])}}";
+      url=url.replace('COUNTRYID',country_id);
+      url=url.replace('CURRENCYID',id);
+      $.ajax({
+          url: url,
+          type:"get",
+          success:function(response){
               list2.empty()
               var radioBtn ="";
               list2.append(new Option("Select Payment Options", ""));
@@ -884,11 +916,6 @@ function myCrypo4() {
               });
           },
       });
-    });
-
-    $('#currency_id').change(function(){
-      var symbol=$("#currency_id option:selected").attr('data-symbol');
-      $('#symbol_span').html(symbol);
     });
 
     $('#youSendCurrency').change(function(){

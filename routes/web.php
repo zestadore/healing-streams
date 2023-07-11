@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [App\Http\Controllers\Web\HomeController::class, 'index'])->name('home-page');
 Route::get('/get-currencies/{id}', [App\Http\Controllers\Web\HomeController::class, 'getCurrencies'])->name('currencies.list');
+Route::get('/get-payment-gateways/{country_id}/{currency_id}', [App\Http\Controllers\Web\HomeController::class, 'getPaymentGatways'])->name('payment-gateways.list');
 Route::post('/process-payment', [App\Http\Controllers\Web\HomeController::class, 'processPayment'])->name('payment.process');
 Route::get('/success', [App\Http\Controllers\Web\HomeController::class, 'success'])->name('success');
 Route::get('/paypal-success', [App\Http\Controllers\Web\HomeController::class, 'PaypalPaymentSuccess'])->name('paypal.success');
