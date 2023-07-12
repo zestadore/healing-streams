@@ -22,6 +22,9 @@ Route::get('/paypal-success', [App\Http\Controllers\Web\HomeController::class, '
 Route::get('/kingspay-success', [App\Http\Controllers\Web\HomeController::class, 'KingspayPaymentSuccess'])->name('kingspay.success');
 Route::get('/failure', [App\Http\Controllers\Web\HomeController::class, 'failure'])->name('failure');
 Route::get('/process-payment/{id}/{choice}', [App\Http\Controllers\Web\EmailPaymentController::class, 'index'])->name('email.payment');
+Route::get('/bank-transfer', [App\Http\Controllers\Web\HomeController::class, 'bankTransfer'])->name('bank-transfer');
+Route::get('/crypto-transfer', [App\Http\Controllers\Web\HomeController::class, 'cryptoTransfer'])->name('crypto-transfer');
+Route::get('/espee-transfer', [App\Http\Controllers\Web\HomeController::class, 'espeeTransfer'])->name('espee-transfer');
 
 Auth::routes();
 

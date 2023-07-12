@@ -18,7 +18,6 @@
 <link rel="icon" type="image/png" sizes="16x16" href="favi/favicon-16x16.png">
 <link rel="icon" type="image/png" href="favi/favicon.png">
 <link rel="stylesheet" type="text/css" href="assets/currency-flags.min.css" />
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://kit.fontawesome.com/30015c5a7c.js" crossorigin="anonymous"></script>
 <link rel="shortcut icon" href="favi/favicon.ico" type="image/x-icon">
 
@@ -372,155 +371,11 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
        
           <div class="row">
            <div class="col-lg-8 offset-lg-2">
-            <h4 style="text-align: center;"><font color="green">Enter your details below <br> Select your preferred payment channel to give or make a pledge</font> </h4>
             <div class="tabs-wrapper bg-white shadow">
 
-           <div> <!--  new div tag code added by RAD-->
+           <div id="htmlElement">
                
-               <form id="form-send-money" method="post" action="{{route('payment.process')}}">@csrf
-          <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <div class="mb-3">
-                <label for="first_name" class="form-label">First name</label>
-                <div class="input-group">
-                    <input type="text" class="form-control" name="first_name" id="first_name" placeholder="First name" required>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <label for="last_name" class="form-label">Last name</label>
-              <div class="input-group">
-                  <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Last name">
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <label for="email" class="form-label">Email id</label>
-              <div class="input-group">
-                  <input type="email" class="form-control" name="email_id" id="email_id" placeholder="Email id" required>
-              </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <label for="partnership_categories" class="form-label">Partnership categories</label>
-              <div class="input-group">
-                <select name="partnership_categories[]" id="partnership_categories" class="form-select" multiple="multiple" required>
-                    <option value="">Select your category</option>
-                    <option value="HSLHS with Pastor Chris">HSLHS with Pastor Chris</option>
-                    <option value="Healing Streams TV">Healing Streams TV</option>
-                    <option value="Healing to the Nations Magazine">Healing to the Nations Magazine</option>
-                </select>
-              </div>
-            </div>
-          </div><br>
-          <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-              <label for="country" class="form-label">Country</label>
-              <div class="input-group">
-                <select name="country_id" id="country_id" class="form-select" required>
-                    <option value="">Select your country</option>
-                    @foreach ($countries as $item)
-                        <option value="{{$item->id}}">{{$item->country}}</option>
-                    @endforeach
-                </select>
-              </div>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-              <label for="youSend" class="form-label">Phone no</label>
-              <div class="input-group">
-                  <span class="input-group-text p-0">
-                    <select id="youSendCurrency" data-style="form-select bg-transparent border-0" data-container="body" data-live-search="true" class="selectpicker form-control bg-transparent" required>
-                        @foreach ($countries as $country)
-                            <option value="{{$country->id}}">{{$country->telephone_code}} </option>
-                        @endforeach
-                    </select>
-                  </span>
-                  <input type="number" class="form-control" data-bv-field="phone_no" id="phone_no" name="phone_no" placeholder="Phone no" required>
-              </div>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                <label for="currency" class="form-label">Currency</label>
-                <div class="input-group">
-                  <select name="currency_id" id="currency_id" class="form-select" required>
-                      <option value="">Select your currency</option>
-                  </select>
-                </div>
-            </div>
-          </div><br>
-          <div class="row">
-            <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                  <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                      <div class="row" style="padding-top:40px;">
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                            <input type="radio" id="html" name="choice" class="choiceClass" value="0" checked>
-                            <label for="html">One-off</label>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                            <input type="radio" id="css" name="choice" class="choiceClass" value="1">
-                            <label for="css">Monthly (Subscription)</label>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                            <input type="radio" id="javascript" name="choice" class="choiceClass" value="2">
-                            <label for="javascript">Make a pledge</label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                  <label for="amount" class="form-label">Amount</label>
-                  <div class="input-group">
-                    <span class="input-group-text" id="symbol_span">$</span>
-                      <input type="number" class="form-control" name="amount" id="amount" placeholder="Amount" required>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" id="paymentOptions">
-                  {{-- <label for="payment_gateway_id" class="form-label">Payment gateway</label>
-                  <div class="input-group">
-                    <select name="payment_gateway_id" id="payment_gateway_id" class="form-select" required>
-                        <option value="">Select Payment Options</option>
-                    </select>
-                  </div> --}}
-                </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <div id="oneOffOptions">
-                <p>Other Payments <a href="Javascript::void();" id="clear_other_payments">Clear</a></p>
-                <label class="radio-inline">
-                  <input type="radio" name="other_payments" value="bank_transfer" class="other_payments"> Bank Transfer
-                </label>&nbsp;
-                <label class="radio-inline">
-                  <input type="radio" name="other_payments" value="crypto" class="other_payments"> Crypto
-                </label>&nbsp;
-                <label class="radio-inline">
-                  <input type="radio" name="other_payments" value="espee" class="other_payments"> Espee
-                </label>
-              </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <div id="pledgeAuto">
-                  <label for="initialising_date" class="form-label">Initializing date</label>
-                  <div class="input-group" id="initialising_date_element">
-                  </div>
-                </div>
-            </div>
-          </div>
-          <br>
-          <div align="right"><button class="btn btn-primary" id="submitButton">Continue</button></div>
-          @if ($errors->any())
-              <div class="alert alert-danger">
-                  <ul>
-                      @foreach ($errors->all() as $error)
-                          <li>{{ $error }}</li>
-                      @endforeach
-                  </ul>
-              </div>
-          @endif
-        </form>
+               
            </div>
                 
 
@@ -843,127 +698,76 @@ function myCrypo4() {
 </script>
 <div id="jaklcp-chat-container"></div>
 <!-- end Live Chat  widget -->
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+
 <script>
-  $('#partnership_categories').select2({
-    placeholder: "Select categories",
-  });
-    $('#country_id').change(function(){
-      var id=$(this).val();
-      var url= "{{route('currencies.list','ID')}}";
-      url=url.replace('ID',id);
-      $('#youSendCurrency').val(id);
-      /* $('#youSendCurrency').trigger("change"); */
-      $.ajax({
-          url: url,
-          type:"get",
-          success:function(response){
-              var list = $("#currency_id");
-              list.empty()
-              list.append(new Option("Select your currency", ""));
-              $.each(response.currencies, function(index, item) {
-                var text = item.currency + "(" + item.currency_symbol + ")";
-                list.append($('<option/>', {
-                    value: item.id,
-                    text: text,
-                    'data-symbol': item.currency_symbol,
-                    'data-country':id
-                }));
-              });
-          },
-      });
-      
-    });
-
-    $('#currency_id').change(function(){
-      var symbol=$("#currency_id option:selected").attr('data-symbol');
-      var country_id=$("#currency_id option:selected").attr('data-country');
-      var list2 = $("#paymentOptions");
-      $('#symbol_span').html(symbol);
-      var id=$(this).val();
-      var url= "{{route('payment-gateways.list',['COUNTRYID','CURRENCYID'])}}";
-      url=url.replace('COUNTRYID',country_id);
-      url=url.replace('CURRENCYID',id);
-      $.ajax({
-          url: url,
-          type:"get",
-          success:function(response){
-              list2.empty()
-              var radioBtn ="";
-              list2.append(new Option("Select Payment Options", ""));
-              $.each(response.payment_gateways, function(index, item) {
-                var text = item.payment_gateway;
-                var imageName=text.toLowerCase();
-                if(text=="Debit Card / Credit Card"){
-                  imageName='stripe';
-                }
-                radioBtn = $('<div><input type="radio" name="payment_gateway_id" class="payment_options" value="'+item.id+'" checked/><label for="'+text+'"> &nbsp;'+text+'</label><img src="'+window.location.origin+'/images/'+imageName+'.png" width="10%"/></div>');
-                list2.append(radioBtn);
-              });
-          },
-      });
-    });
-
-    $('#youSendCurrency').change(function(){
-      var id=$(this).val();
-      $('#country_id').val(id);
-      $('#country_id').trigger("change");
-    });
-    $('#youSendCurrency').trigger("change");
-
-    $('#pledgeAuto').hide();
-    $('#initialising_date').removeAttr('required');
-
-    $(".choiceClass") // select the radio by its class
-    .change(function(){ // bind a function to the change event
-        if( $(this).is(":checked") ){ // check if the radio is checked
-            var choice = $(this).val(); // retrieve the value
-            if(choice==2 || choice==1){
-              $('#pledgeAuto').show();
-              $('#oneOffOptions').hide();
-              showSubmitButton();
-              if(choice==2){
-                dateField();
-              }else if(choice==1){
-                selectField();
-              }
-              $('#initialising_date').attr('required', 'required');
-            }else{
-              $('#pledgeAuto').hide();
-              $('#oneOffOptions').show();
-              $('#initialising_date').removeAttr('required');
-            }
-        }
-    });
-
-    function dateField(){
-      var html='<input type="date" name="initialising_date" id="initialising_date" class="form-control" required>';
-      $('#initialising_date_element').html(html);
-    }
-
-    function selectField(){
-      var html='<select name="initialising_date" id="initialising_date" class="form-select" required>';
-      html+='<option value="">Select Date</option>';
-      for (let i = 1; i <= 28; i++) {
-        html+='<option value='+i+'>'+i+'</option>';
-      }
-      html+='</select>';
-      $('#initialising_date_element').html(html);
-    }
-
-    $('#clear_other_payments').click(function(){
-      showSubmitButton();
-    });
-
-
-
-</script> 
-<script>
-  
-  function showSubmitButton(){
-      $('input:radio[name=other_payments]').each(function () { $(this).prop('checked', false); });
-      $('#submitButton').show();
-    }
-  </script>
+  var choice='{{$choice}}';
+  var htm="";
+  if(choice=="bank_transfer"){
+        html='<p>Thank you for indicating to give towards the Healing to the Nations mandate.</p>';
+        html=html+ '<p>Kindly send your Proof of Payment to <a href="mailto:payments@healingstreams.tv">payments@healingstreams.tv</a>.</p>';
+        html=html+'<p>Thank you.</p>';
+        html=html+'<p><strong>BANK/ELECTRONIC TRANSFER OPTIONS:</strong></p>';
+        html=html+ '<p>(Please Indicate Reference Code: HEC)</p>';
+        html=html+'<ol style="float:left !important;">';
+        html=html+'<li>';
+        html=html+'<strong>UNITED STATES OF AMERICA</strong>';
+        html=html+'<p><strong>TO GIVE USING ZELLE</strong></p>';
+        html=html+'<p>Bank: CHASE BANK</p>';
+        html=html+'<p>Email: <a href="mailto:ceintoffice@loveworld-usa.org">ceintoffice@loveworld-usa.org</a></p>';
+        html=html+'</li>';
+        html=html+'<li>';
+        html=html+'<strong>UNITED KINGDOM</strong>';
+        html=html+'<p>BANK: Lloyds Bank</p>';
+        html=html+'<p>ACCOUNT NAME: Healing School Partners LTD</p>';
+        html=html+'<p>ACCOUNT NUMBER: 68343462</p>';
+        html=html+'<p>SORT CODE: 309897</p>';
+        html=html+'<p>IBAN NUMBER: GB32LOYD30989768343462</p>';
+        html=html+'<p>SWIFT CODE: LOYDGB21031</p>';
+        html=html+'</li>';
+        html=html+'<li>';
+        html=html+'<strong>SOUTH AFRICA</strong>';
+        html=html+'<p>Bank: ABSA BANK</p>';
+        html=html+'<p>Account name: CHRIST EMBASSY HEALING SCHOOL</p>';
+        html=html+'<p>Account number: 915 345 5937</p>';
+        html=html+'<p>Swift code: ABSAZAJI</p>';
+        html=html+'<p>BRANCH CODE: 362005</p>';
+        html=html+'<p>Branch: CNR OAK &amp; RETAIL AVENUE, RANDBURG, SOUTH AFRICA</p>';
+        html=html+'<p>Deposit reference: APL-1723</p>';
+        html=html+'</li>';
+        html=html+'<li>';
+        html=html+'<strong>INDIA</strong>';
+        html=html+'<p>Bank: AXIS BANK</p>';
+        html=html+'<p>Account name: Believers Loveworld Trust-Healing School</p>';
+        html=html+'<p>Account number: 921010019883105</p>';
+        html=html+'</li>';
+        html=html+'<li>';
+        html=html+'<strong>NIGERIA</strong>';
+        html=html+'<p>Bank: PARALLEX BANK - Naira</p>';
+        html=html+'<p>Account name: CHRIST EMBASSY HEALING SCHOOL</p>';
+        html=html+'<p>Account number (OFFERING): 1000006923</p>';
+        html=html+'<p>Account number (PARTNERSHIP): 1000006936</p>';
+        html=html+'</li>';
+        html=html+'</ol>';
+  }else if(choice=="crypto"){
+        html='<p>Thank you for your commitment to our mandate of taking healing to the nations.</p>';
+        html=html+'<p>Kindly use any of the cryptocurrencies displayed below for your giving.</p>';
+        html=html+'<h3>BITCOIN (BTC)</h3>';
+        html=html+'<p>Bitcoin</p>';
+        html=html+'<p>Scan wallet address to give</p>';
+        html=html+'<h3>BINANCE COIN (BNB)</h3>';
+        html=html+'<p>Scan wallet address to give</p>';
+        html=html+'<h3>TETHER (USDT)</h3>';
+        html=html+'<p>Scan wallet address to give</p>';
+        html=html+'<h3>ETHEREUM - ETHER (ETH)</h3>';
+        html=html+'<p>Scan wallet address to give</p>';
+        html=html+'<h3>SALT</h3>';
+        html=html+'<p>Scan wallet address to give</p>';
+  }else{
+    html='<p>Kindly send your proof of payment to partners@healingstreams.tv.</p>';
+  }
+    
+  $('#htmlElement').html(html);
+</script>
 </body>
 </html>

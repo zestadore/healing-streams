@@ -67,16 +67,36 @@ class HomeController extends Controller
             'country_id'=> 'required|numeric',
             'phone_no'=>'required|numeric',
             'currency_id'=>'required|numeric',
-            'choice'=>'required|numeric'
+            'choice'=>'required|numeric',
+            'payment_gateway_id'=>'required'
         ]);
         if($request->choice==0){
             $payment=Payment::create($request->except('_token'))->id;
+            if($request->other_payments){
+                $payment=Payment::find($payment);
+                $payment->update(['other_options'=>$request->other_payments]);
+                if($payment){
+                    Mail::to($request->email_id)->send(new RegistrationMail('One-off Payment'));
+                    switch ($request->other_payments){
+                        case "bank_transfer":
+                            return redirect()->route('bank-transfer')->with(['success'=>'We have saved the details!']);
+                            break;
+                        case "crypto":
+                            return redirect()->route('crypto-transfer')->with(['success'=>'We have saved the details!']);
+                            break;
+                        case "espee":
+                            return redirect()->route('espee-transfer')->with(['success'=>'We have saved the details!']);
+                            break;
+                    }
+                    
+                }
+            }
         }
         $currency=Currency::find($request->currency_id);
         $gateway=PaymentGateway::find($request->payment_gateway_id);
         switch ($request->choice) {
             case 0:
-                if($gateway->payment_gateway=="Stripe"){
+                if($gateway->payment_gateway=="Debit Card / Credit Card"){
                     $session=$this->StripePayment($request,$payment,$currency->currency);
                 }elseif($gateway->payment_gateway=="Paypal"){
                     $this->PaypalPayment($request,$payment,$currency->currency);
@@ -123,7 +143,8 @@ class HomeController extends Controller
     private function saveMonthlyAutomatic($request)
     {
         $res=MonthlyAutomatic::create($request->except(['_token','choice','initialising_date']))->id;
-        $initialisingDate=Carbon::parse($request->initialising_date)->format('d');
+        // $initialisingDate=Carbon::parse($request->initialising_date)->format('d');
+        $initialisingDate=$request->initialising_date;
         $curDate=Carbon::parse(Now())->format('d');
         $monthly=MonthlyAutomatic::find($res);
         $res=$monthly->update(['initialising_date'=>$initialisingDate]);
@@ -137,8 +158,8 @@ class HomeController extends Controller
     private function savePledge($request)
     {
         $res=Pledge::create($request->except(['_token','choice','initialising_date']))->id;
-        $initialisingDate=Carbon::parse($request->initialising_date)->format('d');
-        $curDate=Carbon::parse(Now())->format('d');
+        $initialisingDate=Carbon::parse($request->initialising_date)->format('Y-m-d');
+        $curDate=Carbon::parse(Now())->format('Y-m-d');
         $pledge=Pledge::find($res);
         $res=$pledge->update(['initialising_date'=>$initialisingDate]);
         Mail::to($request->email_id)->send(new RegistrationMail('Pledge'));
@@ -294,5 +315,20 @@ class HomeController extends Controller
     public function failure()
     {
         dd("Failure");
+    }
+
+    public function bankTransfer()
+    {
+        return view('web.other_options',['choice'=>'bank_transfer']);
+    }
+
+    public function cryptoTransfer()
+    {
+        return view('web.other_options',['choice'=>'crypto']);
+    }
+
+    public function espeeTransfer()
+    {
+        return view('web.other_options',['choice'=>'espee']);
     }
 }
