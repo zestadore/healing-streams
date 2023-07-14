@@ -39,6 +39,7 @@ Route::get('/kingspay-payments/{option}', [App\Http\Controllers\Web\PaymentContr
 Route::get('/this-months-payments', [App\Http\Controllers\Web\PaymentController::class, 'thisMonthsPayments'])->name('payments.this_month')->middleware('auth');
 Route::get('/monthly-automatics', [App\Http\Controllers\Web\PaymentController::class, 'monthlyAutomatic'])->name('payments.monthly_automatic')->middleware('auth');
 Route::get('/pledge', [App\Http\Controllers\Web\PaymentController::class, 'pledgePayment'])->name('payments.pledge')->middleware('auth');
+Route::get('/payments/{choice}', [App\Http\Controllers\Web\PaymentController::class, 'index'])->name('payments')->middleware('auth');
 Route::resource('countries', App\Http\Controllers\Web\CountryController::class);
 Route::resource('countries.currencies', App\Http\Controllers\Web\CountryCurrencyController::class);
 Route::resource('country-currencies.payment-gateways', App\Http\Controllers\Web\CurrencyPaymentGatewayController::class);

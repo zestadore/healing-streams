@@ -133,7 +133,36 @@
                   </li>
                 </ul>
               </li>
-              <li class="nav-item {{ (request()->is('stripe-payments*')||request()->is('paypal-payments*')||request()->is('kingspay-payments*'))? 'menu-open' : '' }}">
+              <li class="nav-item {{ (request()->is('payments*'))? 'menu-open' : '' }}">
+                <a href="#" class="nav-link {{ (request()->is('payments*'))? 'active' : '' }}">
+                  <i class="nav-icon fas fa-money-bill"></i>
+                  <p>
+                    Payments
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{route('payments','one-off')}}" class="nav-link {{ (request()->is('payments/one-off'))? 'active' : '' }}">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>One-off</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{route('payments','monthly-subscription')}}" class="nav-link {{ (request()->is('payments/monthly-subscription'))? 'active' : '' }}">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Subscription</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{route('payments','pledge')}}" class="nav-link {{ (request()->is('payments/pledge'))? 'active' : '' }}">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Pledge</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              {{-- <li class="nav-item {{ (request()->is('stripe-payments*')||request()->is('paypal-payments*')||request()->is('kingspay-payments*'))? 'menu-open' : '' }}">
                 <a href="#" class="nav-link {{ (request()->is('stripe-payments*')||request()->is('paypal-payments*')||request()->is('kingspay-payments*'))? 'active' : '' }}">
                   <i class="nav-icon fas fa-money-bill"></i>
                   <p>
@@ -234,7 +263,7 @@
                     </ul>
                   </li>
                 </ul>
-              </li>
+              </li> --}}
               <li class="nav-item">
                 <a href="{{route('payments.this_month')}}" class="nav-link {{ (request()->is('this-months-payments*'))? 'active' : '' }}">
                   <i class="nav-icon fas fa-money-bill"></i>
@@ -292,6 +321,9 @@
   <footer class="main-footer">
     <strong>Copyright &copy; {{date('Y')}} <a href="Javascript::void(0)">Healing Streams</a>.</strong>
     All rights reserved.
+    <div class="float-right d-none d-sm-inline-block">
+      <b>Powered by RAD</b>
+    </div>
   </footer>
 </div>
 <!-- ./wrapper -->

@@ -62,14 +62,10 @@
                             <th>{{ __('Country') }}</th>
                             <th>{{ __('Currency') }}</th>
                             <th>{{ __('Amount') }}</th>
-                            <th>{{ __('Payment gateway') }}</th>
+                            {{-- <th>{{ __('Payment gateway') }}</th> --}}
                             <th>{{ __('Payment status') }}</th>
                             <th>{{ __('Ref .no') }}</th>
-                            @if ($choice=="one-off")
-                                <th>{{ __('Payment date') }}</th>
-                            @else
-                                <th>{{ __('Initialized date') }}</th>
-                            @endif
+                            <th>{{ __('Payment date') }}</th>
                         </tr>
                     </thead>
                 </table>
@@ -99,8 +95,16 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
         var choice='{{$choice}}';
-        var url='{{route("payments",["CHOICE"])}}';
-        url=url.replace('CHOICE',choice);
+        var choice2='{{$choice2}}';
+        var url="";
+        if(choice=="stripe"){
+            url="{{route('payments.stripe','CHOICE')}}";
+        }else if(choice=="paypal"){
+            url="{{route('payments.paypal','CHOICE')}}";
+        }else if(choice=="kingspay"){
+            url="{{route('payments.kingspay','CHOICE')}}";
+        }
+        url=url.replace('CHOICE',choice2);
         function drawTable()
         {
             var table = $('#item-table').DataTable({
@@ -159,10 +163,10 @@
                         data: 'amount',
                         name: 'amount'
                     },
-                    {
-                        data: 'payment_gateway',
-                        name: 'payment_gateway'
-                    },
+                    // {
+                    //     data: 'payment_gateway',
+                    //     name: 'payment_gateway'
+                    // },
                     {
                         data: 'status',
                         name: 'status'

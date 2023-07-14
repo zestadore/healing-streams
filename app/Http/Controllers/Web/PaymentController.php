@@ -13,6 +13,69 @@ use Illuminate\Support\Carbon;
 class PaymentController extends Controller
 {
 
+    public function index($choice,Request $request)
+    {
+        switch ($choice) {
+            case "one-off":
+                $opt=0;
+                break;
+            case "monthly-subscription":
+                $opt=1;
+                break;
+            case "pledge":
+                $opt=2;
+                break;
+        }
+        if ($request->ajax()) {
+            $payments= Payment::query()->where('choice',$opt);
+            $search = $request->search;
+            $status = $request->status_search;
+            if ($search) {
+                $payments->where(function ($query) use ($search) {
+                    $query->where('first_name', 'like', '%' . $search . '%');
+                });
+            }
+            if ($status!=null) {
+                $payments->where(function ($query) use ($status) {
+                    $query->where('payment_status', $status);
+                });
+            }
+            return DataTables::of($payments)
+                ->addIndexColumn()
+                ->addColumn('country', function($data) {
+                    return $data->country->country;
+                })
+                ->addColumn('currency', function($data) {
+                    return $data->currency->currency;
+                })
+                ->addColumn('payment_gateway', function($data) {
+                    return $data->paymentGateway->payment_gateway;
+                })
+                ->addColumn('payment_date', function($data) {
+                    if($data->choice==0){
+                        return Carbon::parse($data->payment_date)->format('d-m-Y');
+                    }else if($data->choice==1){
+                        return Carbon::parse($data->payment_date)->format('d'). ' of every month';
+                    }else if($data->choice==2){
+                        return Carbon::parse($data->payment_date)->format('d-m-Y');
+                    }
+                    return $data->paymentGateway->payment_gateway;
+                })
+                ->addColumn('status', function($data) {
+                    if($data->payment_status==0){
+                        return "Pending";
+                    }elseif($data->payment_status==1){
+                        return "Paid";
+                    }else{
+                        return "Unpaid";
+                    }
+                })
+                ->make(true);
+        }
+        return view('admin.payments.index',['choice'=>$choice]);
+    }
+
+
     public function stripePayments(Request $request,$option)
     {
         $choice=$this->getChoiceDetails($option);
