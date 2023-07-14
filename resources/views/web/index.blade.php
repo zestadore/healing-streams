@@ -489,16 +489,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
           <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <div id="oneOffOptions">
-                <p>Other Payments <a href="Javascript::void();" id="clear_other_payments">Clear</a></p>
-                <label class="radio-inline">
-                  <input type="radio" name="other_payments" value="bank_transfer" class="other_payments"> Bank Transfer
-                </label>&nbsp;
-                <label class="radio-inline">
-                  <input type="radio" name="other_payments" value="crypto" class="other_payments"> Crypto
-                </label>&nbsp;
-                <label class="radio-inline">
-                  <input type="radio" name="other_payments" value="espee" class="other_payments"> Espee
-                </label>
+                <p> </p>
               </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -876,14 +867,20 @@ function myCrypo4() {
     });
 
     $('#currency_id').change(function(){
+      getPaymentGateways();
+    });
+
+    function getPaymentGateways(){
       var symbol=$("#currency_id option:selected").attr('data-symbol');
       var country_id=$("#currency_id option:selected").attr('data-country');
-      var list2 = $("#paymentOptions");
+      var option=$("input[name='choice']:checked").parent().find('label').text();
       $('#symbol_span').html(symbol);
-      var id=$(this).val();
-      var url= "{{route('payment-gateways.list',['COUNTRYID','CURRENCYID'])}}";
+      var id=$('#currency_id').val();
+      var url= "{{route('payment-gateways.list',['COUNTRYID','CURRENCYID','OPTION'])}}";
       url=url.replace('COUNTRYID',country_id);
       url=url.replace('CURRENCYID',id);
+      url=url.replace('OPTION',option.toLowerCase());
+      var list2 = $("#paymentOptions");
       $.ajax({
           url: url,
           type:"get",
@@ -892,17 +889,22 @@ function myCrypo4() {
               var radioBtn ="";
               list2.append(new Option("Select Payment Options", ""));
               $.each(response.payment_gateways, function(index, item) {
-                var text = item.payment_gateway;
-                var imageName=text.toLowerCase();
+                var text = "Proceed with " + item.payment_gateway;
+                /* var imageName=text.toLowerCase();
                 if(text=="Debit Card / Credit Card"){
                   imageName='stripe';
-                }
-                radioBtn = $('<div><input type="radio" name="payment_gateway_id" class="payment_options" value="'+item.id+'" checked/><label for="'+text+'"> &nbsp;'+text+'</label><img src="'+window.location.origin+'/images/'+imageName+'.png" width="10%"/></div>');
+                } */
+                /* radioBtn = $('<div><input type="radio" name="payment_gateway_id" class="payment_options" value="'+item.id+'" checked/><label for="'+text+'"> &nbsp;'+text+'</label><img src="'+window.location.origin+'/images/'+imageName+'.png" width="10%"/></div>'); */
+                text=text.toUpperCase();
+                radioBtn = $('<div><input type="radio" name="payment_gateway_id" class="payment_options" value="'+item.id+'" checked/><label for="'+text+'"> &nbsp;'+text+'</label></div>');
                 list2.append(radioBtn);
               });
           },
+          error: function(data){
+            list2.empty();
+          },
       });
-    });
+    }
 
     $('#youSendCurrency').change(function(){
       var id=$(this).val();
@@ -918,10 +920,9 @@ function myCrypo4() {
     .change(function(){ // bind a function to the change event
         if( $(this).is(":checked") ){ // check if the radio is checked
             var choice = $(this).val(); // retrieve the value
+            getPaymentGateways();
             if(choice==2 || choice==1){
               $('#pledgeAuto').show();
-              $('#oneOffOptions').hide();
-              showSubmitButton();
               if(choice==2){
                 dateField();
               }else if(choice==1){
@@ -930,7 +931,6 @@ function myCrypo4() {
               $('#initialising_date').attr('required', 'required');
             }else{
               $('#pledgeAuto').hide();
-              $('#oneOffOptions').show();
               $('#initialising_date').removeAttr('required');
             }
         }
@@ -951,19 +951,12 @@ function myCrypo4() {
       $('#initialising_date_element').html(html);
     }
 
-    $('#clear_other_payments').click(function(){
-      showSubmitButton();
-    });
-
 
 
 </script> 
 <script>
   
-  function showSubmitButton(){
-      $('input:radio[name=other_payments]').each(function () { $(this).prop('checked', false); });
-      $('#submitButton').show();
-    }
+  
   </script>
 </body>
 </html>
