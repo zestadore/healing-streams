@@ -44,13 +44,27 @@ class HomeController extends Controller
         return $data;
     }
 
-    public function getPaymentGatways($countryId,$currencyId)
+    public function getPaymentGatways($countryId,$currencyId,$option=null)
     {
         $currency=CountryCurrency::where('country_id',$countryId)->where('currency_id',$currencyId)->first();
         $paymentGateways=$currency->paymentGateways;
         $curs=[];
         foreach($paymentGateways as $gateway){
             $curs[]=$gateway->paymentGateway;
+        }
+        if($option=="one-off"){
+            $curs[]=[
+                'id'=>'bank_transfer',
+                'payment_gateway'=>'Bank Transfer'
+            ];
+            $curs[]=[
+                'id'=>'crypto',
+                'payment_gateway'=>'Crypto'
+            ];
+            $curs[]=[
+                'id'=>'espee',
+                'payment_gateway'=>'Espee'
+            ];
         }
         $data=[
             'payment_gateways'=>$curs
@@ -71,13 +85,20 @@ class HomeController extends Controller
             'payment_gateway_id'=>'required'
         ]);
         if($request->choice==0){
-            $payment=Payment::create($request->except('_token'))->id;
-            if($request->other_payments){
+            $optionOthers=Null;
+            if($request->payment_gateway_id=="bank_transfer" || $request->payment_gateway_id=="crypto" || $request->payment_gateway_id=="espee"){
+                $optionOthers=$request->payment_gateway_id;
+                $request->merge(['payment_gateway_id' => 0]);
+                $payment=Payment::create($request->except('_token'))->id;
+            }else{
+                $payment=Payment::create($request->except('_token'))->id;
+            }
+            if($optionOthers=="bank_transfer" || $optionOthers=="crypto" || $optionOthers=="espee"){
                 $payment=Payment::find($payment);
-                $payment->update(['other_options'=>$request->other_payments]);
+                $payment->update(['other_options'=>$optionOthers]);
                 if($payment){
                     Mail::to($request->email_id)->send(new RegistrationMail('One-off Payment'));
-                    switch ($request->other_payments){
+                    switch ($optionOthers){
                         case "bank_transfer":
                             return redirect()->route('bank-transfer')->with(['success'=>'We have saved the details!']);
                             break;
