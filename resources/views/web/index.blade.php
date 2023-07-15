@@ -891,8 +891,10 @@ function myCrypo4() {
                   className='btn btn-secondary';
                 }else if(item.payment_gateway=="Crypto"){
                   className='btn btn-warning';
+                  text=text + "Currency";
                 }else if(item.payment_gateway=="Espee"){
                   className='btn btn-success';
+                  text=text + "s Wallet";
                 }
                 /* radioBtn = $('<div><input type="radio" name="payment_gateway_id" class="payment_options" value="'+item.id+'" checked/><label for="'+text+'"> &nbsp;'+text+'</label><img src="'+window.location.origin+'/images/'+imageName+'.png" width="10%"/></div>'); */
                 text=text.toUpperCase();
