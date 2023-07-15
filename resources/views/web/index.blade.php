@@ -453,15 +453,15 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
                     <div class="row" style="padding-top:40px;text-align:left !important;">
                       <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                           <input type="radio" id="html" name="choice" class="choiceClass" value="0" checked>
-                          <label for="html">One-off</label>
+                          <label for="html" style="color:rgb(255, 102, 0);font-weight: bold;">One-off</label>
                       </div>
                       <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                           <input type="radio" id="css" name="choice" class="choiceClass" value="1">
-                          <label for="css">Monthly (Subscription)</label>
+                          <label for="css" style="color:rgb(102, 0, 255);font-weight: bold;">Monthly (Subscription)</label>
                       </div>
                       <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                           <input type="radio" id="javascript" name="choice" class="choiceClass" value="2">
-                          <label for="javascript">Make a pledge</label>
+                          <label for="javascript" style="color: #207e3d;font-weight: bold;">Make a pledge</label>
                       </div>
                     </div>
                 </div>
@@ -884,11 +884,11 @@ function myCrypo4() {
                 if(item.payment_gateway=="Debit/Credit Card"){
                   className='btn btn-primary';
                 }else if(item.payment_gateway=="Paypal"){
-                  className='btn btn-success';
+                  className='btn btn-danger';
                 }else if(item.payment_gateway=="Kingspay"){
                   className='btn btn-info';
                 }else if(item.payment_gateway=="Bank Transfer"){
-                  className='btn btn-success';
+                  className='btn btn-secondary';
                 }else if(item.payment_gateway=="Crypto"){
                   className='btn btn-warning';
                 }else if(item.payment_gateway=="Espee"){
