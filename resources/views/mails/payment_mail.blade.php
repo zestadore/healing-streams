@@ -349,9 +349,24 @@
                   <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                     <tr>
                       <td>
-                        <p>Hi there,</p>
-                        <h2 style="text-align: center;">PARTNER WITH HEALING STREAMS TV!</h2>
-                        <p>With your heartfelt giving, you can join us to take healing to the nations.</p>
+                        <p>Dear Esteemed Partner,</p>
+                        <p>Warm greetings in Jesus' mighty name.</p>
+                        <p>We thank you so much for joining our Man of God in this great vision, taking healing to the nations of the world.</p>
+                        <p>Kindly find the payment link for your <b>
+                            @switch($payment->choice)
+                                @case(0)
+                                    one-off partnership
+                                    @break
+                                @case(1)
+                                    partnership subscription
+                                    @break
+                                @case(2)
+                                    partnership pledge
+                                    @break
+                                @default
+                                    one-off partnership
+                            @endswitch
+                        </b> below.</p>
                         <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
                           <tbody>
                             <tr>
@@ -367,8 +382,10 @@
                             </tr>
                           </tbody>
                         </table>
-                        <p>Thanks & Regards,.</p>
-                        <p>Team - Healing Streams.</p>
+                        <p>Our parayer is that you will always experience great joy with an abuntant supply from the Lord God Almighty. Amen.</p>
+                        <p>God bless you richly.</p>
+                        <p>Thanks you,</p>
+                        <p><b>HEALING STREAMS TEAM.</b></p>
                       </td>
                     </tr>
                   </table>

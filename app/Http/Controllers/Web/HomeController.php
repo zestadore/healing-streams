@@ -289,7 +289,8 @@ class HomeController extends Controller
             $paymentStatus=2;
         }
         $payment->update(['payment_status'=>$paymentStatus,'reference_id'=>$session['id'],'payment_date'=>Now()]);
-        Mail::to($payment->email_id)->send(new ThanksMail());
+        $option=$this->getOptions($payment->choice??null);
+        Mail::to($payment->email_id)->send(new ThanksMail($option));
         return redirect()->route('home-page')->with(['success'=>'Payment completed successfully']);
     }
 
@@ -303,7 +304,8 @@ class HomeController extends Controller
             $payment=Payment::find(Session::get('paymentId'));
             Session::forget('paymentId');
             $payment->update(['payment_status'=>1,'reference_id'=>$response['id'],'payment_date'=>Now()]);
-            Mail::to($payment->email_id)->send(new ThanksMail());
+            $option=$this->getOptions($payment->choice??null);
+            Mail::to($payment->email_id)->send(new ThanksMail($option));
             return redirect()->route('home-page')->with(['success'=>'Payment completed successfully']);
         } else {
             $payment=Payment::find(Session::get('paymentId'));
@@ -322,7 +324,8 @@ class HomeController extends Controller
             $payment->update(['payment_status'=>1,'reference_id'=>Session::get('kpPaymentID'),'payment_date'=>Now()]);
             Session::forget('kpPaymentID');
             Session::forget('paymentId');
-            Mail::to($payment->email_id)->send(new ThanksMail());
+            $option=$this->getOptions($payment->choice??null);
+            Mail::to($payment->email_id)->send(new ThanksMail($option));
             return redirect()->route('home-page')->with(['success'=>'Payment completed successfully']);
         } else {
             // $payment=Payment::find(Session::get('paymentId'));
@@ -351,5 +354,23 @@ class HomeController extends Controller
     public function espeeTransfer()
     {
         return view('web.other_options',['choice'=>'espee']);
+    }
+
+    private function getOptions($option=null)
+    {
+        switch ($option) {
+            case 0:
+                return 'one-off partnership';
+                break;
+            case 1:
+                return 'partnership subscription';
+                break;
+            case 2:
+                return 'partnership pledge';
+                break;
+            default:
+                return 'one-off partnership';
+                break;
+        }
     }
 }

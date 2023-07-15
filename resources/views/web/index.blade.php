@@ -448,43 +448,33 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
             </div>
           </div><br>
           <div class="row">
-            <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                  <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                      <div class="row" style="padding-top:40px;">
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                            <input type="radio" id="html" name="choice" class="choiceClass" value="0" checked>
-                            <label for="html">One-off</label>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                            <input type="radio" id="css" name="choice" class="choiceClass" value="1">
-                            <label for="css">Monthly (Subscription)</label>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                            <input type="radio" id="javascript" name="choice" class="choiceClass" value="2">
-                            <label for="javascript">Make a pledge</label>
-                        </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="row">
+                    <div class="row" style="padding-top:40px;text-align:left !important;">
+                      <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                          <input type="radio" id="html" name="choice" class="choiceClass" value="0" checked>
+                          <label for="html">One-off</label>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                          <input type="radio" id="css" name="choice" class="choiceClass" value="1">
+                          <label for="css">Monthly (Subscription)</label>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                          <input type="radio" id="javascript" name="choice" class="choiceClass" value="2">
+                          <label for="javascript">Make a pledge</label>
                       </div>
                     </div>
-                  </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                  <label for="amount" class="form-label">Amount</label>
-                  <div class="input-group">
-                    <span class="input-group-text" id="symbol_span">$</span>
-                      <input type="number" class="form-control" name="amount" id="amount" placeholder="Amount" required>
-                  </div>
+              </div>
+              <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                <label for="amount" class="form-label">Amount</label>
+                <div class="input-group">
+                  <span class="input-group-text" id="symbol_span">$</span>
+                    <input type="number" class="form-control" name="amount" id="amount" placeholder="Amount" required>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" id="paymentOptions">
-                  {{-- <label for="payment_gateway_id" class="form-label">Payment gateway</label>
-                  <div class="input-group">
-                    <select name="payment_gateway_id" id="payment_gateway_id" class="form-select" required>
-                        <option value="">Select Payment Options</option>
-                    </select>
-                  </div> --}}
-                </div>
-            </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="paymentOptions">
+              </div>
           </div>
           <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -863,7 +853,7 @@ function myCrypo4() {
               });
           },
       });
-      
+      $("#paymentOptions").empty();
     });
 
     $('#currency_id').change(function(){
@@ -890,13 +880,23 @@ function myCrypo4() {
               list2.append(new Option("Select Payment Options", ""));
               $.each(response.payment_gateways, function(index, item) {
                 var text = "Proceed with " + item.payment_gateway;
-                /* var imageName=text.toLowerCase();
-                if(text=="Debit Card / Credit Card"){
-                  imageName='stripe';
-                } */
+                var className="";
+                if(item.payment_gateway=="Debit/Credit Card"){
+                  className='btn btn-primary';
+                }else if(item.payment_gateway=="Paypal"){
+                  className='btn btn-success';
+                }else if(item.payment_gateway=="Kingspay"){
+                  className='btn btn-info';
+                }else if(item.payment_gateway=="Bank Transfer"){
+                  className='btn btn-success';
+                }else if(item.payment_gateway=="Crypto"){
+                  className='btn btn-warning';
+                }else if(item.payment_gateway=="Espee"){
+                  className='btn btn-success';
+                }
                 /* radioBtn = $('<div><input type="radio" name="payment_gateway_id" class="payment_options" value="'+item.id+'" checked/><label for="'+text+'"> &nbsp;'+text+'</label><img src="'+window.location.origin+'/images/'+imageName+'.png" width="10%"/></div>'); */
                 text=text.toUpperCase();
-                radioBtn = $('<div><input type="radio" name="payment_gateway_id" class="payment_options" value="'+item.id+'" checked/><label for="'+text+'"> &nbsp;'+text+'</label></div>');
+                radioBtn = $('<div style="padding:10px;font-size: 10px;width:100%;text-align:left;" class="'+className+'"><input type="radio" name="payment_gateway_id" class="payment_options" value="'+item.id+'" checked/><label for="'+text+'"> &nbsp;'+text+'</label></div><br>');
                 list2.append(radioBtn);
               });
           },

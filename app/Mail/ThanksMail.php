@@ -12,13 +12,13 @@ use Illuminate\Queue\SerializesModels;
 class ThanksMail extends Mailable
 {
     use Queueable, SerializesModels;
-
+    public $option;
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($option=null)
     {
-        //
+        $this->option=$option;
     }
 
     /**
