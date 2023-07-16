@@ -5,6 +5,7 @@ use App\Models\MonthlyAutomatic;
 use App\Models\Pledge;
 use App\Models\PaymentsThisMonth;
 use Illuminate\Console\Command;
+use Illuminate\Support\Carbon;
 
 class ThisMonthPayments extends Command
 {
@@ -39,7 +40,8 @@ class ThisMonthPayments extends Command
                 ];
             }
         }
-        $pledges=Pledge::where('status',1)->get();
+        $month=Carbon::parse(Now())->format('m');
+        $pledges=Pledge::where('status',1)->whereMonth('initialising_date',$month)->get();
         if(count($pledges)>0){
             foreach($pledges as $pledge){
                 $insertData[]=[

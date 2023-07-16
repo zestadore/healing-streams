@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Http;
 use App\Mail\ThanksMail;
 use App\Mail\PaymentMail;
 use App\Mail\RegistrationMail;
+use App\Models\PaymentsThisMonth;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 
@@ -117,7 +118,7 @@ class HomeController extends Controller
         $gateway=PaymentGateway::find($request->payment_gateway_id);
         switch ($request->choice) {
             case 0:
-                if($gateway->payment_gateway=="Debit Card / Credit Card"){
+                if($gateway->payment_gateway=="Debit/Credit Card"){
                     $session=$this->StripePayment($request,$payment,$currency->currency);
                 }elseif($gateway->payment_gateway=="Paypal"){
                     $this->PaypalPayment($request,$payment,$currency->currency);
@@ -171,6 +172,13 @@ class HomeController extends Controller
         $res=$monthly->update(['initialising_date'=>$initialisingDate]);
         Mail::to($request->email_id)->send(new RegistrationMail('Monthly (Subscription)'));
         if($curDate<=$initialisingDate){
+            $insertData=[
+                'refrence'=>'monthly',
+                'reference_id'=>$monthly->id,
+                'initialising_date'=>$initialisingDate,
+                'created_at'=>Now()
+            ];
+            PaymentsThisMonth::create($insertData);
             Mail::to($monthly->email_id)->send(new PaymentMail($monthly));
         }
         return $res;
@@ -178,12 +186,23 @@ class HomeController extends Controller
 
     private function savePledge($request)
     {
-        $res=Pledge::create($request->except(['_token','choice','initialising_date']))->id;
         $initialisingDate=Carbon::parse($request->initialising_date)->format('Y-m-d');
         $curDate=Carbon::parse(Now())->format('Y-m-d');
+        $curMonth=Carbon::parse(Now())->format('m');
+        $intMonth=Carbon::parse($initialisingDate)->format('m');
+        $res=Pledge::create($request->except(['_token','choice','initialising_date']))->id;
         $pledge=Pledge::find($res);
         $res=$pledge->update(['initialising_date'=>$initialisingDate]);
         Mail::to($request->email_id)->send(new RegistrationMail('Pledge'));
+        if($curMonth==$intMonth and $curDate<=$initialisingDate){
+            $insertData=[
+                'refrence'=>'pledge',
+                'reference_id'=>$pledge->id,
+                'initialising_date'=>Carbon::parse($initialisingDate)->format('m'),
+                'created_at'=>Now()
+            ];
+            PaymentsThisMonth::create($insertData);
+        }
         if($curDate<=$initialisingDate){
             Mail::to($pledge->email_id)->send(new PaymentMail($pledge));
         }
@@ -196,6 +215,7 @@ class HomeController extends Controller
         $totalprice = $request->amount;
         $two0 = "00";
         $total = "$totalprice$two0";
+        Session::put('paymentId', $payment_id);
         $session = \Stripe\Checkout\Session::create([
             'line_items'  => [
                 [
@@ -338,7 +358,10 @@ class HomeController extends Controller
 
     public function failure()
     {
-        dd("Failure");
+        $payment=Payment::find(Session::get('paymentId'));
+        $payment->update(['payment_status'=>2]);
+        Session::forget('paymentId');
+        return redirect()->route('home-page')->with(['error'=>'Your payment was failed, kindly try again!']);
     }
 
     public function bankTransfer()

@@ -49,17 +49,22 @@ class PaymentController extends Controller
                     return $data->currency->currency;
                 })
                 ->addColumn('payment_gateway', function($data) {
-                    return $data->paymentGateway->payment_gateway;
+                    if($data->payment_gateway_id){
+                        return $data->paymentGateway->payment_gateway;
+                    }
                 })
                 ->addColumn('payment_date', function($data) {
-                    if($data->choice==0){
-                        return Carbon::parse($data->payment_date)->format('d-m-Y');
-                    }else if($data->choice==1){
-                        return Carbon::parse($data->payment_date)->format('d'). ' of every month';
-                    }else if($data->choice==2){
-                        return Carbon::parse($data->payment_date)->format('d-m-Y');
+                    if($data->payment_date){
+                        if($data->choice==0){
+                            return Carbon::parse($data->payment_date)->format('d-m-Y');
+                        }else if($data->choice==1){
+                            return Carbon::parse($data->payment_date)->format('d'). ' of every month';
+                        }else if($data->choice==2){
+                            return Carbon::parse($data->payment_date)->format('d-m-Y');
+                        }
+                    }else{
+                        return Null;
                     }
-                    return $data->paymentGateway->payment_gateway;
                 })
                 ->addColumn('status', function($data) {
                     if($data->payment_status==0){
@@ -69,6 +74,9 @@ class PaymentController extends Controller
                     }else{
                         return "Unpaid";
                     }
+                })
+                ->addColumn('created_date', function($data) {
+                    return Carbon::parse($data->created_at)->format('d-m-Y');
                 })
                 ->make(true);
         }

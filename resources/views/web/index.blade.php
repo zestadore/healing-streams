@@ -369,7 +369,22 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 
 
   <div class="container-fluid">
-       
+          @if (session('error'))
+              <div class="alert alert-danger alert-dismissable" role="alert">
+                  {{-- <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">×</span>
+                  </button> --}}
+                  <p class="mb-0" style="font-size:20px;">{{ session('error') }}</p>
+              </div>
+          @endif
+          @if (session('success'))
+              <div class="alert alert-success alert-dismissable" role="alert">
+                  {{-- <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">×</span>
+                  </button> --}}
+                  <p class="mb-0" style="font-size:20px;">{{ session('success') }}</p>
+              </div>
+          @endif
           <div class="row">
            <div class="col-lg-8 offset-lg-2">
             <h4 style="text-align: center;"><font color="green">Enter your details below <br> Select your preferred payment channel to give or make a pledge</font> </h4>

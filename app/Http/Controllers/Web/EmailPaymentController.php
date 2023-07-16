@@ -74,6 +74,7 @@ class EmailPaymentController extends Controller
         // $two0 = "00";
         // $total = "$totalprice$two0";
         $total = (int)$totalprice;
+        Session::put('paymentId', $payment_id);
         $session = \Stripe\Checkout\Session::create([
             'line_items'  => [
                 [

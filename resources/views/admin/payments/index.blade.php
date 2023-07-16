@@ -62,6 +62,7 @@
                             <th>{{ __('Country') }}</th>
                             <th>{{ __('Currency') }}</th>
                             <th>{{ __('Amount') }}</th>
+                            <th>{{ __('Amount(USD)') }}</th>
                             <th>{{ __('Payment gateway') }}</th>
                             <th>{{ __('Payment status') }}</th>
                             <th>{{ __('Ref .no') }}</th>
@@ -70,6 +71,7 @@
                             @else
                                 <th>{{ __('Initialized date') }}</th>
                             @endif
+                            <th>{{ __('Created date') }}</th>
                         </tr>
                     </thead>
                 </table>
@@ -160,6 +162,14 @@
                         name: 'amount'
                     },
                     {
+                        data: 'amount_usd',
+                        name: 'amount_usd',
+                        render: function(data) {
+                            return "$ " + data;
+                            
+                        }
+                    },
+                    {
                         data: 'payment_gateway',
                         name: 'payment_gateway'
                     },
@@ -174,6 +184,10 @@
                     {
                         data: 'payment_date',
                         name: 'payment_date'
+                    },
+                    {
+                        data: 'created_date',
+                        name: 'created_date'
                     }
                 ],
 
