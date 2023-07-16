@@ -16,32 +16,24 @@
     @section('content')
         <!-- Main content -->
         <section class="content">
-            {{-- <form action="{{route('home')}}">
-                <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                        <div class="form-group">
-                            <label for="start_date">Date</label>
-                            <input type="date" name="date" id="date" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                        <div class="form-group">
-                            <label for="currency">Currency</label>
-                            <select name="currency" id="currency" class="form-control">
-                                @foreach ($currencies as $currency)
-                                    <option value="{{$currency->id}}" @if ($currency->currency=="USD")
-                                        @selected(true)
-                                    @endif>{{$currency->currency}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                        <br><p> </p>
-                        <button type="submit" class="btn btn-info btn-sm" id="dashboardSearch">Search</button>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="start_date">Date</label>
+                        <input type="date" name="start_date" id="start_date" class="form-control">
                     </div>
                 </div>
-            </form> --}}
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="end_date">Date</label>
+                        <input type="date" name="end_date" id="end_date" class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <br><p> </p>
+                    <button type="button" class="btn btn-info btn-sm" id="dashboardSearch">Search</button>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
                     <div class="card">
@@ -52,11 +44,11 @@
                             <table class="table table-stripped">
                                 <tr>
                                     <th>Amount</th>
-                                    <td id="total_expecting">$1000</td>
+                                    <td id="total_oneoff">$1000</td>
                                 </tr>
                                 <tr>
                                     <th>Number of partners</th>
-                                    <td id="count_expecting">10</td>
+                                    <td id="count_oneoff">10</td>
                                 </tr>
                             </table>
                         </div>
@@ -72,11 +64,11 @@
                             <table class="table table-stripped">
                                 <tr>
                                     <th>Amount</th>
-                                    <td id="total_paid">$850</td>
+                                    <td id="total_pledge">$850</td>
                                 </tr>
                                 <tr>
                                     <th>Number of partners</th>
-                                    <td id="count_paid">8</td>
+                                    <td id="count_pledge">8</td>
                                 </tr>
                             </table>
                         </div>
@@ -92,11 +84,11 @@
                             <table class="table table-stripped">
                                 <tr>
                                     <th>Amount</th>
-                                    <td id="total_pending">$1500</td>
+                                    <td id="total_monthly">$1500</td>
                                 </tr>
                                 <tr>
                                     <th>Number of partners</th>
-                                    <td id="count_pending">12</td>
+                                    <td id="count_monthly">12</td>
                                 </tr>
                             </table>
                         </div>
@@ -108,38 +100,7 @@
                 <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="card-body">
-                            <table class="table table-stripped">
-                                <tr>
-                                    <th>Region</th>
-                                    <th>Amount</th>
-                                    <th>Partners</th>
-                                </tr>
-                                <tr>
-                                    <th>Americas</th>
-                                    <td>$1000</td>
-                                    <td>8</td>
-                                </tr>
-                                <tr>
-                                    <th>Europe</th>
-                                    <td>$900</td>
-                                    <td>7</td>
-                                </tr>
-                                <tr>
-                                    <th>Africa</th>
-                                    <td>$3000</td>
-                                    <td>18</td>
-                                </tr>
-                                <tr>
-                                    <th>Asia</th>
-                                    <td>$2200</td>
-                                    <td>14</td>
-                                </tr>
-                                <tr>
-                                    <th>Oceania</th>
-                                    <td>$3400</td>
-                                    <td>20</td>
-                                </tr>
-                            </table>
+                            <table class="table table-stripped" id="one-off-region-table"></table>
                         </div>
                         <!-- /.card-body -->
                     </div>
@@ -147,38 +108,7 @@
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="card-body">
-                            <table class="table table-stripped">
-                                <tr>
-                                    <th>Region</th>
-                                    <th>Amount</th>
-                                    <th>Partners</th>
-                                </tr>
-                                <tr>
-                                    <th>Americas</th>
-                                    <td>$2800</td>
-                                    <td>13</td>
-                                </tr>
-                                <tr>
-                                    <th>Europe</th>
-                                    <td>$7000</td>
-                                    <td>25</td>
-                                </tr>
-                                <tr>
-                                    <th>Africa</th>
-                                    <td>$4600</td>
-                                    <td>25</td>
-                                </tr>
-                                <tr>
-                                    <th>Asia</th>
-                                    <td>$5230</td>
-                                    <td>22</td>
-                                </tr>
-                                <tr>
-                                    <th>Oceania</th>
-                                    <td>$6540</td>
-                                    <td>30</td>
-                                </tr>
-                            </table>
+                            <table class="table table-stripped" id="pledge-region-table"></table>
                         </div>
                         <!-- /.card-body -->
                     </div>
@@ -186,38 +116,7 @@
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="card-body">
-                            <table class="table table-stripped">
-                                <tr>
-                                    <th>Region</th>
-                                    <th>Amount</th>
-                                    <th>Partners</th>
-                                </tr>
-                                <tr>
-                                    <th>Americas</th>
-                                    <td>$5000</td>
-                                    <td>21</td>
-                                </tr>
-                                <tr>
-                                    <th>Europe</th>
-                                    <td>$4320</td>
-                                    <td>23</td>
-                                </tr>
-                                <tr>
-                                    <th>Africa</th>
-                                    <td>$4360</td>
-                                    <td>20</td>
-                                </tr>
-                                <tr>
-                                    <th>Asia</th>
-                                    <td>$5210</td>
-                                    <td>27</td>
-                                </tr>
-                                <tr>
-                                    <th>Oceania</th>
-                                    <td>$4390</td>
-                                    <td>24</td>
-                                </tr>
-                            </table>
+                            <table class="table table-stripped" id="monthly-region-table"></table>
                         </div>
                         <!-- /.card-body -->
                     </div>
@@ -264,6 +163,38 @@
         </section>
     @endsection
     @section('scripts')
-        
+        <script>
+            function getData(){
+                var startDate=$('#start_date').val();
+                var endDate=$('#end_date').val();
+                $.ajax({
+                    url: "{{route('dashboard.data')}}",
+                    type:"get",
+                    data:{
+                        "start_date": startDate,
+                        "end_date": endDate
+                    },
+                    dataType:"json",
+                    success:function(response){
+                        var oneOff=response.oneOffPayments;
+                        $('#total_oneoff').html(oneOff.payments);
+                        $('#count_oneoff').html(oneOff.count);
+                        var pledge=response.pledgePayments;
+                        $('#total_pledge').html(pledge.payments);
+                        $('#count_pledge').html(pledge.count);
+                        var monthly=response.monthlyPayments;
+                        $('#total_monthly').html(monthly.payments);
+                        $('#count_monthly').html(monthly.count);
+                        $('#one-off-region-table').html(response.regionOneOffPayments);
+                        $('#monthly-region-table').html(response.regionMonthlyPayments);
+                        $('#pledge-region-table').html(response.regionPledgePayments);
+                    }
+                });
+            }
+            getData();
+            $('#dashboardSearch').click(function(){
+                getData();
+            })
+        </script>
     @endsection
     

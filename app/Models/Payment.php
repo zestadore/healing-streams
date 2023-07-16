@@ -4,6 +4,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Currency;
+use Illuminate\Support\Facades\Http;
 
 class Payment extends Model
 {
@@ -15,6 +17,20 @@ class Payment extends Model
     protected $casts = [
         'partnership_categories' => 'array'
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+        static::creating(function($model)
+        {
+            $currency=Currency::find($model->currency_id);
+            // $url="https://api.apilayer.com/exchangerates_data/convert?to=usd&from=".$currency->currency."&amount=".$model->amount;
+            // $response = Http::withHeaders([
+            //     'apikey' => "K4kgFgcEQv7AVd9v8WDyF8yBwKPvvY5h",
+            // ])->timeout(60)->get($url);
+            $model->amount_usd = $model->amount;
+        });
+    }
 
     public function country(){
         return $this->hasOne(Country::class, 'id', 'country_id');
