@@ -51,6 +51,18 @@ class PaymentController extends Controller
                 ->addColumn('payment_gateway', function($data) {
                     if($data->payment_gateway_id){
                         return $data->paymentGateway->payment_gateway;
+                    }else{
+                        switch($data->other_options){
+                            case "bank_transfer":
+                                return "Bank Transfer";
+                                break;
+                            case "crypto":
+                                return "Crypto";
+                                break;
+                            case "espee":
+                                return "Espee";
+                                break;
+                        }
                     }
                 })
                 ->addColumn('payment_date', function($data) {

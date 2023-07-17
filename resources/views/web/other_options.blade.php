@@ -755,14 +755,19 @@ function myCrypo4() {
         html=html+'<h3>BITCOIN (BTC)</h3>';
         html=html+'<p>Bitcoin</p>';
         html=html+'<p>Scan wallet address to give</p>';
+        html=html+'<p><img src="'+window.location.origin+'/images/bitcoin.jpg"></p>';
         html=html+'<h3>BINANCE COIN (BNB)</h3>';
         html=html+'<p>Scan wallet address to give</p>';
+        html=html+'<p><img src="'+window.location.origin+'/images/binance.jpg"></p>';
         html=html+'<h3>TETHER (USDT)</h3>';
         html=html+'<p>Scan wallet address to give</p>';
+        html=html+'<p><img src="'+window.location.origin+'/images/tether.jpg"></p>';
         html=html+'<h3>ETHEREUM - ETHER (ETH)</h3>';
         html=html+'<p>Scan wallet address to give</p>';
+        html=html+'<p><img src="'+window.location.origin+'/images/etherium.jpg"></p>';
         html=html+'<h3>SALT</h3>';
         html=html+'<p>Scan wallet address to give</p>';
+        html=html+'<p><img src="'+window.location.origin+'/images/salt.jpg"></p>';
   }else{
     html='<p>Kindly send your proof of payment to partners@healingstreams.tv.</p>';
   }

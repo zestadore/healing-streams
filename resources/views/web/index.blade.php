@@ -472,7 +472,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
                       </div>
                       <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                           <input type="radio" id="css" name="choice" class="choiceClass" value="1">
-                          <label for="css" style="color:rgb(102, 0, 255);font-weight: bold;">Monthly (Subscription)</label>
+                          <label for="css" style="color:rgb(102, 0, 255);font-weight: bold;">Monthly(Subs)</label>
                       </div>
                       <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                           <input type="radio" id="javascript" name="choice" class="choiceClass" value="2">
@@ -499,7 +499,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div id="pledgeAuto">
-                  <label for="initialising_date" class="form-label">Initializing date</label>
+                  <label for="initialising_date" class="form-label">Payment date</label>
                   <div class="input-group" id="initialising_date_element">
                   </div>
                 </div>
@@ -913,7 +913,7 @@ function myCrypo4() {
                 }
                 /* radioBtn = $('<div><input type="radio" name="payment_gateway_id" class="payment_options" value="'+item.id+'" checked/><label for="'+text+'"> &nbsp;'+text+'</label><img src="'+window.location.origin+'/images/'+imageName+'.png" width="10%"/></div>'); */
                 text=text.toUpperCase();
-                radioBtn = $('<div style="padding:10px;font-size: 10px;width:100%;text-align:left;" class="'+className+'"><input type="radio" name="payment_gateway_id" class="payment_options" value="'+item.id+'" checked/><label for="'+text+'"> &nbsp;'+text+'</label></div><br>');
+                radioBtn = $('<div style="padding:10px;font-size: 10px;width:100%;text-align:left;" class="'+className+'"><input type="radio" name="payment_gateway_id" class="payment_options" value="'+item.id+'" required/><label for="'+text+'"> &nbsp;'+text+'</label></div><br>');
                 list2.append(radioBtn);
               });
           },

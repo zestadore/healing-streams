@@ -38,7 +38,7 @@
                 <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="card-header">
-                          <h3 class="card-title">One-off</h3>
+                          <h3 class="card-title">ONE-OFF</h3>
                         </div>
                         <div class="card-body">
                             <table class="table table-stripped">
@@ -58,7 +58,7 @@
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="card-header">
-                          <h3 class="card-title">Pledge</h3>
+                          <h3 class="card-title">PLEDGE</h3>
                         </div>
                         <div class="card-body">
                             <table class="table table-stripped">
@@ -78,7 +78,7 @@
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="card-header">
-                          <h3 class="card-title">Subscription</h3>
+                          <h3 class="card-title">SUBSCRIPTION</h3>
                         </div>
                         <div class="card-body">
                             <table class="table table-stripped">
@@ -122,7 +122,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                     <div class="info-box">
                         <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
@@ -159,7 +159,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </section>
     @endsection
     @section('scripts')
