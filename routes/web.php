@@ -41,9 +41,11 @@ Route::get('/monthly-automatics', [App\Http\Controllers\Web\PaymentController::c
 Route::get('/pledge', [App\Http\Controllers\Web\PaymentController::class, 'pledgePayment'])->name('payments.pledge')->middleware('auth');
 Route::get('/payments/{choice}', [App\Http\Controllers\Web\PaymentController::class, 'index'])->name('payments')->middleware('auth');
 Route::get('/get-dashboard-data', [App\Http\Controllers\Web\DashboardDataController::class, 'index'])->name('dashboard.data')->middleware('auth');
+Route::post('/mark-as-unpaid', [App\Http\Controllers\Web\PaymentController::class, 'updatePayment'])->name('unpaid')->middleware('auth');
 Route::resource('countries', App\Http\Controllers\Web\CountryController::class);
 Route::resource('countries.currencies', App\Http\Controllers\Web\CountryCurrencyController::class);
 Route::resource('country-currencies.payment-gateways', App\Http\Controllers\Web\CurrencyPaymentGatewayController::class);
 Route::resource('currencies', App\Http\Controllers\Web\CurrencyController::class);
 Route::resource('payment-gateway', App\Http\Controllers\Web\PaymentGatewayController::class);
 Route::resource('regions', App\Http\Controllers\Web\RegionController::class);
+Route::resource('users', App\Http\Controllers\Web\UserController::class);

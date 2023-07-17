@@ -90,49 +90,59 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-               <li class="nav-item">
-                <a href="{{route('home')}}" class="nav-link {{ (request()->is('home*') || request()->is('home*'))? 'active' : '' }}">
-                  <i class="nav-icon fas fa-tachometer-alt"></i>
-                  <p>
-                    Dashboard
-                  </p>
-                </a>
-              </li>
-              <li class="nav-item {{ (request()->is('countries*')||request()->is('currencies*')||request()->is('payment-gatyeway*')||request()->is('regions*'))? 'menu-open' : '' }}">
-                <a href="#" class="nav-link {{ (request()->is('countries*')||request()->is('currencies*')||request()->is('payment-gatyeway*')||request()->is('regions*'))? 'active' : '' }}">
-                  <i class="nav-icon fas fa-tools"></i>
-                  <p>
-                    Masters
-                    <i class="right fas fa-angle-left"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview">
+               @can('isAdmin')
                   <li class="nav-item">
-                    <a href="{{route('regions.index')}}" class="nav-link {{ (request()->is('regions*'))? 'active' : '' }}">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Regions</p>
+                    <a href="{{route('home')}}" class="nav-link {{ (request()->is('home*') || request()->is('home*'))? 'active' : '' }}">
+                      <i class="nav-icon fas fa-tachometer-alt"></i>
+                      <p>
+                        Dashboard
+                      </p>
                     </a>
                   </li>
-                  <li class="nav-item">
-                    <a href="{{route('countries.index')}}" class="nav-link {{ (request()->is('countries*'))? 'active' : '' }}">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Countries</p>
+                @endcan
+                @can('isAdmin')
+                  <li class="nav-item {{ (request()->is('countries*')||request()->is('currencies*')||request()->is('payment-gatyeway*')||request()->is('regions*')||request()->is('users*'))? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ (request()->is('countries*')||request()->is('currencies*')||request()->is('payment-gatyeway*')||request()->is('regions*')||request()->is('users*'))? 'active' : '' }}">
+                      <i class="nav-icon fas fa-tools"></i>
+                      <p>
+                        Masters
+                        <i class="right fas fa-angle-left"></i>
+                      </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                      <li class="nav-item">
+                        <a href="{{route('regions.index')}}" class="nav-link {{ (request()->is('regions*'))? 'active' : '' }}">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Regions</p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="{{route('countries.index')}}" class="nav-link {{ (request()->is('countries*'))? 'active' : '' }}">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Countries</p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="{{route('currencies.index')}}" class="nav-link {{ (request()->is('currencies*'))? 'active' : '' }}">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Currency</p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="{{route('payment-gateway.index')}}" class="nav-link {{ (request()->is('payment-gateway*'))? 'active' : '' }}">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Payment gateways</p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="{{route('users.index')}}" class="nav-link {{ (request()->is('users*'))? 'active' : '' }}">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Users</p>
+                        </a>
+                      </li>
+                    </ul>
                   </li>
-                  <li class="nav-item">
-                    <a href="{{route('currencies.index')}}" class="nav-link {{ (request()->is('currencies*'))? 'active' : '' }}">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Currency</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="{{route('payment-gateway.index')}}" class="nav-link {{ (request()->is('payment-gateway*'))? 'active' : '' }}">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Payment gateways</p>
-                    </a>
-                  </li>
-                </ul>
-              </li>
+               @endcan
               <li class="nav-item {{ (request()->is('payments*'))? 'menu-open' : '' }}">
                 <a href="#" class="nav-link {{ (request()->is('payments*'))? 'active' : '' }}">
                   <i class="nav-icon fas fa-money-bill"></i>

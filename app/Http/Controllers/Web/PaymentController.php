@@ -90,6 +90,7 @@ class PaymentController extends Controller
                 ->addColumn('created_date', function($data) {
                     return Carbon::parse($data->created_at)->format('d-m-Y');
                 })
+                ->addColumn('action', 'admin.payments.action')
                 ->make(true);
         }
         return view('admin.payments.index',['choice'=>$choice]);
@@ -133,6 +134,7 @@ class PaymentController extends Controller
                         return "Unpaid";
                     }
                 })
+                ->addColumn('action', 'admin.payments.action')
                 ->make(true);
         }
         return view('admin.payments.index',['choice'=>'stripe','choice2'=>$option]);
@@ -175,6 +177,7 @@ class PaymentController extends Controller
                         return "Unpaid";
                     }
                 })
+                ->addColumn('action', 'admin.payments.action')
                 ->make(true);
         }
         return view('admin.payments.index',['choice'=>'paypal','choice2'=>$option]);
@@ -217,6 +220,7 @@ class PaymentController extends Controller
                         return "Unpaid";
                     }
                 })
+                ->addColumn('action', 'admin.payments.action')
                 ->make(true);
         }
         return view('admin.payments.index',['choice'=>'kingspay','choice2'=>$option]);
@@ -383,6 +387,19 @@ class PaymentController extends Controller
                 ->make(true);
         }
         return view('admin.payments.monthly_pledge',['choice'=>'pledge']);
+    }
+
+    public function updatePayment(Request $request)
+    {
+        $payment= Payment::find($request->id);
+        $res=$payment->update([
+            'payment_status'=>2
+        ]);
+        if($res){
+            return response()->json(['success'=>true,'message'=>"Payment successfully marked as unpaid!"]);
+        }else{
+            return response()->json(['error'=>true,'message'=>"Failed to update the data, kindly try again!"]);
+        }
     }
 
     private function getChoiceDetails($option){

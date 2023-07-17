@@ -72,6 +72,7 @@
                                 <th>{{ __('Initialized date') }}</th>
                             @endif
                             <th>{{ __('Created date') }}</th>
+                            <th>{{ __('Action') }}</th>
                         </tr>
                     </thead>
                 </table>
@@ -188,6 +189,10 @@
                     {
                         data: 'created_date',
                         name: 'created_date'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action'
                     }
                 ],
 
@@ -219,6 +224,38 @@
         //     "responsive": true,
         //   });
         // });
+
+        function markAsUnpaid(id) {
+            swal({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            buttons: true,
+            dangerMode: true,
+            }).then((result) => {
+                if (result) {
+                    var url="{{route('users.destroy','ID')}}";
+                    url=url.replace('ID',id);
+                    $.ajax({
+                        url: "{{route('unpaid')}}",
+                        type: "POST",
+                        data: {
+                            '_token': "{{ csrf_token() }}",
+                            'id': id
+                        },
+                        success: function(data) {
+                            if (data.status == "success") {
+                                toastr.success(data.message);
+                                drawTable();
+                            } else {
+                                toastr.error(data.message);
+                                drawTable();
+                            }
+                        }
+                    });
+                }
+            })
+        }
 
       </script>
 @endsection
