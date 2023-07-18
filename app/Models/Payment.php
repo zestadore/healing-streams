@@ -24,11 +24,12 @@ class Payment extends Model
         static::creating(function($model)
         {
             $currency=Currency::find($model->currency_id);
-            // $url="https://api.apilayer.com/exchangerates_data/convert?to=usd&from=".$currency->currency."&amount=".$model->amount;
-            // $response = Http::withHeaders([
-            //     'apikey' => "K4kgFgcEQv7AVd9v8WDyF8yBwKPvvY5h",
-            // ])->timeout(60)->get($url);
-            $model->amount_usd = $model->amount;
+            $url="https://api.apilayer.com/currency_data/convert?to=usd&from=".$currency->currency."&amount=".$model->amount;
+            $response = Http::withHeaders([
+                'apikey' => "PQeOHIJkvP7AZQb6t0Y3Bqn2OHlK09Vk",
+            ])->timeout(60)->get($url);
+            // $model->amount_usd = $model->amount;
+            $model->amount_usd = ($response['result']*$model->amount);
         });
     }
 

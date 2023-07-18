@@ -4,7 +4,7 @@
     @endsection
     @section('breadcrump')
         <div class="col-sm-6">
-            <h1 class="m-0">Dashboard</h1>
+            <h1 class="m-0">DASHBOARD</h1>
         </div><!-- /.col -->
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -19,13 +19,13 @@
             <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                     <div class="form-group">
-                        <label for="start_date">Date</label>
+                        <label for="start_date">From date</label>
                         <input type="date" name="start_date" id="start_date" class="form-control">
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                     <div class="form-group">
-                        <label for="end_date">Date</label>
+                        <label for="end_date">To date</label>
                         <input type="date" name="end_date" id="end_date" class="form-control">
                     </div>
                 </div>
