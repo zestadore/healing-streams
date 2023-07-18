@@ -65,7 +65,7 @@
                             <th>{{ __('Date created') }}</th>
                             <th>{{ __('Initialised date') }}</th>
                             <th>{{ __('Payment gateway') }}</th>
-                            <th>{{ __('status') }}</th>
+                            {{-- <th>{{ __('status') }}</th> --}}
                         </tr>
                     </thead>
                 </table>
@@ -171,10 +171,10 @@
                         data: 'payment_gateway',
                         name: 'payment_gateway'
                     },
-                    {
-                        data: 'status',
-                        name: 'status'
-                    },
+                    // {
+                    //     data: 'status',
+                    //     name: 'status'
+                    // },
                 ],
 
                 'aoColumnDefs': [{
