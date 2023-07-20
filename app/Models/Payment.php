@@ -28,8 +28,8 @@ class Payment extends Model
             $response = Http::withHeaders([
                 'apikey' => "PQeOHIJkvP7AZQb6t0Y3Bqn2OHlK09Vk",
             ])->timeout(60)->get($url);
-            // $model->amount_usd = $model->amount;
-            $model->amount_usd = ($response['result']*$model->amount);
+            $model->amount_usd = $response['result'];
+            // $model->amount_usd = ($response['result']*$model->amount);
         });
     }
 

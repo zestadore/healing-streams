@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Payment;
 use App\Models\PaymentsThisMonth;
 use App\Models\MonthlyAutomatic;
+use App\Models\PaymentGateway;
 use App\Models\Pledge;
 use Illuminate\Http\Request;
 use DataTables;
@@ -30,6 +31,7 @@ class PaymentController extends Controller
             $payments= Payment::query()->where('choice',$opt);
             $search = $request->search;
             $status = $request->status_search;
+            $gateway = $request->payment_search;
             if ($search) {
                 $payments->where(function ($query) use ($search) {
                     $query->where('first_name', 'like', '%' . $search . '%');
@@ -38,6 +40,11 @@ class PaymentController extends Controller
             if ($status!=null) {
                 $payments->where(function ($query) use ($status) {
                     $query->where('payment_status', $status);
+                });
+            }
+            if ($gateway!=null) {
+                $payments->where(function ($query) use ($gateway) {
+                    $query->where('payment_gateway_id', $gateway);
                 });
             }
             return DataTables::of($payments)
@@ -93,7 +100,8 @@ class PaymentController extends Controller
                 ->addColumn('action', 'admin.payments.action')
                 ->make(true);
         }
-        return view('admin.payments.index',['choice'=>$choice]);
+        $gateways= PaymentGateway::where('status',1)->get();
+        return view('admin.payments.index',['choice'=>$choice,'gateways'=>$gateways]);
     }
 
 
@@ -104,6 +112,7 @@ class PaymentController extends Controller
             $payments= Payment::query()->where('payment_gateway_id',1)->where('choice',$choice);
             $search = $request->search;
             $status = $request->status_search;
+            $gateway = $request->payment_search;
             if ($search) {
                 $payments->where(function ($query) use ($search) {
                     $query->where('first_name', 'like', '%' . $search . '%');
@@ -112,6 +121,11 @@ class PaymentController extends Controller
             if ($status!=null) {
                 $payments->where(function ($query) use ($status) {
                     $query->where('payment_status', $status);
+                });
+            }
+            if ($gateway!=null) {
+                $payments->where(function ($query) use ($gateway) {
+                    $query->where('payment_gateway_id', $gateway);
                 });
             }
             return DataTables::of($payments)
@@ -137,7 +151,8 @@ class PaymentController extends Controller
                 ->addColumn('action', 'admin.payments.action')
                 ->make(true);
         }
-        return view('admin.payments.index',['choice'=>'stripe','choice2'=>$option]);
+        $gateways= PaymentGateway::where('status',1)->get();
+        return view('admin.payments.index',['choice'=>'stripe','choice2'=>$option,'gateways'=>$gateways]);
     }
 
     public function paypalPayments(Request $request,$option)
@@ -147,6 +162,7 @@ class PaymentController extends Controller
             $payments= Payment::query()->where('payment_gateway_id',2)->where('choice',$choice);
             $search = $request->search;
             $status = $request->status_search;
+            $gateway = $request->payment_search;
             if ($search) {
                 $payments->where(function ($query) use ($search) {
                     $query->where('first_name', 'like', '%' . $search . '%');
@@ -155,6 +171,11 @@ class PaymentController extends Controller
             if ($status!=null) {
                 $payments->where(function ($query) use ($status) {
                     $query->where('payment_status', $status);
+                });
+            }
+            if ($gateway!=null) {
+                $payments->where(function ($query) use ($gateway) {
+                    $query->where('payment_gateway_id', $gateway);
                 });
             }
             return DataTables::of($payments)
@@ -180,7 +201,8 @@ class PaymentController extends Controller
                 ->addColumn('action', 'admin.payments.action')
                 ->make(true);
         }
-        return view('admin.payments.index',['choice'=>'paypal','choice2'=>$option]);
+        $gateways= PaymentGateway::where('status',1)->get();
+        return view('admin.payments.index',['choice'=>'paypal','choice2'=>$option,'gateways'=>$gateways]);
     }
 
     public function kingspayPayments(Request $request,$option)
@@ -190,6 +212,7 @@ class PaymentController extends Controller
             $payments= Payment::query()->where('payment_gateway_id',3)->where('choice',$choice);
             $search = $request->search;
             $status = $request->status_search;
+            $gateway = $request->payment_search;
             if ($search) {
                 $payments->where(function ($query) use ($search) {
                     $query->where('first_name', 'like', '%' . $search . '%');
@@ -198,6 +221,11 @@ class PaymentController extends Controller
             if ($status!=null) {
                 $payments->where(function ($query) use ($status) {
                     $query->where('payment_status', $status);
+                });
+            }
+            if ($gateway!=null) {
+                $payments->where(function ($query) use ($gateway) {
+                    $query->where('payment_gateway_id', $gateway);
                 });
             }
             return DataTables::of($payments)
@@ -223,7 +251,8 @@ class PaymentController extends Controller
                 ->addColumn('action', 'admin.payments.action')
                 ->make(true);
         }
-        return view('admin.payments.index',['choice'=>'kingspay','choice2'=>$option]);
+        $gateways= PaymentGateway::where('status',1)->get();
+        return view('admin.payments.index',['choice'=>'kingspay','choice2'=>$option,'gateways'=>$gateways]);
     }
 
     public function thisMonthsPayments(Request $request)
@@ -304,7 +333,7 @@ class PaymentController extends Controller
         if ($request->ajax()) {
             $payments= MonthlyAutomatic::query();
             $search = $request->search;
-            $status = $request->status_search;
+            $status = $request->payment_search;
             if ($search) {
                 $payments->where(function ($query) use ($search) {
                     $query->where('first_name', 'like', '%' . $search . '%');
@@ -312,7 +341,7 @@ class PaymentController extends Controller
             }
             if ($status!=null) {
                 $payments->where(function ($query) use ($status) {
-                    $query->where('payment_status', $status);
+                    $query->where('payment_gateway_id', $status);
                 });
             }
             return DataTables::of($payments)
@@ -341,7 +370,8 @@ class PaymentController extends Controller
                 })
                 ->make(true);
         }
-        return view('admin.payments.monthly_pledge',['choice'=>'monthly']);
+        $gateways= PaymentGateway::where('status',1)->get();
+        return view('admin.payments.monthly_pledge',['choice'=>'monthly','gateways'=>$gateways]);
     }
 
     public function pledgePayment(Request $request)
@@ -349,7 +379,7 @@ class PaymentController extends Controller
         if ($request->ajax()) {
             $payments= Pledge::query();
             $search = $request->search;
-            $status = $request->status_search;
+            $status = $request->payment_search;
             if ($search) {
                 $payments->where(function ($query) use ($search) {
                     $query->where('first_name', 'like', '%' . $search . '%');
@@ -357,7 +387,7 @@ class PaymentController extends Controller
             }
             if ($status!=null) {
                 $payments->where(function ($query) use ($status) {
-                    $query->where('payment_status', $status);
+                    $query->where('payment_gateway_id', $status);
                 });
             }
             return DataTables::of($payments)
@@ -375,7 +405,7 @@ class PaymentController extends Controller
                     return Carbon::parse($data->created_at)->format('d-M-Y');
                 })
                 ->addColumn('initialized', function($data) {
-                    return $data->initialising_date . ' of every month';
+                    return $data->initialising_date;
                 })
                 ->addColumn('status', function($data) {
                     if($data->status==0){
@@ -386,7 +416,8 @@ class PaymentController extends Controller
                 })
                 ->make(true);
         }
-        return view('admin.payments.monthly_pledge',['choice'=>'pledge']);
+        $gateways= PaymentGateway::where('status',1)->get();
+        return view('admin.payments.monthly_pledge',['choice'=>'pledge','gateways'=>$gateways]);
     }
 
     public function updatePayment(Request $request)

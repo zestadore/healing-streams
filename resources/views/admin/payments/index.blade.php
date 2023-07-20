@@ -48,6 +48,14 @@
                                 <option value=2>Unpaid</option>
                             </select>
                         </div>
+                        <div class="col">
+                            <select name="payment_search" id="payment_search" class="form-control">
+                                <option value="">Search with payment gateway</option>
+                                @foreach ($gateways as $item)
+                                    <option value="{{$item->id}}">{{$item->payment_gateway}}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                 </form><br>
                 <table class="table table-bordered table-striped" id="item-table">

@@ -274,30 +274,42 @@
                   </li>
                 </ul>
               </li> --}}
-              <li class="nav-item">
+              {{-- <li class="nav-item">
                 <a href="{{route('payments.this_month')}}" class="nav-link {{ (request()->is('this-months-payments*'))? 'active' : '' }}">
                   <i class="nav-icon fas fa-money-bill"></i>
                   <p>
                     Pending For This Month
                   </p>
                 </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('payments.monthly_automatic')}}" class="nav-link {{ (request()->is('monthly-automatics*'))? 'active' : '' }}">
-                  <i class="nav-icon fas fa-money-bill"></i>
+              </li> --}}
+              <li class="nav-item {{ (request()->is('pledge*')||request()->is('monthly-automatics*'))? 'menu-open' : '' }}">
+                <a href="#" class="nav-link {{ (request()->is('monthly-automatics*')||request()->is('pledge*'))? 'active' : '' }}">
+                  <i class="nav-icon fas fa-paste"></i>
                   <p>
-                    Monthly Active
+                    Logs
+                    <i class="right fas fa-angle-left"></i>
                   </p>
                 </a>
+                <ul class="nav nav-treeview">
+                   <li class="nav-item">
+                    <a href="{{route('payments.monthly_automatic')}}" class="nav-link {{ (request()->is('monthly-automatics*'))? 'active' : '' }}">
+                      <i class="nav-icon far fa-circle"></i>
+                      <p>
+                        Subscription Logs
+                      </p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{route('payments.pledge')}}" class="nav-link {{ (request()->is('pledge*'))? 'active' : '' }}">
+                      <i class="nav-icon far fa-circle"></i>
+                      <p>
+                        Pledge Logs
+                      </p>
+                    </a>
+                  </li>
+                </ul>
               </li>
-              <li class="nav-item">
-                <a href="{{route('payments.pledge')}}" class="nav-link {{ (request()->is('pledge*'))? 'active' : '' }}">
-                  <i class="nav-icon fas fa-money-bill"></i>
-                  <p>
-                    Pledge Active
-                  </p>
-                </a>
-              </li>
+             
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

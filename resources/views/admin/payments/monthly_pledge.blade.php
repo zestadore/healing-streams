@@ -41,11 +41,11 @@
                             <input type="text" name="search" class="form-control" placeholder="Search with first name">
                         </div>
                         <div class="col">
-                            <select name="status_search" id="status_search" class="form-control">
-                                <option value="">Search with status</option>
-                                <option value=0>Pending</option>
-                                <option value=1>Paid</option>
-                                <option value=2>Unpaid</option>
+                            <select name="payment_search" id="payment_search" class="form-control">
+                                <option value="">Search with payment gateway</option>
+                                @foreach ($gateways as $item)
+                                    <option value="{{$item->id}}">{{$item->payment_gateway}}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -63,7 +63,7 @@
                             <th>{{ __('Currency') }}</th>
                             <th>{{ __('Amount') }}</th>
                             <th>{{ __('Date created') }}</th>
-                            <th>{{ __('Initialised date') }}</th>
+                            <th>{{ __('Payment date') }}</th>
                             <th>{{ __('Payment gateway') }}</th>
                             {{-- <th>{{ __('status') }}</th> --}}
                         </tr>
