@@ -44,7 +44,20 @@ class PaymentController extends Controller
             }
             if ($gateway!=null) {
                 $payments->where(function ($query) use ($gateway) {
-                    $query->where('payment_gateway_id', $gateway);
+                    switch ($gateway) {
+                        case "bank_transfer":
+                            $query->where('other_options', 'bank_transfer');
+                            break;
+                        case "crypto":
+                            $query->where('other_options', 'crypto');
+                            break;
+                        case "espee":
+                            $query->where('other_options', 'espee');
+                            break;
+                        default:
+                            $query->where('payment_gateway_id', $gateway);
+                    }
+                    
                 });
             }
             return DataTables::of($payments)
@@ -125,7 +138,20 @@ class PaymentController extends Controller
             }
             if ($gateway!=null) {
                 $payments->where(function ($query) use ($gateway) {
-                    $query->where('payment_gateway_id', $gateway);
+                    switch ($gateway) {
+                        case "bank_transfer":
+                            $query->where('other_options', 'bank_transfer');
+                            break;
+                        case "crypto":
+                            $query->where('other_options', 'crypto');
+                            break;
+                        case "espee":
+                            $query->where('other_options', 'espee');
+                            break;
+                        default:
+                            $query->where('payment_gateway_id', $gateway);
+                    }
+                    
                 });
             }
             return DataTables::of($payments)
@@ -175,7 +201,20 @@ class PaymentController extends Controller
             }
             if ($gateway!=null) {
                 $payments->where(function ($query) use ($gateway) {
-                    $query->where('payment_gateway_id', $gateway);
+                    switch ($gateway) {
+                        case "bank_transfer":
+                            $query->where('other_options', 'bank_transfer');
+                            break;
+                        case "crypto":
+                            $query->where('other_options', 'crypto');
+                            break;
+                        case "espee":
+                            $query->where('other_options', 'espee');
+                            break;
+                        default:
+                            $query->where('payment_gateway_id', $gateway);
+                    }
+                    
                 });
             }
             return DataTables::of($payments)
@@ -225,7 +264,20 @@ class PaymentController extends Controller
             }
             if ($gateway!=null) {
                 $payments->where(function ($query) use ($gateway) {
-                    $query->where('payment_gateway_id', $gateway);
+                    switch ($gateway) {
+                        case "bank_transfer":
+                            $query->where('other_options', 'bank_transfer');
+                            break;
+                        case "crypto":
+                            $query->where('other_options', 'crypto');
+                            break;
+                        case "espee":
+                            $query->where('other_options', 'espee');
+                            break;
+                        default:
+                            $query->where('payment_gateway_id', $gateway);
+                    }
+                    
                 });
             }
             return DataTables::of($payments)

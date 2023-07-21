@@ -43,7 +43,7 @@ class DashboardDataController extends Controller
         }
         $partnerCount=Payment::where('choice',0)->where('payment_status',1)->whereBetween('created_at', [$startDate,$endDate])->distinct()->get(['email_id']);
         $response=[
-            'payments'=>'$ '.$sum,
+            'payments'=>'$ '.number_format(round($sum,2),2),
             'count'=>count($partnerCount)
         ];
         return $response;
@@ -58,7 +58,7 @@ class DashboardDataController extends Controller
         }
         $partnerCount=Payment::where('choice',2)->where('payment_status',1)->whereBetween('created_at', [$startDate,$endDate])->distinct()->get(['email_id']);
         $response=[
-            'payments'=>'$ '.$sum,
+            'payments'=>'$ '.number_format(round($sum,2),2),
             'count'=>count($partnerCount)
         ];
         return $response;
@@ -73,7 +73,7 @@ class DashboardDataController extends Controller
         }
         $partnerCount=Payment::where('choice',1)->where('payment_status',1)->whereBetween('created_at', [$startDate,$endDate])->distinct()->get(['email_id']);
         $response=[
-            'payments'=>'$ '.$sum,
+            'payments'=>'$ '.number_format(round($sum,2),2),
             'count'=>count($partnerCount)
         ];
         return $response;
@@ -104,7 +104,7 @@ class DashboardDataController extends Controller
             }
             $html=$html.'<tr>
                 <td>'.$region->region.'</td>
-                <td>$ '.$sum.'</td>
+                <td>$ '.number_format(round($sum,2),2).'</td>
                 <td>'.$count.'</td>
             </tr>';
         }
@@ -136,7 +136,7 @@ class DashboardDataController extends Controller
             }
             $html=$html.'<tr>
                 <td>'.$region->region.'</td>
-                <td>$ '.$sum.'</td>
+                <td>$ '.number_format(round($sum,2),2).'</td>
                 <td>'.$count.'</td>
             </tr>';
         }
@@ -168,7 +168,7 @@ class DashboardDataController extends Controller
             }
             $html=$html.'<tr>
                 <td>'.$region->region.'</td>
-                <td>$ '.$sum.'</td>
+                <td>$ '.number_format(round($sum,2),2).'</td>
                 <td>'.$count.'</td>
             </tr>';
         }

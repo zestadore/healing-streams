@@ -19,13 +19,13 @@
             <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                     <div class="form-group">
-                        <label for="start_date">From date</label>
+                        <label for="start_date">FROM DATE</label>
                         <input type="date" name="start_date" id="start_date" class="form-control">
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                     <div class="form-group">
-                        <label for="end_date">To date</label>
+                        <label for="end_date">TO DATE</label>
                         <input type="date" name="end_date" id="end_date" class="form-control">
                     </div>
                 </div>

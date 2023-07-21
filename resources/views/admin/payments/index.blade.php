@@ -54,6 +54,9 @@
                                 @foreach ($gateways as $item)
                                     <option value="{{$item->id}}">{{$item->payment_gateway}}</option>
                                 @endforeach
+                                <option value="bank_transfer">Bank transfer</option>
+                                <option value="crypto">Crypto currency</option>
+                                <option value="espee">Espees wallet</option>
                             </select>
                         </div>
                     </div>
