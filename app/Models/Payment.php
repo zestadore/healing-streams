@@ -12,7 +12,7 @@ class Payment extends Model
     use HasFactory,SoftDeletes;
     protected $table = 'payments';
     protected $fillable =[ 'first_name','last_name','email_id','phone_no','partnership_categories',
-        'country_id','currency_id','amount','choice','payment_gateway_id','payment_status','reference_id','payment_date','other_options'];
+        'country_id','currency_id','amount','choice','payment_gateway_id','payment_status','reference_id','payment_date','other_options','amount_usd'];
 
     protected $casts = [
         'partnership_categories' => 'array'

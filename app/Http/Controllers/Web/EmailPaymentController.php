@@ -26,6 +26,7 @@ class EmailPaymentController extends Controller
             }
         }elseif($choice==2){
             $payment=Pledge::find($id);
+            $payment->update(['status'=>0]);
             $pay=PaymentsThisMonth::where('refrence','pledge')->where('status',0)->where('reference_id',$id)->first();
             if($pay){
                 $pay->update(['status'=>1]);

@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Models\Payment;
 use App\Models\Region;
+use App\Models\Pledge;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class DashboardDataController extends Controller
@@ -19,17 +21,21 @@ class DashboardDataController extends Controller
         }
         $oneOffData=$this->getOneOffPayments($startDate,$endDate);
         $pledgeData=$this->getPledgePayments($startDate,$endDate);
+        $pledgePromiseData=$this->getPledgePromisePayments($startDate,$endDate);
         $monthlyData=$this->getMonthlyPayments($startDate,$endDate);
         $regionOneoff=$this->getRegionOneOffPayments($startDate,$endDate);
         $regionMonthly=$this->getRegionMonthlyPayments($startDate,$endDate);
         $regionPledge=$this->getRegionPledgePayments($startDate,$endDate);
+        $regionPledgePromised=$this->getRegionPledgePromisedPayments($startDate,$endDate);
         $response=[
             'oneOffPayments'=>$oneOffData,
             'pledgePayments'=>$pledgeData,
+            'pledgePromisePayments'=>$pledgePromiseData,
             'monthlyPayments'=>$monthlyData,
             'regionOneOffPayments'=>$regionOneoff,
             'regionMonthlyPayments'=>$regionMonthly,
-            'regionPledgePayments'=>$regionPledge
+            'regionPledgePayments'=>$regionPledge,
+            'regionPledgePromised'=>$regionPledgePromised
         ];
         return $response;
     }
@@ -57,6 +63,21 @@ class DashboardDataController extends Controller
             $sum=$payments->sum('amount_usd');
         }
         $partnerCount=Payment::where('choice',2)->where('payment_status',1)->whereBetween('created_at', [$startDate,$endDate])->distinct()->get(['email_id']);
+        $response=[
+            'payments'=>'$ '.number_format(round($sum,2),2),
+            'count'=>count($partnerCount)
+        ];
+        return $response;
+    }
+
+    private function getPledgePromisePayments($startDate,$endDate)
+    {
+        $payments=Pledge::where('status',1)->whereBetween('created_at', [$startDate,$endDate])->get();
+        $sum=0;
+        if(count($payments)>0){
+            $sum=$payments->sum('amount_usd');
+        }
+        $partnerCount=Pledge::where('status',1)->whereBetween('created_at', [$startDate,$endDate])->distinct()->get(['email_id']);
         $response=[
             'payments'=>'$ '.number_format(round($sum,2),2),
             'count'=>count($partnerCount)
@@ -156,7 +177,6 @@ class DashboardDataController extends Controller
                 <td>Amount</td>
                 <td>Partners</td>
             </tr>';
-        
         foreach($regions as $region){
             $sum=0;
             $count=0;
@@ -168,10 +188,37 @@ class DashboardDataController extends Controller
             }
             $html=$html.'<tr>
                 <td>'.$region->region.'</td>
-                <td>$ '.number_format(round($sum,2),2).'</td>
-                <td>'.$count.'</td>
+                <td id="pledge_amount_'.Str::slug($region->region).'">$'.number_format(round($sum,2),2).'</td>
+                <td id="pledge_count_'.Str::slug($region->region).'">'.$count.'</td>
             </tr>';
         }
         return $html;
+    }
+
+    private function getRegionPledgePromisedPayments($startDate,$endDate)
+    {
+        $datas=Region::select('regions.region','regions.id')->selectRaw('SUM(pledges.amount_usd) AS sum')->selectRaw('COUNT(pledges.email_id) AS count')
+            ->join('countries','countries.region_id','=','regions.id')
+            ->join('pledges','pledges.country_id','=','countries.id')->where('pledges.status',1)
+            ->where('regions.status',1)->whereBetween('pledges.created_at', [$startDate,$endDate])
+            ->groupBy('pledges.email_id', 'regions.id','regions.region')->get();
+            $regions=Region::where('status',1)->get();
+            $html=[];
+            foreach($regions as $region){
+                $sum=0;
+                $count=0;
+                foreach($datas as $data){
+                    if($region->id==$data->id){
+                        $sum+=$data->sum;
+                        $count++;
+                    }
+                }
+                $html[]=[
+                    'region'=>Str::slug($region->region),
+                    'payments'=>'$ '.number_format(round($sum,2),2),
+                    'count'=>$count
+                ];
+            }
+            return $html;
     }
 }

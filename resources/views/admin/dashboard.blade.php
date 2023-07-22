@@ -47,7 +47,7 @@
                                     <td id="total_oneoff">$1000</td>
                                 </tr>
                                 <tr>
-                                    <th>Number of partners</th>
+                                    <th>Partners</th>
                                     <td id="count_oneoff">10</td>
                                 </tr>
                             </table>
@@ -64,11 +64,13 @@
                             <table class="table table-stripped">
                                 <tr>
                                     <th>Amount</th>
-                                    <td id="total_pledge">$850</td>
+                                    <td id="total_pledge_promised">$850(Promised)</td>
+                                    <td id="total_pledge_paid">$850(Paid)</td>
                                 </tr>
                                 <tr>
-                                    <th>Number of partners</th>
-                                    <td id="count_pledge">8</td>
+                                    <th>Partners</th>
+                                    <td id="count_pledge_promised">8(Promised)</td>
+                                    <td id="count_pledge_paid">8(Paid)</td>
                                 </tr>
                             </table>
                         </div>
@@ -87,7 +89,7 @@
                                     <td id="total_monthly">$1500</td>
                                 </tr>
                                 <tr>
-                                    <th>Number of partners</th>
+                                    <th>Partners</th>
                                     <td id="count_monthly">12</td>
                                 </tr>
                             </table>
@@ -180,14 +182,18 @@
                         $('#total_oneoff').html(oneOff.payments);
                         $('#count_oneoff').html(oneOff.count);
                         var pledge=response.pledgePayments;
-                        $('#total_pledge').html(pledge.payments);
-                        $('#count_pledge').html(pledge.count);
+                        $('#total_pledge_paid').html(pledge.payments + '(Paid)');
+                        $('#count_pledge_paid').html(pledge.count + '(Paid)');
+                        pledge=response.pledgePromisePayments;
+                        $('#total_pledge_promised').html(pledge.payments + '(Promised)');
+                        $('#count_pledge_promised').html(pledge.count + '(Promised)');
                         var monthly=response.monthlyPayments;
                         $('#total_monthly').html(monthly.payments);
                         $('#count_monthly').html(monthly.count);
                         $('#one-off-region-table').html(response.regionOneOffPayments);
                         $('#monthly-region-table').html(response.regionMonthlyPayments);
                         $('#pledge-region-table').html(response.regionPledgePayments);
+                        appendPledgePromise(response.regionPledgePromised);
                     }
                 });
             }
@@ -195,6 +201,23 @@
             $('#dashboardSearch').click(function(){
                 getData();
             })
+
+            function appendPledgePromise(promised){
+                var id="";
+                var html="";
+                var element="";
+                $.each(promised, function( key, value ) {
+                    id=value.region
+                    element=$("#pledge-region-table" ).find('#pledge_count_'+id);
+                    html=$(element).html();
+                    html=html+'(Pd)/'+value.count+'(Prsd)';
+                    $(element).html(html);
+                    element=$("#pledge-region-table" ).find('#pledge_amount_'+id);
+                    html=$(element).html();
+                    html=html+'(Pd)/'+value.payments+'(Prsd)';
+                    $(element).html(html);
+                });
+            }
         </script>
     @endsection
     
