@@ -239,14 +239,12 @@
         function markAsUnpaid(id) {
             swal({
             title: 'Are you sure?',
-            text: "You won't be able to revert this!",
+            text: "Are you marking it as unpaid!",
             icon: 'warning',
             buttons: true,
             dangerMode: true,
             }).then((result) => {
                 if (result) {
-                    var url="{{route('users.destroy','ID')}}";
-                    url=url.replace('ID',id);
                     $.ajax({
                         url: "{{route('unpaid')}}",
                         type: "POST",
@@ -260,6 +258,36 @@
                                 drawTable();
                             } else {
                                 toastr.error(data.message);
+                                drawTable();
+                            }
+                        }
+                    });
+                }
+            })
+        }
+
+        function markAsPaid(id) {
+            swal({
+            title: 'Are you sure?',
+            text: "Are you marking it as paid!",
+            icon: 'warning',
+            buttons: true,
+            dangerMode: true,
+            }).then((result) => {
+                if (result) {
+                    $.ajax({
+                        url: "{{route('paid')}}",
+                        type: "POST",
+                        data: {
+                            '_token': "{{ csrf_token() }}",
+                            'id': id
+                        },
+                        success: function(data) {
+                            if (data.status == "success") {
+                                toastr.success(data.message);
+                                drawTable();
+                            } else {
+                                toastr.success(data.message);
                                 drawTable();
                             }
                         }

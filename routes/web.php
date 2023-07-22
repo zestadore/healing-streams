@@ -42,6 +42,7 @@ Route::get('/pledge', [App\Http\Controllers\Web\PaymentController::class, 'pledg
 Route::get('/payments/{choice}', [App\Http\Controllers\Web\PaymentController::class, 'index'])->name('payments')->middleware('auth');
 Route::get('/get-dashboard-data', [App\Http\Controllers\Web\DashboardDataController::class, 'index'])->name('dashboard.data')->middleware('auth');
 Route::post('/mark-as-unpaid', [App\Http\Controllers\Web\PaymentController::class, 'updatePayment'])->name('unpaid')->middleware('auth');
+Route::post('/mark-as-paid', [App\Http\Controllers\Web\PaymentController::class, 'updatePaidPayment'])->name('paid')->middleware('auth');
 Route::resource('countries', App\Http\Controllers\Web\CountryController::class);
 Route::resource('countries.currencies', App\Http\Controllers\Web\CountryCurrencyController::class);
 Route::resource('country-currencies.payment-gateways', App\Http\Controllers\Web\CurrencyPaymentGatewayController::class);

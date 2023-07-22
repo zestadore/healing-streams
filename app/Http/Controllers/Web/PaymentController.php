@@ -485,6 +485,19 @@ class PaymentController extends Controller
         }
     }
 
+    public function updatePaidPayment(Request $request)
+    {
+        $payment= Payment::find($request->id);
+        $res=$payment->update([
+            'payment_status'=>1
+        ]);
+        if($res){
+            return response()->json(['success'=>true,'message'=>"Payment successfully marked as paid!"]);
+        }else{
+            return response()->json(['error'=>true,'message'=>"Failed to update the data, kindly try again!"]);
+        }
+    }
+
     private function getChoiceDetails($option){
         switch ($option) {
             case "one-off":
