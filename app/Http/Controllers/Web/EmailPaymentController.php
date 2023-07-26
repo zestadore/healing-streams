@@ -12,6 +12,7 @@ use App\Models\PaymentsThisMonth;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 
 class EmailPaymentController extends Controller
@@ -32,20 +33,25 @@ class EmailPaymentController extends Controller
                 $pay->update(['status'=>1]);
             }
         }
-        $data=[
-            'first_name'=>$payment->first_name,
-            'last_name'=>$payment->last_name,
-            'email_id'=>$payment->email_id,
-            'phone_no'=>$payment->phone_no,
-            'partnership_categories'=>$payment->partnership_categories,
-            'country_id'=>$payment->country_id,
-            'currency_id'=>$payment->currency_id,
-            'amount'=>$payment->amount,
-            'choice'=>$payment->choice,
-            'payment_gateway_id'=>$payment->payment_gateway_id,
-            'payment_status'=>0
-        ];
-        $res=Payment::create($data)->id;
+        $check=Payment::where('email_id',$payment->email_id)->whereDate('created_at',Carbon::parse(Now())->format('Y-m-d'))->whereNot('payment_status',1)->first();
+        if($check){
+            $res=$check->id;
+        }else{
+            $data=[
+                'first_name'=>$payment->first_name,
+                'last_name'=>$payment->last_name,
+                'email_id'=>$payment->email_id,
+                'phone_no'=>$payment->phone_no,
+                'partnership_categories'=>$payment->partnership_categories,
+                'country_id'=>$payment->country_id,
+                'currency_id'=>$payment->currency_id,
+                'amount'=>$payment->amount,
+                'choice'=>$payment->choice,
+                'payment_gateway_id'=>$payment->payment_gateway_id,
+                'payment_status'=>0
+            ];
+            $res=Payment::create($data)->id;
+        }
         // $payment->update(['status'=>1]);
         $this->choosePayment($payment,$res);
         // return redirect()->back();
