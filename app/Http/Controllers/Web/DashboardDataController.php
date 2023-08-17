@@ -108,10 +108,10 @@ class DashboardDataController extends Controller
             ->where('regions.status',1)->whereBetween('payments.created_at', [$startDate,$endDate])
             ->groupBy('payments.email_id', 'regions.id','regions.region')->get();
         $regions=Region::where('status',1)->get();
-        $html='<tr>
-                <td>Region</td>
-                <td>Amount</td>
-                <td>Partners</td>
+        $html='<tr style="color:rgb(176, 55, 7);">
+                <td><b>Region</b></td>
+                <td><b>Amount</b></td>
+                <td><b>Partners</b></td>
             </tr>';
         
         foreach($regions as $region){
@@ -140,10 +140,10 @@ class DashboardDataController extends Controller
             ->where('regions.status',1)->whereBetween('payments.created_at', [$startDate,$endDate])
             ->groupBy('payments.email_id', 'regions.id','regions.region')->get();
         $regions=Region::where('status',1)->get();
-        $html='<tr>
-                <td>Region</td>
-                <td>Amount</td>
-                <td>Partners</td>
+        $html='<tr style="color:purple;">
+                <td><b>Region</b></td>
+                <td><b>Amount</b></td>
+                <td><b>Partners</b></td>
             </tr>';
         
         foreach($regions as $region){
@@ -172,10 +172,10 @@ class DashboardDataController extends Controller
             ->where('regions.status',1)->whereBetween('payments.created_at', [$startDate,$endDate])
             ->groupBy('payments.email_id', 'regions.id','regions.region')->get();
         $regions=Region::where('status',1)->get();
-        $html='<tr>
-                <td>Region</td>
-                <td>Amount</td>
-                <td>Partners</td>
+        $html='<tr style="color:rgb(104, 15, 58);">
+                <td><b>Region</b></td>
+                <td><b>Amount</b></td>
+                <td><b>Partners</b></td>
             </tr>';
         foreach($regions as $region){
             $sum=0;

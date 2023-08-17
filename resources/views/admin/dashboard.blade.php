@@ -19,13 +19,13 @@
             <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                     <div class="form-group">
-                        <label for="start_date">FROM DATE</label>
+                        <label for="start_date" style="color:orange;">FROM DATE</label>
                         <input type="date" name="start_date" id="start_date" class="form-control">
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                     <div class="form-group">
-                        <label for="end_date">TO DATE</label>
+                        <label for="end_date" style="color:orange;">TO DATE</label>
                         <input type="date" name="end_date" id="end_date" class="form-control">
                     </div>
                 </div>
@@ -43,7 +43,7 @@
                         <div class="card-body">
                             <table class="table table-stripped">
                                 <tr>
-                                    <td colspan="2" style="color:rgb(176, 55, 7);">ONE-OFF</td>
+                                    <td colspan="2" style="color:rgb(176, 55, 7);"><b>ONE-OFF</b></td>
                                 </tr>
                                 <tr>
                                     <th>Amount</th>
@@ -66,9 +66,9 @@
                         <div class="card-body">
                             <table class="table table-stripped">
                                 <tr>
-                                    <td style="color:rgb(52, 4, 142);">PLEDGE</td>
-                                    <td>Promised</td>
-                                    <td>Paid</td>
+                                    <td style="color:rgb(104, 15, 58);"><b>PLEDGE</b></td>
+                                    <td style="color:rgb(104, 15, 58);"><b>Promised</b></td>
+                                    <td style="color:rgb(104, 15, 58);"><b>Paid</b></td>
                                 </tr>
                                 <tr>
                                     <th>Amount</th>
@@ -93,7 +93,7 @@
                         <div class="card-body">
                             <table class="table table-stripped">
                                 <tr>
-                                    <td colspan="2" style="color:purple;">SUBSCRIPTION</td>
+                                    <td colspan="2" style="color:purple;"><b>SUBSCRIPTION</b></td>
                                 </tr>
                                 <tr>
                                     <th>Amount</th>
