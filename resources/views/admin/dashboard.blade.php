@@ -36,12 +36,15 @@
             </div>
             <div class="row">
                 <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
-                    <div class="card">
-                        <div class="card-header">
+                    <div class="card bg-info">
+                        {{-- <div class="card-header">
                           <h3 class="card-title">ONE-OFF</h3>
-                        </div>
+                        </div> --}}
                         <div class="card-body">
                             <table class="table table-stripped">
+                                <tr>
+                                    <td colspan="2" style="color:rgb(176, 55, 7);">ONE-OFF</td>
+                                </tr>
                                 <tr>
                                     <th>Amount</th>
                                     <td id="total_oneoff">$1000</td>
@@ -56,21 +59,26 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                    <div class="card">
-                        <div class="card-header">
+                    <div class="card bg-warning">
+                        {{-- <div class="card-header">
                           <h3 class="card-title">PLEDGE</h3>
-                        </div>
+                        </div> --}}
                         <div class="card-body">
                             <table class="table table-stripped">
                                 <tr>
+                                    <td style="color:rgb(52, 4, 142);">PLEDGE</td>
+                                    <td>Promised</td>
+                                    <td>Paid</td>
+                                </tr>
+                                <tr>
                                     <th>Amount</th>
-                                    <td id="total_pledge_promised">$850(Promised)</td>
-                                    <td id="total_pledge_paid">$850(Paid)</td>
+                                    <td id="total_pledge_promised">$850</td>
+                                    <td id="total_pledge_paid">$850</td>
                                 </tr>
                                 <tr>
                                     <th>Partners</th>
-                                    <td id="count_pledge_promised">8(Promised)</td>
-                                    <td id="count_pledge_paid">8(Paid)</td>
+                                    <td id="count_pledge_promised">8</td>
+                                    <td id="count_pledge_paid">8</td>
                                 </tr>
                             </table>
                         </div>
@@ -78,12 +86,15 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                    <div class="card">
-                        <div class="card-header">
+                    <div class="card bg-danger">
+                        {{-- <div class="card-header">
                           <h3 class="card-title">SUBSCRIPTION</h3>
-                        </div>
+                        </div> --}}
                         <div class="card-body">
                             <table class="table table-stripped">
+                                <tr>
+                                    <td colspan="2" style="color:purple;">SUBSCRIPTION</td>
+                                </tr>
                                 <tr>
                                     <th>Amount</th>
                                     <td id="total_monthly">$1500</td>
@@ -100,7 +111,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
-                    <div class="card">
+                    <div class="card bg-info">
                         <div class="card-body">
                             <table class="table table-stripped" id="one-off-region-table"></table>
                         </div>
@@ -108,7 +119,7 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                    <div class="card">
+                    <div class="card bg-warning">
                         <div class="card-body">
                             <table class="table table-stripped" id="pledge-region-table"></table>
                         </div>
@@ -116,7 +127,7 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                    <div class="card">
+                    <div class="card bg-danger">
                         <div class="card-body">
                             <table class="table table-stripped" id="monthly-region-table"></table>
                         </div>
@@ -182,11 +193,11 @@
                         $('#total_oneoff').html(oneOff.payments);
                         $('#count_oneoff').html(oneOff.count);
                         var pledge=response.pledgePayments;
-                        $('#total_pledge_paid').html(pledge.payments + '(Paid)');
-                        $('#count_pledge_paid').html(pledge.count + '(Paid)');
+                        $('#total_pledge_paid').html(pledge.payments );
+                        $('#count_pledge_paid').html(pledge.count );
                         pledge=response.pledgePromisePayments;
-                        $('#total_pledge_promised').html(pledge.payments + '(Promised)');
-                        $('#count_pledge_promised').html(pledge.count + '(Promised)');
+                        $('#total_pledge_promised').html(pledge.payments );
+                        $('#count_pledge_promised').html(pledge.count );
                         var monthly=response.monthlyPayments;
                         $('#total_monthly').html(monthly.payments);
                         $('#count_monthly').html(monthly.count);
@@ -210,11 +221,13 @@
                     id=value.region
                     element=$("#pledge-region-table" ).find('#pledge_count_'+id);
                     html=$(element).html();
-                    html=html+'(Pd)/'+value.count+'(Prsd)';
+                    // html=html+'(Pd)/'+value.count+'(Prsd)';
+                    html=html+''+value.count;
                     $(element).html(html);
                     element=$("#pledge-region-table" ).find('#pledge_amount_'+id);
                     html=$(element).html();
-                    html=html+'(Pd)/'+value.payments+'(Prsd)';
+                    // html=html+'(Pd)/'+value.payments+'(Prsd)';
+                    html=html+''+value.payments;
                     $(element).html(html);
                 });
             }
