@@ -36,7 +36,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
-                    <div class="card bg-info">
+                    <div class="card" style="background:#7393B3;">
                         {{-- <div class="card-header">
                           <h3 class="card-title">ONE-OFF</h3>
                         </div> --}}
@@ -59,7 +59,7 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                    <div class="card bg-warning">
+                    <div class="card" style="background:#A9A9A9;">
                         {{-- <div class="card-header">
                           <h3 class="card-title">PLEDGE</h3>
                         </div> --}}
@@ -67,7 +67,7 @@
                             <table class="table table-stripped">
                                 <tr>
                                     <td style="color:rgb(104, 15, 58);"><b>PLEDGE</b></td>
-                                    <td style="color:rgb(104, 15, 58);"><b>Promised</b></td>
+                                    <td style="color:rgb(104, 15, 58);"><b>Pending</b></td>
                                     <td style="color:rgb(104, 15, 58);"><b>Paid</b></td>
                                 </tr>
                                 <tr>
@@ -86,7 +86,7 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                    <div class="card bg-danger">
+                    <div class="card" style="background:#C0C0C0;">
                         {{-- <div class="card-header">
                           <h3 class="card-title">SUBSCRIPTION</h3>
                         </div> --}}
@@ -111,7 +111,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
-                    <div class="card bg-info">
+                    <div class="card" style="background:#7393B3;">
                         <div class="card-body">
                             <table class="table table-stripped" id="one-off-region-table"></table>
                         </div>
@@ -119,7 +119,7 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                    <div class="card bg-warning">
+                    <div class="card" style="background:#A9A9A9;">
                         <div class="card-body">
                             <table class="table table-stripped" id="pledge-region-table"></table>
                         </div>
@@ -127,7 +127,7 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                    <div class="card bg-danger">
+                    <div class="card" style="background:#C0C0C0;">
                         <div class="card-body">
                             <table class="table table-stripped" id="monthly-region-table"></table>
                         </div>
@@ -227,7 +227,7 @@
                     element=$("#pledge-region-table" ).find('#pledge_amount_'+id);
                     html=$(element).html();
                     // html=html+'(Pd)/'+value.payments+'(Prsd)';
-                    html=html+''+value.payments;
+                    // html=html+'/'+value.payments;
                     $(element).html(html);
                 });
             }

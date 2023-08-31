@@ -472,7 +472,7 @@ eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
                       </div>
                       <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                           <input type="radio" id="css" name="choice" class="choiceClass" value="1">
-                          <label for="css" style="color:rgb(102, 0, 255);font-weight: bold;">Monthly(Subs)</label>
+                          <label for="css" style="color:rgb(102, 0, 255);font-weight: bold;">Monthly(Auto)</label>
                       </div>
                       <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                           <input type="radio" id="javascript" name="choice" class="choiceClass" value="2">
