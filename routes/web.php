@@ -50,3 +50,4 @@ Route::resource('currencies', App\Http\Controllers\Web\CurrencyController::class
 Route::resource('payment-gateway', App\Http\Controllers\Web\PaymentGatewayController::class);
 Route::resource('regions', App\Http\Controllers\Web\RegionController::class);
 Route::resource('users', App\Http\Controllers\Web\UserController::class);
+Route::get('/resend-mail/{id}/{choice}', [App\Http\Controllers\Web\PaymentController::class, 'resendMail'])->name('mail.resend')->middleware('auth');

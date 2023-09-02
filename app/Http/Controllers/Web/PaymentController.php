@@ -10,6 +10,8 @@ use App\Models\Pledge;
 use Illuminate\Http\Request;
 use DataTables;
 use Illuminate\Support\Carbon;
+use App\Mail\PaymentMail;
+use Illuminate\Support\Facades\Mail;
 
 class PaymentController extends Controller
 {
@@ -413,6 +415,9 @@ class PaymentController extends Controller
                 ->addColumn('initialized', function($data) {
                     return $data->initialising_date . ' of every month';
                 })
+                ->addColumn('mail', function($data) {
+                    return "<button class='btn btn-info btn-sm' onclick='resendMail(".$data->id.")'>Resend Mail</button>";
+                })
                 ->addColumn('status', function($data) {
                     if($data->payment_status==0){
                         return "Canceled";
@@ -420,6 +425,7 @@ class PaymentController extends Controller
                         return "Active";
                     }
                 })
+                ->escapeColumns('aaData')
                 ->make(true);
         }
         $gateways= PaymentGateway::where('status',1)->get();
@@ -459,6 +465,9 @@ class PaymentController extends Controller
                 ->addColumn('initialized', function($data) {
                     return $data->initialising_date;
                 })
+                ->addColumn('mail', function($data) {
+                    return "<button class='btn btn-info btn-sm' onclick='resendMail(".$data->id.")'>Resend Mail</button>";
+                })
                 ->addColumn('status', function($data) {
                     if($data->status==0){
                         return "Canceled";
@@ -466,6 +475,7 @@ class PaymentController extends Controller
                         return "Active";
                     }
                 })
+                ->escapeColumns('aaData')
                 ->make(true);
         }
         $gateways= PaymentGateway::where('status',1)->get();
@@ -513,5 +523,16 @@ class PaymentController extends Controller
                 $choice=0;
         }
         return $choice;
+    }
+
+    public function resendMail($id,$choice)
+    {
+        if($choice=='monthly'){
+            $payment=MonthlyAutomatic::find($id);
+        }else{
+            $payment=Pledge::find($id);
+        }
+        Mail::to($payment->email_id)->send(new PaymentMail($payment));
+        return response()->json(['success'=>true]);
     }
 }

@@ -65,6 +65,7 @@
                             <th>{{ __('Date created') }}</th>
                             <th>{{ __('Payment date') }}</th>
                             <th>{{ __('Payment gateway') }}</th>
+                            <th>{{ __('Resend mail') }}</th>
                             {{-- <th>{{ __('status') }}</th> --}}
                         </tr>
                     </thead>
@@ -171,6 +172,10 @@
                         data: 'payment_gateway',
                         name: 'payment_gateway'
                     },
+                    {
+                        data: 'mail',
+                        name: 'mail'
+                    },
                     // {
                     //     data: 'status',
                     //     name: 'status'
@@ -190,6 +195,23 @@
             });
         }
         drawTable();
+
+        function resendMail(id){
+            var url="{{route('mail.resend',['ID','CHOICE'])}}";
+            url=url.replace('ID',id);
+            url=url.replace('CHOICE','{{$choice}}');
+            $.ajax({
+                url: url,
+                type:"get",
+                success:function(response){
+                    if(response.success){
+                        swal("Good job!", "Mail forwarded successfully!!", "success");
+                    }else{
+                        swal("Oops!", "Failed to forward the mail!", "danger");
+                    }
+                },
+            });
+        }
 
       </script>
 @endsection
