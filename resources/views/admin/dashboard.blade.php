@@ -204,7 +204,7 @@
                         $('#one-off-region-table').html(response.regionOneOffPayments);
                         $('#monthly-region-table').html(response.regionMonthlyPayments);
                         $('#pledge-region-table').html(response.regionPledgePayments);
-                        appendPledgePromise(response.regionPledgePromised);
+                        // appendPledgePromise(response.regionPledgePromised);
                     }
                 });
             }
@@ -222,7 +222,7 @@
                     element=$("#pledge-region-table" ).find('#pledge_count_'+id);
                     html=$(element).html();
                     // html=html+'(Pd)/'+value.count+'(Prsd)';
-                    html=html+''+value.count;
+                    html=html+''+parseInt(value.count);
                     $(element).html(html);
                     element=$("#pledge-region-table" ).find('#pledge_amount_'+id);
                     html=$(element).html();
